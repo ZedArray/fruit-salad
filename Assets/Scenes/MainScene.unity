@@ -261,9 +261,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38a6855e3f039964cb01c62c255270ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bladePrefab: {fileID: 3323264199480184209, guid: 342fc10c66d927a49a0a703bee5fb84f, type: 3}
+  bladePrefab: {fileID: 1602854415128882156, guid: f830b0bf54e426844a1e188564c1175e, type: 3}
   spawnInterval: 2
-  warningTime: 1.5
+  warningTime: 1
   sliceSound: {fileID: 8300000, guid: 966e7abb73181104c95e3b78f5dca53c, type: 3}
 --- !u!1 &541519828
 GameObject:

@@ -56,4 +56,12 @@ public class FruitFollow : MonoBehaviour
         anim.SetFloat("velocity", ((Mathf.Approximately(Vector3.Distance(LastPos,worldPos),0))?0f:1f));
         LastPos = worldPos;
     }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Slash"))
+        {
+            Destroy(gameObject);
+        }
+    }
 }
