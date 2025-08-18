@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem; // new input system
 
-public class FruitFollow : MonoBehaviour
+public class Fruit : MonoBehaviour
 {
     public float moveSpeed = 10f;
     private Camera cam;
@@ -12,6 +12,9 @@ public class FruitFollow : MonoBehaviour
 
     [SerializeField]
     private Transform shadow;
+
+    [SerializeField]
+    private GameObject warning;
 
     [SerializeField]
     private Vector2 padding;
@@ -26,16 +29,18 @@ public class FruitFollow : MonoBehaviour
 
     private Rigidbody2D rb;
     private Animator anim;
-
+    public static Fruit instance;
     public static bool dead = false;
-    
+    public static float idle;
     void Start()
     {
+        instance = this;
         cam = Camera.main;
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
 
         dead = false;
+        idle = 0f;
     }
 
     void Update()
@@ -68,8 +73,23 @@ public class FruitFollow : MonoBehaviour
 
         anim.SetFloat("velocity", ((Mathf.Approximately(Vector3.Distance(LastPos,worldPos),0))?0f:((Vector3.Distance(LastPos, worldPos)<0)?-1f:1f)));
 
+
+        if ((Mathf.Approximately(Vector3.Distance(LastPos, worldPos), 0)))
+        {
+            idle += Time.deltaTime;
+
+            
+        }
+        else
+        {
+            idle = 0f;
+        }
+
+        warning.SetActive((idle>= UtensilSpawner.Instance.maxIdleTime));
         shadow.position = transform.position;
         LastPos = worldPos;
+
+        
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

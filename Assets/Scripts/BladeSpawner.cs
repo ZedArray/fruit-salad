@@ -22,7 +22,7 @@ public class BladeSpawner : MonoBehaviour
     {
         while (true)
         {
-            if (FruitFollow.dead) {
+            if (Fruit.dead) {
                 break;
             }
             SpawnBlade();
