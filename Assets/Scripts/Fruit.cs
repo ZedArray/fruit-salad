@@ -1,5 +1,6 @@
 using UnityEngine;
-using UnityEngine.InputSystem; // new input system
+using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement; // new input system
 
 public class Fruit : MonoBehaviour
 {
@@ -109,5 +110,10 @@ public class Fruit : MonoBehaviour
     public void animEnd() {
         Destroy(shadow.gameObject, 0.09f);
         Destroy(gameObject, 0.1f);
+    }
+
+    private void OnDestroy()
+    {
+        SceneManager.LoadScene(0);
     }
 }
