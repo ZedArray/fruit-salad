@@ -382,6 +382,9 @@ MonoBehaviour:
   - {fileID: 106087120}
   - {fileID: 4273000}
   padding: {x: 0.4, y: 0.4}
+  rotationThresholdMagnitude: 1
+  angularSpeedFactor: 0.3
+  rb: {fileID: 0}
 --- !u!1 &230334968
 GameObject:
   m_ObjectHideFlags: 0
@@ -427,8 +430,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bladePrefab: {fileID: 1602854415128882156, guid: f830b0bf54e426844a1e188564c1175e, type: 3}
-  spawnInterval: 2
-  warningTime: 1
+  spawnInterval: 1.5
   sliceSound: {fileID: 8300000, guid: 966e7abb73181104c95e3b78f5dca53c, type: 3}
 --- !u!1 &541519828
 GameObject:

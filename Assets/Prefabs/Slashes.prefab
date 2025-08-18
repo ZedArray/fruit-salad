@@ -153,7 +153,7 @@ MonoBehaviour:
   warningSound: {fileID: 8300000, guid: ea23200d44652d7418ae7685d8501754, type: 3}
   audioSource: {fileID: 1518451613648831506}
   col2d: {fileID: 7436775301486364555}
-  warningTime: 1
+  warningTime: 1.5
 --- !u!82 &1518451613648831506
 AudioSource:
   m_ObjectHideFlags: 0
