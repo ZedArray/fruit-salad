@@ -13,7 +13,7 @@ public class Fruit : MonoBehaviour
 
     [SerializeField]
     private Transform shadow;
-
+    private Vector3 shadowOffset;
     [SerializeField]
     private GameObject warning;
 
@@ -39,7 +39,7 @@ public class Fruit : MonoBehaviour
         cam = Camera.main;
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
-
+        shadowOffset = shadow.position - this.transform.position;
         dead = false;
         idle = 0f;
     }
@@ -59,12 +59,7 @@ public class Fruit : MonoBehaviour
 
         if (Mathf.Abs(Vector3.Distance(LastPos, worldPos)) >= rotationThresholdMagnitude) {
 
-            print(LastPos);
-            print(worldPos);
-
-            print(Vector3.Distance(LastPos, worldPos));
             rb.AddTorque((angularSpeedFactor * Vector3.Magnitude(worldPos - LastPos)),ForceMode2D.Impulse);
-
             
         }
 
@@ -87,7 +82,7 @@ public class Fruit : MonoBehaviour
         }
 
         warning.SetActive((idle>= UtensilSpawner.Instance.maxIdleTime));
-        shadow.position = transform.position;
+        shadow.position = transform.position+shadowOffset;
         LastPos = worldPos;
 
         

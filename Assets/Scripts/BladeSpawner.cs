@@ -22,33 +22,26 @@ public class BladeSpawner : MonoBehaviour
     {
         while (true)
         {
+            yield return new WaitForSeconds(spawnInterval);
             if (Fruit.dead) {
                 break;
             }
             SpawnBlade();
-            yield return new WaitForSeconds(spawnInterval);
         }
     }
 
     void SpawnBlade()
     {
 
-        // get random position somewhere in the middle of the screen
         float posX = Random.Range(-6, 6);
         float posY = Random.Range(-4, 4);
         Vector3 pos = new Vector3(posX, posY);
         pos.z = 0;
-
         // get random rotation
         float rotRandom = Random.Range(0, 180);
         Quaternion rot = Quaternion.Euler(0, 0, rotRandom);
-
         // instantiate blade using random position and rotation
         GameObject blade = Instantiate(bladePrefab, pos, rot);
-        spawnInterval *= 0.99f;
-        if (spawnInterval < 0.3f)
-        {
-            spawnInterval = 0.3f;
-        }
+        spawnInterval = Mathf.Max(0.3f,spawnInterval*0.99f);
     }
 }
