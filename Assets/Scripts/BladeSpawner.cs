@@ -1,5 +1,6 @@
-using UnityEngine;
 using System.Collections;
+using Unity.VisualScripting;
+using UnityEngine;
 
 public class BladeSpawner : MonoBehaviour
 {
@@ -29,65 +30,17 @@ public class BladeSpawner : MonoBehaviour
 
     void SpawnBlade()
     {
-        // spawn line across screen randomly horizontal or vertical
-        bool horizontal = Random.value > 0.5f;
+        // get random position somewhere in the middle of the screen
+        float posX = Random.Range(250, Screen.width - 250);
+        float posY = Random.Range(100, Screen.height - 100);
+        Vector3 pos = cam.ScreenToWorldPoint(new Vector3(posX, posY));
+        pos.z = 0;
 
-        Vector2 startPos, endPos;
+        // get random rotation
+        float rotRandom = Random.Range(0, 180);
+        Quaternion rot = Quaternion.Euler(0, 0, rotRandom);
 
-        if (horizontal)
-        {
-            float y = Random.Range(-4f, 4f);
-            startPos = new Vector2(-10f, y);
-            endPos = new Vector2(10f, y);
-        }
-        else
-        {
-            float x = Random.Range(-6f, 6f);
-            startPos = new Vector2(x, -6f);
-            endPos = new Vector2(x, 6f);
-        }
-
-        GameObject blade = Instantiate(bladePrefab, Vector3.zero, Quaternion.identity);
-        LineRenderer lr = blade.GetComponent<LineRenderer>();
-
-        if (lr != null)
-        {
-            lr.positionCount = 2;
-            lr.SetPosition(0, startPos);
-            lr.SetPosition(1, endPos);
-            lr.startColor = lr.endColor = Color.red;
-        }
-
-        // Start coroutine to trigger slice after delay
-        StartCoroutine(BladeStrike(blade, startPos, endPos));
-    }
-
-    IEnumerator BladeStrike(GameObject blade, Vector2 start, Vector2 end)
-    {
-        yield return new WaitForSeconds(warningTime);
-
-        // Change color to white
-        LineRenderer lr = blade.GetComponent<LineRenderer>();
-        if (lr != null)
-        {
-            lr.startColor = lr.endColor = Color.white;
-        }
-
-        // Play slice sound
-        if (sliceSound != null)
-            audioSource.PlayOneShot(sliceSound);
-
-        // Raycast line to check if fruit is hit
-        RaycastHit2D[] hits = Physics2D.LinecastAll(start, end);
-        foreach (RaycastHit2D hit in hits)
-        {
-            if (hit.collider != null && hit.collider.CompareTag("Player"))
-            {
-                Debug.Log("Fruit sliced! Game Over!");
-                Destroy(hit.collider.gameObject); // kill fruit
-            }
-        }
-
-        Destroy(blade, 0.5f); // clean up
+        // instantiate blade using random position and rotation
+        GameObject blade = Instantiate(bladePrefab, pos, rot);
     }
 }

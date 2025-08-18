@@ -49,4 +49,12 @@ public class FruitFollow : MonoBehaviour
         transform.position = new Vector2(Mathf.Clamp(transform.position.x, boundaries[1].position.x +padding.x, boundaries[0].position.x-padding.x), Mathf.Clamp(transform.position.y, boundaries[1].position.y+padding.y, boundaries[0].position.y-padding.y));
         LastPos = worldPos;
     }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Slash"))
+        {
+            Destroy(gameObject);
+        }
+    }
 }
