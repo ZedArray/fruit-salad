@@ -11,6 +11,9 @@ public class FruitFollow : MonoBehaviour
     private Transform[] boundaries;
 
     [SerializeField]
+    private Transform shadow;
+
+    [SerializeField]
     private Vector2 padding;
 
     private Vector3 LastPos = Vector2.zero;
@@ -23,20 +26,30 @@ public class FruitFollow : MonoBehaviour
 
     private Rigidbody2D rb;
     private Animator anim;
+
+    public static bool dead = false;
     
     void Start()
     {
         cam = Camera.main;
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
+
+        dead = false;
     }
 
     void Update()
     {
+
+        if (dead)
+        {
+            return;
+        }
         // get current mouse position from new Input System
         Vector2 mousePos = Mouse.current.position.ReadValue();
         Vector3 worldPos = cam.ScreenToWorldPoint(mousePos);
         worldPos.z = 0f;
+
 
         if (Mathf.Abs(Vector3.Distance(LastPos, worldPos)) >= rotationThresholdMagnitude) {
 
@@ -54,6 +67,8 @@ public class FruitFollow : MonoBehaviour
         transform.position = new Vector2(Mathf.Clamp(transform.position.x, boundaries[1].position.x +padding.x, boundaries[0].position.x-padding.x), Mathf.Clamp(transform.position.y, boundaries[1].position.y+padding.y, boundaries[0].position.y-padding.y));
 
         anim.SetFloat("velocity", ((Mathf.Approximately(Vector3.Distance(LastPos,worldPos),0))?0f:((Vector3.Distance(LastPos, worldPos)<0)?-1f:1f)));
+
+        shadow.position = transform.position;
         LastPos = worldPos;
     }
 
@@ -61,7 +76,18 @@ public class FruitFollow : MonoBehaviour
     {
         if (collision.CompareTag("Slash"))
         {
-            Destroy(gameObject);
+            dead = true;
+            dieAnim();
         }
+    }
+
+    private void dieAnim() {
+        CameraShake.shake(0.3f);
+        anim.SetTrigger("Die");
+    }
+
+    public void animEnd() {
+        Destroy(shadow.gameObject, 0.09f);
+        Destroy(gameObject, 0.1f);
     }
 }

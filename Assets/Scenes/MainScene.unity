@@ -181,6 +181,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 2131716125}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &102004168 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 657494803419609124, guid: 378b3ceae1af36145a55a75f6c4dcfa0, type: 3}
+  m_PrefabInstance: {fileID: 9103947406506430844}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &106087119
 GameObject:
   m_ObjectHideFlags: 0
@@ -212,11 +217,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1274380163}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!4 &226250082 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 6915285801507604058, guid: d73ea85408d1f734a851af31db7d13e8, type: 3}
-  m_PrefabInstance: {fileID: 3063442853584806682}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &230334968
 GameObject:
   m_ObjectHideFlags: 0
@@ -568,6 +568,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shakeFrequency: 0.5
+  onMainCamera: 1
 --- !u!1 &2131716124
 GameObject:
   m_ObjectHideFlags: 0
@@ -654,6 +655,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8449984710656287671, guid: d73ea85408d1f734a851af31db7d13e8, type: 3}
+      propertyPath: shadow
+      value: 
+      objectReference: {fileID: 102004168}
+    - target: {fileID: 8449984710656287671, guid: d73ea85408d1f734a851af31db7d13e8, type: 3}
       propertyPath: 'boundaries.Array.data[0]'
       value: 
       objectReference: {fileID: 106087120}
@@ -714,10 +719,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1537423717640970415, guid: 378b3ceae1af36145a55a75f6c4dcfa0, type: 3}
-      propertyPath: _target
-      value: 
-      objectReference: {fileID: 226250082}
     - target: {fileID: 6125946930380198501, guid: 378b3ceae1af36145a55a75f6c4dcfa0, type: 3}
       propertyPath: m_Name
       value: Shadow

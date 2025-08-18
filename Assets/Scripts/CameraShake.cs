@@ -7,11 +7,19 @@ public class CameraShake : MonoBehaviour
     public static Transform cameraTransform;
     private static Vector3 _orignalPosOfCam;
     public float shakeFrequency;
-
+    public bool onMainCamera;
     private static float timer;
     private static float dur;
     public static bool shaking;
 
+    public static CameraShake main;
+
+    private void Awake()
+    {
+        if (onMainCamera) {
+            main = this;
+        }
+    }
     private void Start()
     {
         cameraTransform = Camera.main.transform;

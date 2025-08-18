@@ -22,6 +22,9 @@ public class BladeSpawner : MonoBehaviour
     {
         while (true)
         {
+            if (FruitFollow.dead) {
+                break;
+            }
             SpawnBlade();
             yield return new WaitForSeconds(spawnInterval);
         }
@@ -29,6 +32,7 @@ public class BladeSpawner : MonoBehaviour
 
     void SpawnBlade()
     {
+
         // get random position somewhere in the middle of the screen
         float posX = Random.Range(-6, 6);
         float posY = Random.Range(-4, 4);
