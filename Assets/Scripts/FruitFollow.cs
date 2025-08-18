@@ -6,9 +6,26 @@ public class FruitFollow : MonoBehaviour
     public float moveSpeed = 10f;
     private Camera cam;
 
+    //0:topright 1:bottomleft
+    [SerializeField]
+    private Transform[] boundaries;
+
+    [SerializeField]
+    private Vector2 padding;
+
+    private Vector3 LastPos = Vector2.zero;
+
+    [SerializeField]
+    private float rotationThresholdMagnitude;
+    [SerializeField]
+    private float angularSpeedFactor;
+
+    [SerializeField]
+    private Rigidbody2D rb;
     void Start()
     {
         cam = Camera.main;
+        rb = GetComponent<Rigidbody2D>();
     }
 
     void Update()
@@ -18,7 +35,18 @@ public class FruitFollow : MonoBehaviour
         Vector3 worldPos = cam.ScreenToWorldPoint(mousePos);
         worldPos.z = 0f;
 
+        if (Mathf.Abs(Vector3.Distance(LastPos, worldPos)) >= rotationThresholdMagnitude) {
+
+            print(LastPos);
+            print(worldPos);
+
+            print(Vector3.Distance(LastPos, worldPos));
+            rb.AddTorque((angularSpeedFactor * Vector3.Magnitude(worldPos - LastPos)),ForceMode2D.Impulse);
+        }
+
         // smoothly move fruit to cursor
         transform.position = Vector3.Lerp(transform.position, worldPos, moveSpeed * Time.deltaTime);
+        transform.position = new Vector2(Mathf.Clamp(transform.position.x, boundaries[1].position.x +padding.x, boundaries[0].position.x-padding.x), Mathf.Clamp(transform.position.y, boundaries[1].position.y+padding.y, boundaries[0].position.y-padding.y));
+        LastPos = worldPos;
     }
 }
