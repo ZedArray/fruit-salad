@@ -263,6 +263,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38a6855e3f039964cb01c62c255270ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _fruit: {fileID: 435424339}
   bladePrefab: {fileID: 1602854415128882156, guid: f830b0bf54e426844a1e188564c1175e, type: 3}
   spawnInterval: 1.5
   sliceSound: {fileID: 8300000, guid: 966e7abb73181104c95e3b78f5dca53c, type: 3}
@@ -330,6 +331,11 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!1 &435424339 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6640567245137575974, guid: d73ea85408d1f734a851af31db7d13e8, type: 3}
+  m_PrefabInstance: {fileID: 3063442853584806682}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &541519828
 GameObject:
   m_ObjectHideFlags: 0

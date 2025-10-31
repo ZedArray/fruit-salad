@@ -33,6 +33,8 @@ public class Fruit : MonoBehaviour
     public static Fruit instance;
     public static bool dead = false;
     public static float idle;
+
+    private bool godMode = false;
     void Start()
     {
         instance = this;
@@ -90,7 +92,7 @@ public class Fruit : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("Slash"))
+        if (collision.CompareTag("Slash") && !godMode)
         {
             dead = true;
             dieAnim();
