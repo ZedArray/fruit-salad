@@ -12,11 +12,14 @@ public class Slashes : MonoBehaviour
     
     public float warningTime = 1.5f;
 
+    scoreCounter SC;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         audioSource.PlayOneShot(warningSound);
         StartCoroutine(BladeStrike());
+        SC = FindFirstObjectByType<scoreCounter>(); 
     }
 
     IEnumerator BladeStrike()
@@ -32,6 +35,7 @@ public class Slashes : MonoBehaviour
         if (sliceSound != null)
             audioSource.PlayOneShot(sliceSound);
 
+        SC.TryAddScore();
         Destroy(gameObject, 0.5f); // clean up
     }
 }
