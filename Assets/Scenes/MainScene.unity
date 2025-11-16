@@ -410,13 +410,6 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
-<<<<<<< Updated upstream
---- !u!1 &435424339 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6640567245137575974, guid: d73ea85408d1f734a851af31db7d13e8, type: 3}
-  m_PrefabInstance: {fileID: 3063442853584806682}
-  m_PrefabAsset: {fileID: 0}
-=======
 --- !u!1 &495367473
 GameObject:
   m_ObjectHideFlags: 0
@@ -553,7 +546,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 495367473}
   m_CullTransparentMesh: 1
->>>>>>> Stashed changes
 --- !u!1 &541519828
 GameObject:
   m_ObjectHideFlags: 0
