@@ -34,7 +34,7 @@ public class Fruit : MonoBehaviour
     public static bool dead = false;
     public static float idle;
 
-    private bool godMode = false;
+    [SerializeField] private bool godMode = false;
     void Start()
     {
         instance = this;
@@ -44,6 +44,9 @@ public class Fruit : MonoBehaviour
         shadowOffset = shadow.position - this.transform.position;
         dead = false;
         idle = 0f;
+        #if !UNITY_EDITOR
+            godMode = false;
+        #endif
     }
 
     void Update()
@@ -92,7 +95,7 @@ public class Fruit : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("Slash") && !godMode)
+        if (collision.CompareTag("Slash") && !godMode && !dead)
         {
             dead = true;
             dieAnim();
