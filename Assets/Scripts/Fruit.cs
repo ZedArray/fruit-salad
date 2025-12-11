@@ -1,6 +1,6 @@
 using UnityEngine;
-using UnityEngine.InputSystem;
-using UnityEngine.SceneManagement; // new input system
+using UnityEngine.InputSystem; // new input system
+using UnityEngine.SceneManagement;
 
 public class Fruit : MonoBehaviour
 {
@@ -58,19 +58,26 @@ public class Fruit : MonoBehaviour
         }
         // get current mouse position from new Input System
         Vector2 mousePos = Mouse.current.position.ReadValue();
-        Vector3 worldPos = cam.ScreenToWorldPoint(mousePos);
+        //Vector3 worldPos = cam.ScreenToWorldPoint(mousePos);
+        Vector3 worldPos = transform.position;
         worldPos.z = 0f;
 
+        var gamepad = Gamepad.current;
 
-        if (Mathf.Abs(Vector3.Distance(LastPos, worldPos)) >= rotationThresholdMagnitude) {
+        print(gamepad.leftStick.ReadValue());
 
-            rb.AddTorque((angularSpeedFactor * Vector3.Magnitude(worldPos - LastPos)),ForceMode2D.Impulse);
-            
+        transform.position += moveSpeed * Time.deltaTime * new Vector3(gamepad.leftStick.ReadValue().x, gamepad.leftStick.ReadValue().y, 0);
+
+        if (Mathf.Abs(Vector3.Distance(LastPos, worldPos)) >= rotationThresholdMagnitude)
+        {
+
+            rb.AddTorque((angularSpeedFactor * Vector3.Magnitude(worldPos - LastPos)), ForceMode2D.Impulse);
+
         }
 
         // smoothly move fruit to cursor
-        transform.position = Vector3.Lerp(transform.position, worldPos, moveSpeed * Time.deltaTime);
-        transform.position = new Vector2(Mathf.Clamp(transform.position.x, boundaries[1].position.x +padding.x, boundaries[0].position.x-padding.x), Mathf.Clamp(transform.position.y, boundaries[1].position.y+padding.y, boundaries[0].position.y-padding.y));
+        //transform.position = Vector3.Lerp(transform.position, worldPos, moveSpeed * Time.deltaTime);
+        transform.position = new Vector2(Mathf.Clamp(transform.position.x, boundaries[1].position.x + padding.x, boundaries[0].position.x - padding.x), Mathf.Clamp(transform.position.y, boundaries[1].position.y + padding.y, boundaries[0].position.y - padding.y));
 
         anim.SetFloat("velocity", ((Mathf.Approximately(Vector3.Distance(LastPos,worldPos),0))?0f:((Vector3.Distance(LastPos, worldPos)<0)?-1f:1f)));
 

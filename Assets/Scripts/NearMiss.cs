@@ -39,7 +39,6 @@ public class NearMiss : MonoBehaviour
             comboFill.color = Color.white;
         }
 
-        print(comboValue);
         if (comboValue <= 0.01f)
         {
             comboSlider.gameObject.SetActive(false);
