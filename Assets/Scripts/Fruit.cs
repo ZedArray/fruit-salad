@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem; // new input system
+using UnityEngine.InputSystem.Android;
 using UnityEngine.SceneManagement;
 
 public class Fruit : MonoBehaviour
@@ -62,11 +63,11 @@ public class Fruit : MonoBehaviour
         Vector3 worldPos = transform.position;
         worldPos.z = 0f;
 
-        var gamepad = Gamepad.current;
+        var gamepad = AndroidJoystick.current;
 
-        print(gamepad.leftStick.ReadValue());
+        //print(gamepad.stick.ReadValue());
 
-        transform.position += moveSpeed * Time.deltaTime * new Vector3(gamepad.leftStick.ReadValue().x, gamepad.leftStick.ReadValue().y, 0);
+        transform.position += moveSpeed * Time.deltaTime * new Vector3(gamepad.stick.ReadValue().x, gamepad.stick.ReadValue().y, 0);
 
         if (Mathf.Abs(Vector3.Distance(LastPos, worldPos)) >= rotationThresholdMagnitude)
         {
