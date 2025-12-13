@@ -1533,7 +1533,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!82 &1054039542
 AudioSource:
   m_ObjectHideFlags: 0
@@ -2552,6 +2552,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Apple
       objectReference: {fileID: 0}
+    - target: {fileID: 6640567245137575974, guid: d73ea85408d1f734a851af31db7d13e8, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6915285801507604058, guid: d73ea85408d1f734a851af31db7d13e8, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -2673,6 +2677,10 @@ PrefabInstance:
     - target: {fileID: 6125946930380198501, guid: 378b3ceae1af36145a55a75f6c4dcfa0, type: 3}
       propertyPath: m_Name
       value: Shadow
+      objectReference: {fileID: 0}
+    - target: {fileID: 6125946930380198501, guid: 378b3ceae1af36145a55a75f6c4dcfa0, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
