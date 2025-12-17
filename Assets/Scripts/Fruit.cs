@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem; // new input system
 using UnityEngine.InputSystem.Android;
@@ -28,9 +29,14 @@ public class Fruit : MonoBehaviour
     [SerializeField]
     private float angularSpeedFactor;
 
+    [SerializeField]
+    private TextMeshProUGUI coinCounter;
+    [SerializeField]
+    private scoreCounter sc;
 
     private Rigidbody2D rb;
     private Animator anim;
+    private int coinCaught;
     public static Fruit instance;
     public static bool dead = false;
     public static float idle;
@@ -45,6 +51,7 @@ public class Fruit : MonoBehaviour
         shadowOffset = shadow.position - this.transform.position;
         dead = false;
         idle = 0f;
+        coinCaught = 0;
         #if !UNITY_EDITOR
             godMode = false;
         #endif
@@ -107,6 +114,13 @@ public class Fruit : MonoBehaviour
         {
             dead = true;
             dieAnim();
+        }
+        if (collision.CompareTag("Coin") && !dead)
+        {
+            Destroy(collision.gameObject);
+            coinCaught += 1;
+            coinCounter.text = coinCaught.ToString();
+            sc.TryAddScore();
         }
     }
 

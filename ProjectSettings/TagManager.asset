@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 3
   tags:
   - Slash
+  - Coin
   layers:
   - Default
   - TransparentFX
