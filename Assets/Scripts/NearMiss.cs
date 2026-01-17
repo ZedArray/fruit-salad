@@ -80,13 +80,24 @@ public class NearMiss : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("Slash") && !Fruit.dead)
+        if (collision.CompareTag("Slash"))
         {
-            circle.color = new Color(circle.color.r, circle.color.g, circle.color.b, 0.8f);
-            comboValue = MathF.Min(1f, comboValue += 0.2f);
-            nearMiss = true;
-            combo += 1;
-            comboCounter.text = combo.ToString();
+            StartCoroutine(Miss());
+        }
+    }
+
+    IEnumerator Miss()
+    {
+        yield return new WaitForEndOfFrame();
+        {
+            if (!Fruit.dead)
+            {
+                circle.color = new Color(circle.color.r, circle.color.g, circle.color.b, 0.8f);
+                comboValue = MathF.Min(1f, comboValue += 0.2f);
+                nearMiss = true;
+                combo += 1;
+                comboCounter.text = combo.ToString();
+            }
         }
     }
 }

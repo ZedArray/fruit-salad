@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Slash
   - Coin
+  - SafeZone
   layers:
   - Default
   - TransparentFX

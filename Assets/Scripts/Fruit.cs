@@ -122,6 +122,18 @@ public class Fruit : MonoBehaviour
             coinCounter.text = coinCaught.ToString();
             sc.TryAddScore();
         }
+        if (collision.CompareTag("SafeZone"))
+        {
+            godMode = true;
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.CompareTag("SafeZone"))
+        {
+            godMode = false;
+        }
     }
 
     private void dieAnim() {
