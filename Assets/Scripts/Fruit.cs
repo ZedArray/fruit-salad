@@ -1,3 +1,4 @@
+using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem; // new input system
@@ -34,12 +35,18 @@ public class Fruit : MonoBehaviour
     [SerializeField]
     private scoreCounter sc;
 
+    [SerializeField]
+    private Combo combo;
+    [SerializeField]
+    private NearMiss nearMiss;
+
     private Rigidbody2D rb;
     private Animator anim;
     private int coinCaught;
     public static Fruit instance;
     public static bool dead = false;
     public static float idle;
+    public static bool hit = false;
 
     [SerializeField] private bool godMode = false;
     void Start()
@@ -112,8 +119,15 @@ public class Fruit : MonoBehaviour
     {
         if (collision.CompareTag("Slash") && !godMode && !dead)
         {
-            dead = true;
-            dieAnim();
+            hit = true;
+            if (combo.abilityActive)
+            {
+                combo.resetCombo();
+            }
+            else
+            {
+                kill();
+            }
         }
         if (collision.CompareTag("Coin") && !dead)
         {
@@ -130,6 +144,10 @@ public class Fruit : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D collision)
     {
+        if (collision.CompareTag("Slash"))
+        {
+            hit = false;
+        }
         if (collision.CompareTag("SafeZone"))
         {
             godMode = false;
@@ -139,6 +157,15 @@ public class Fruit : MonoBehaviour
     private void dieAnim() {
         CameraShake.shake(0.3f);
         anim.SetTrigger("Die");
+    }
+
+    public void kill()
+    {
+        if (!godMode && !dead)
+        {
+            dead = true;
+            dieAnim();
+        }
     }
 
     public void animEnd() {

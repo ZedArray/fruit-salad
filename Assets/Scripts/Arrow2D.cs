@@ -18,6 +18,11 @@ public class Arrow2D : MonoBehaviour
         transform.rotation = Quaternion.Euler(0, 0, angle + 90);
     }
 
+    public bool canNearMiss()
+    {
+        print("balls");
+        return true;
+    }
 
     private void OnBecameVisible()
     {

@@ -7,21 +7,18 @@ using UnityEngine.UI;
 public class NearMiss : MonoBehaviour
 {
     [SerializeField] SpriteRenderer circle;
+
+    [SerializeField] Combo combo;
     [SerializeField] Slider comboSlider;
     [SerializeField] Image comboFill;
     [SerializeField] TextMeshProUGUI comboCounter;
+    [SerializeField] Collider2D col;
 
-    private int combo;
     private bool nearMiss;
-    private float comboValue;
-
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         StartCoroutine(fadeOut());
-        StartCoroutine(comboThing());
-        comboValue = 0f;
-        combo = 0;
         nearMiss = false;
     }
 
@@ -29,42 +26,6 @@ public class NearMiss : MonoBehaviour
     void Update()
     {
         transform.position = Fruit.instance.transform.position;
-        comboSlider.value = comboValue;
-        if (comboValue >= 0.99f)
-        {
-            comboFill.color = Color.blue;
-        }
-        else
-        {
-            comboFill.color = Color.white;
-        }
-
-        if (comboValue <= 0.01f)
-        {
-            comboSlider.gameObject.SetActive(false);
-            comboCounter.gameObject.SetActive(false);
-            combo = 0;
-        }
-        else
-        {
-            comboSlider.gameObject.SetActive(true);
-            comboCounter.gameObject.SetActive(true);
-        }
-    }
-
-    IEnumerator comboThing()
-    {
-        while (true)
-        {
-            if (nearMiss)
-            {
-                yield return new WaitForSeconds(1f);
-                nearMiss = false;
-            }
-            yield return new WaitForSeconds(0.05f);
-            comboValue = Mathf.Max(0f, comboValue - 0.005f);
-        }
-        
     }
 
     IEnumerator fadeOut()
@@ -80,9 +41,23 @@ public class NearMiss : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        print(collision.gameObject.name);
         if (collision.CompareTag("Slash"))
         {
-            StartCoroutine(Miss());
+            if (collision.GetComponent<Arrow2D>())
+            {
+                if (collision.GetComponent<Arrow2D>().canNearMiss())
+                {
+                    StartCoroutine(Miss());
+                }
+            }
+            else if (collision.GetComponent<Slashes>())
+            {
+                if(collision.GetComponent<Slashes>().canNearMiss())
+                {
+                    StartCoroutine(Miss());
+                }
+            }
         }
     }
 
@@ -90,14 +65,22 @@ public class NearMiss : MonoBehaviour
     {
         yield return new WaitForEndOfFrame();
         {
-            if (!Fruit.dead)
+            if (!Fruit.hit)
             {
                 circle.color = new Color(circle.color.r, circle.color.g, circle.color.b, 0.8f);
-                comboValue = MathF.Min(1f, comboValue += 0.2f);
                 nearMiss = true;
-                combo += 1;
-                comboCounter.text = combo.ToString();
+                combo.addCombo();
             }
         }
+    }
+
+    public bool getNearMiss()
+    {
+        return nearMiss;
+    }
+
+    public void setNearMiss(bool _nearMiss)
+    {
+        nearMiss = _nearMiss;
     }
 }
