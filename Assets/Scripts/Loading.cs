@@ -11,11 +11,11 @@ public class Loading : MonoBehaviour
 
     private bool canLoad;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    async void Start()
     {
         button.gameObject.SetActive(false);
         canLoad = false;
-        StartCoroutine(LoadGame());
+       LoadGame();
     }
 
     // Update is called once per frame
@@ -24,22 +24,10 @@ public class Loading : MonoBehaviour
         fruit.transform.Rotate(0, 0, 50 * Time.deltaTime);
     }
 
-    IEnumerator LoadGame()
+    async void LoadGame()
     {
-        AsyncOperation operation = SceneManager.LoadSceneAsync("MainScene");
-        operation.allowSceneActivation = false;
-        while (!operation.isDone)
-        {
-            if (operation.progress >= 0.9f)
-            {
-                button.gameObject.SetActive(true);
-                if (canLoad)
-                {
-                    operation.allowSceneActivation = true;
-                }
-            }
-            yield return null;
-        }
+        SceneManager.LoadScene("MainScene");
+
     }
 
     public void loadButton()

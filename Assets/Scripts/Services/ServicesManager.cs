@@ -1,11 +1,20 @@
 using System;
 using Unity.Services.Core;
 using UnityEngine;
+
 public class ServicesManager : Singleton<ServicesManager>
 {
-    async void Awake()
+
+    public static bool UserAuthenticated
     {
-        InitSingleton();
+        get { return AuthManager.userAuthenticated; }
+        private set { AuthManager.userAuthenticated = value; }
+    } 
+    
+
+new async void Awake()
+    {
+        base.Awake();
         try
         {
             await UnityServices.InitializeAsync();
