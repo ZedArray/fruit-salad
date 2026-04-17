@@ -72,16 +72,39 @@ public class Fruit : MonoBehaviour
             return;
         }
         // get current mouse position from new Input System
-        Vector2 mousePos = Mouse.current.position.ReadValue();
-        //Vector3 worldPos = cam.ScreenToWorldPoint(mousePos);
-        Vector3 worldPos = transform.position;
+
+        //Vector2 mousePos = Mouse.current.position.ReadValue();
+
+        //Touch touch = Input.GetTouch(0);
+        Vector3 touchPos = transform.position;
+        print(touchPos);
+        Vector3 worldPos = touchPos;
+
+        SpriteRenderer sr = GetComponent<SpriteRenderer>();
+        if (Input.touchCount > 0)
+        {
+            Touch touch = Input.GetTouch(0);
+            touchPos = touch.position;
+            worldPos = cam.ScreenToWorldPoint(touchPos);
+            print(touchPos);
+            sr.size = new Vector2(1.2f, 1.2f);
+        }
+        else
+        {
+            sr.size = new Vector2(1f, 1f);
+        }
+
+
+
+        //Vector3 worldPos = cam.ScreenToWorldPoint(touchPos);
+
         worldPos.z = 0f;
 
-        var gamepad = AndroidJoystick.current;
+        //var gamepad = AndroidJoystick.current;
 
         //print(gamepad.stick.ReadValue());
 
-        transform.position += moveSpeed * Time.deltaTime * new Vector3(gamepad.stick.ReadValue().x, gamepad.stick.ReadValue().y, 0);
+        //transform.position += moveSpeed * Time.deltaTime * new Vector3(gamepad.stick.ReadValue().x, gamepad.stick.ReadValue().y, 0);
 
         if (Mathf.Abs(Vector3.Distance(LastPos, worldPos)) >= rotationThresholdMagnitude)
         {
@@ -91,7 +114,7 @@ public class Fruit : MonoBehaviour
         }
 
         // smoothly move fruit to cursor
-        //transform.position = Vector3.Lerp(transform.position, worldPos, moveSpeed * Time.deltaTime);
+        transform.position = Vector3.Lerp(transform.position, worldPos, moveSpeed * Time.deltaTime);
         transform.position = new Vector2(Mathf.Clamp(transform.position.x, boundaries[1].position.x + padding.x, boundaries[0].position.x - padding.x), Mathf.Clamp(transform.position.y, boundaries[1].position.y + padding.y, boundaries[0].position.y - padding.y));
 
         anim.SetFloat("velocity", ((Mathf.Approximately(Vector3.Distance(LastPos,worldPos),0))?0f:((Vector3.Distance(LastPos, worldPos)<0)?-1f:1f)));
@@ -100,8 +123,6 @@ public class Fruit : MonoBehaviour
         if ((Mathf.Approximately(Vector3.Distance(LastPos, worldPos), 0)))
         {
             idle += Time.deltaTime;
-
-            
         }
         else
         {

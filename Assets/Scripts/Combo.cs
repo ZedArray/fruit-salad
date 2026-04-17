@@ -54,7 +54,7 @@ public class Combo : MonoBehaviour
 
     public void resetCombo()
     {
-        comboValue = 0f;
+        //comboValue = 0f;
         combo = 0;
     }
 
@@ -75,14 +75,23 @@ public class Combo : MonoBehaviour
         if (comboValue <= 0.01f)
         {
             comboSlider.gameObject.SetActive(false);
-            comboCounter.gameObject.SetActive(false);
+            //comboCounter.gameObject.SetActive(false);
             combo = 0;
             abilityActive = false;
         }
         else
         {
             comboSlider.gameObject.SetActive(true);
+            //comboCounter.gameObject.SetActive(true);
+        }
+
+        if (combo > 0)
+        {
             comboCounter.gameObject.SetActive(true);
+        }
+        else
+        {
+            comboCounter.gameObject.SetActive(false);
         }
     }
 

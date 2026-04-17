@@ -20,7 +20,6 @@ public class Arrow2D : MonoBehaviour
 
     public bool canNearMiss()
     {
-        print("balls");
         return true;
     }
 
