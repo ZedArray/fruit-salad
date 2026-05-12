@@ -1,6 +1,9 @@
+using System;
 using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
+using CompositeCurves;
+using Random = UnityEngine.Random;
 
 public class BladeSpawner : MonoBehaviour
 {
@@ -14,6 +17,8 @@ public class BladeSpawner : MonoBehaviour
     private AudioSource audioSource;
     private float maxX, maxY, minX, minY;
 
+
+    [SerializeField] private CompositeCurveDefinition balancingCurve;
     void Start()
     {
         cam = Camera.main;
@@ -51,6 +56,8 @@ public class BladeSpawner : MonoBehaviour
         Quaternion rot = Quaternion.Euler(0, 0, rotRandom);
         // instantiate blade using random position and rotation
         GameObject blade = Instantiate(bladePrefab, pos, rot);
-        spawnInterval = Mathf.Max(0.3f,spawnInterval*0.99f);
+        
+        spawnInterval = balancingCurve.Evaluate(Time.timeSinceLevelLoad);
+        Debug.LogWarning(spawnInterval);
     }
 }

@@ -9,7 +9,7 @@ public class Slashes : MonoBehaviour
     [SerializeField] AudioSource audioSource;
     [SerializeField] Collider2D col2d;
     
-    public float warningTime = 1.5f;
+    public float warningTime = 0.7f;
     public bool nearMissActive = false;
     public bool nearMissHit = false;
 

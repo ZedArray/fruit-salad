@@ -1,0 +1,84 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 600575f8b63630de48939ac7af3ae791, type: 3}
+  m_Name: CompositeCurve
+  m_EditorClassIdentifier: Assembly-CSharp::CompositeCurves.CompositeCurveDefinition
+  curveId: c4e52f5a3a7e4a82b6728e3d8e505910
+  outsideRangeMode: 2
+  variables:
+  - Name: max_shared
+    Value: 4
+  - Name: min_shared
+    Value: 0.4
+  - Name: a_shared
+    Value: 0.1
+  - Name: b_shared
+    Value: 0.5
+  - Name: c_shared
+    Value: 15
+  - Name: t1_shared
+    Value: 7.5000005
+  - Name: t2_shared
+    Value: 23
+  - Name: t3_shared
+    Value: 40
+  - Name: d_shared
+    Value: 0.21000004
+  segments:
+  - segmentId: 3f7a1540228241798abccceef4c494d8
+    displayName: slow1
+    enabled: 1
+    startX: 0
+    endX: 7.8
+    startInclusion: 1
+    endInclusion: 0
+    mode: 1
+    preset: 1
+    customExpression: max_shared - pow(x,a_shared)
+    variables: []
+  - segmentId: 3278a0051fc14dad90ed391ec3969ae7
+    displayName: fast1
+    enabled: 1
+    startX: 7.8
+    endX: 23
+    startInclusion: 1
+    endInclusion: 0
+    mode: 1
+    preset: 1
+    customExpression: (max_shared - pow(t1_shared,a_shared)) + log(t1_shared, c_shared)
+      - log(x,c_shared)
+    variables: []
+  - segmentId: 4fa12ec7197844a7a442bc5e85c122ad
+    displayName: slow2
+    enabled: 1
+    startX: 23
+    endX: 40
+    startInclusion: 1
+    endInclusion: 0
+    mode: 1
+    preset: 1
+    customExpression: ((max_shared - pow(t1_shared,a_shared)) + log(t1_shared, c_shared)
+      - log(t2_shared,c_shared))+pow(t2_shared,b_shared)-pow(x,b_shared)
+    variables: []
+  - segmentId: 1ee36ad054c9468b8c369c7084d93877
+    displayName: fast2
+    enabled: 1
+    startX: 40
+    endX: 50
+    startInclusion: 1
+    endInclusion: 0
+    mode: 1
+    preset: 1
+    customExpression: max(min_shared, (((max_shared - pow(t1_shared,a_shared)) +
+      log(t1_shared, c_shared) - log(t2_shared,c_shared))+pow(t2_shared,b_shared)-pow(t3_shared,b_shared))
+      + pow(t3_shared, d_shared)-pow(x,d_shared))
+    variables: []

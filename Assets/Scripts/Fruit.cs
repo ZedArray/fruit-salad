@@ -2,7 +2,7 @@ using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem; // new input system
-using UnityEngine.InputSystem.Android;
+//using UnityEngine.InputSystem.Android;
 using UnityEngine.SceneManagement;
 
 public class Fruit : MonoBehaviour
