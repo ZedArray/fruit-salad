@@ -16,6 +16,7 @@ public class BladeSpawner : MonoBehaviour
     private Camera cam;
     private AudioSource audioSource;
     private float maxX, maxY, minX, minY;
+    private float timer;
 
 
     [SerializeField] private CompositeCurveDefinition balancingCurve;
@@ -27,7 +28,24 @@ public class BladeSpawner : MonoBehaviour
         maxX = 7.5f;
         minY = -4f;
         maxY = 4f;
-        StartCoroutine(SpawnRoutine());
+        timer = 0f;
+        //StartCoroutine(SpawnRoutine());
+    }
+
+    private void Update()
+    {
+        if (Fruit.dead)
+        {
+            return;
+        }
+
+        timer += Time.deltaTime;
+        
+        if (timer > spawnInterval)
+        {
+            SpawnBlade();
+            timer = 0f;
+        }
     }
 
     IEnumerator SpawnRoutine()
