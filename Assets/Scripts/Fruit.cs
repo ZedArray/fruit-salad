@@ -129,7 +129,7 @@ public class Fruit : MonoBehaviour
             idle = 0f;
         }
 
-        warning.SetActive((idle>= UtensilSpawner.Instance.maxIdleTime));
+        warning.SetActive((idle>= AntiIdleUtensilSpawner.Instance.maxIdleTime));
         shadow.position = transform.position+shadowOffset;
         LastPos = worldPos;
 

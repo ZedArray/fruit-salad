@@ -479,6 +479,7 @@ GameObject:
   - component: {fileID: 230334969}
   - component: {fileID: 230334970}
   - component: {fileID: 230334971}
+  - component: {fileID: 230334973}
   - component: {fileID: 230334972}
   m_Layer: 0
   m_Name: bladeSpawner
@@ -526,7 +527,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 230334968}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b6a271c935bc65b44b8cc7986886c1bd, type: 3}
   m_Name: 
@@ -536,7 +537,7 @@ MonoBehaviour:
   - {fileID: 2298950404986346798, guid: a2e1b4710a786cb4fafa028e4d50812c, type: 3}
   - {fileID: 3177524010428910900, guid: 0431bea2c4e72f84aaea56655e7c9120, type: 3}
   cooldown: 1
-  maxIdleTime: 0
+  maxIdleTime: 1
 --- !u!61 &230334972
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -583,6 +584,19 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &230334973
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 230334968}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b4ddc803b0863222497112f1e49c62ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::StageUtensilSpawner
+  patterns: {fileID: 11400000, guid: cadc6470a4e8b42f28711b0eee2f47fe, type: 2}
 --- !u!1 &236475997
 GameObject:
   m_ObjectHideFlags: 0
@@ -876,7 +890,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::StageManager
   bs: {fileID: 230334970}
-  us: {fileID: 230334971}
+  us: {fileID: 230334973}
   stageStart:
   - 0
   - 10

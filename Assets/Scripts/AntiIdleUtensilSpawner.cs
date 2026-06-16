@@ -1,14 +1,14 @@
 using UnityEngine;
 
-public class UtensilSpawner : MonoBehaviour
+public class AntiIdleUtensilSpawner : MonoBehaviour
 {
 
-    public GameObject[] Utensils;
+    public Arrow2D[] Utensils;
     public float cooldown;
     private float timer;
     private Camera mainCamera;
     public float maxIdleTime;
-    public static UtensilSpawner Instance;
+    public static AntiIdleUtensilSpawner Instance;
 
     private void Awake()
     {
@@ -72,7 +72,7 @@ public class UtensilSpawner : MonoBehaviour
 
         spawnPos.z = 0;
 
-        GameObject objectToSpawn = Utensils[Random.Range(0, Utensils.Length)];
-        Instantiate(objectToSpawn, spawnPos, Quaternion.identity);
+        Arrow2D objectToSpawn = Utensils[Random.Range(0, Utensils.Length)];
+        Instantiate(objectToSpawn, spawnPos, Quaternion.identity).UpdateTarget(Fruit.instance.transform);
     }
 }

@@ -3,7 +3,7 @@ using UnityEngine;
 public class StageManager : MonoBehaviour
 {
     [SerializeField] BladeSpawner bs;
-    [SerializeField] UtensilSpawner us;
+    [SerializeField] StageUtensilSpawner us;
     [SerializeField] float[] stageStart;
 
     private int stage;
