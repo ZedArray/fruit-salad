@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-public class StageUtensilSpawner : MonoBehaviour
+public class StageUtensilSpawner : StageComponent
 {
     
     public static StageUtensilSpawner instance;
@@ -32,6 +32,8 @@ public class StageUtensilSpawner : MonoBehaviour
             corner
         );
     }
+    
+    
 
     [ContextMenu("Test Spawn Utensil")] 
     public void SpawnUtensilTest(){
@@ -48,6 +50,7 @@ public class StageUtensilSpawner : MonoBehaviour
 
         foreach (var wave in pattern.utensilWaves)
         {
+            if (doStage == false) return;
             GlobalTimer.instance.AddTimer(new TimerRequest(totalPatternTime*wave.relativeTimeToStart, () => {SpawnWave(wave);}));
         }
 
@@ -56,6 +59,7 @@ public class StageUtensilSpawner : MonoBehaviour
 
     void SpawnWave(UtensilWave wave)
     {
+        if (doStage == false) return;
         Vector2Pol point = new Vector2Pol(spawnRad.GetValueOrDefault(0f), (wave.angleRange.x+wave.angleOffset)*Mathf.Deg2Rad);
         float delta = (wave.angleRange.y - wave.angleRange.x)/(wave.utensilAmount);
         for(int i = 0; i < wave.utensilAmount; i++)

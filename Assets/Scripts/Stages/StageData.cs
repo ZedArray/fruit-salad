@@ -5,12 +5,12 @@ using Object = UnityEngine.Object;
 public abstract class StageComponent : MonoBehaviour
 {
     public bool doStage;
-    public void enable()
+    public virtual void Enable()
     {
         doStage = true;
     }
 
-    public void disable()
+    public virtual void Disable()
     {
         doStage = false;
     }
