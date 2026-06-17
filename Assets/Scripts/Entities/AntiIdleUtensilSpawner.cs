@@ -3,7 +3,7 @@ using UnityEngine;
 public class AntiIdleUtensilSpawner : MonoBehaviour
 {
 
-    public Arrow2D[] Utensils;
+    [SerializeField] private GameObject[] Utensils;
     public float cooldown;
     private float timer;
     private Camera mainCamera;
@@ -72,7 +72,7 @@ public class AntiIdleUtensilSpawner : MonoBehaviour
 
         spawnPos.z = 0;
 
-        Arrow2D objectToSpawn = Utensils[Random.Range(0, Utensils.Length)];
-        Instantiate(objectToSpawn, spawnPos, Quaternion.identity).UpdateTarget(Fruit.instance.transform);
+        GameObject objectToSpawn = Utensils[Random.Range(0, Utensils.Length)];
+        Instantiate(objectToSpawn, spawnPos, Quaternion.identity).GetComponent<Arrow2D>().UpdateTarget(Fruit.instance.transform);
     }
 }

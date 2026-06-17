@@ -77,7 +77,7 @@ public class Fruit : MonoBehaviour
 
         //Touch touch = Input.GetTouch(0);
         Vector3 touchPos = transform.position;
-        print(touchPos);
+        //print(touchPos);
         Vector3 worldPos = touchPos;
 
         SpriteRenderer sr = GetComponent<SpriteRenderer>();
@@ -86,7 +86,7 @@ public class Fruit : MonoBehaviour
             Touch touch = Input.GetTouch(0);
             touchPos = touch.position;
             worldPos = cam.ScreenToWorldPoint(touchPos);
-            print(touchPos);
+//            print(touchPos);
             sr.size = new Vector2(1.2f, 1.2f);
         }
         else

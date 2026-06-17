@@ -510,11 +510,12 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 230334968}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 38a6855e3f039964cb01c62c255270ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  doStage: 0
   _fruit: {fileID: 1748818777}
   bladePrefab: {fileID: 1602854415128882156, guid: f830b0bf54e426844a1e188564c1175e, type: 3}
   spawnInterval: 1.5
@@ -596,6 +597,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b4ddc803b0863222497112f1e49c62ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::StageUtensilSpawner
+  doStage: 0
   patterns: {fileID: 11400000, guid: cadc6470a4e8b42f28711b0eee2f47fe, type: 2}
 --- !u!1 &236475997
 GameObject:
@@ -889,12 +891,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aea3dc4b3ed21f940ae63a5272aec751, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::StageManager
-  bs: {fileID: 230334970}
-  us: {fileID: 230334973}
-  stageStart:
-  - 0
-  - 10
-  - 20
+  stageData: {fileID: 11400000, guid: d3d8aebc97c30509e836af33134e704e, type: 2}
 --- !u!1 &437073668
 GameObject:
   m_ObjectHideFlags: 0

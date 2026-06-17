@@ -5,7 +5,7 @@ using UnityEngine;
 using CompositeCurves;
 using Random = UnityEngine.Random;
 
-public class BladeSpawner : MonoBehaviour
+public class BladeSpawner : StageComponent<BladeSpawner>
 {
     [SerializeField] private GameObject _fruit;
 
@@ -18,6 +18,10 @@ public class BladeSpawner : MonoBehaviour
     private float maxX, maxY, minX, minY;
     private float timer;
 
+    new void Awake()
+    {
+        base.Awake();
+    }
 
     [SerializeField] private CompositeCurveDefinition balancingCurve;
     void Start()

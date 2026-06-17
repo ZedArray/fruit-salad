@@ -1,62 +1,66 @@
+using System;
+using System.Reflection;
 using UnityEngine;
-
+using Microsoft.CSharp;
 public class StageManager : MonoBehaviour
 {
-    [SerializeField] BladeSpawner bs;
-    [SerializeField] StageUtensilSpawner us;
-    [SerializeField] float[] stageStart;
+    [SerializeField] private StageData stageData;
 
+
+    private StageComponentNG[] components;
     private int stage;
-    private float timer;
     private int stageAmount;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        stage = 0;
-        timer = 0f;
-        bs.enabled = false;
-        us.enabled = false;
-        stageAmount = stageStart.Length;
+        stage = -1;
+        stageAmount = stageData.stages.Length;
+        populateComponents();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void populateComponents()
     {
-        timer += Time.deltaTime;
-        if (stage < stageAmount - 1)
+        components = new StageComponentNG[stageData.stageManagersClassNames.Length];
+
+        for (int i = 0; i < stageData.stageManagersClassNames.Length; i++)
         {
-            timeCheck();
-            stageChanger();
+            Type t = Type.GetType(stageData.stageManagersClassNames[i]);
+            components[i] = (StageComponentNG)FindFirstObjectByType(t);
+            components[i].Disable();
         }
     }
 
-    void stageChanger()
+    [ContextMenu("Test Inheritance Fuckery")]
+    public void TestInheritanceFuckery()
     {
-        switch (stage)
+        Type t = Type.GetType(stageData.stageManagersClassNames[0]);
+        StageComponentNG instance = (StageComponentNG)FindFirstObjectByType(t);
+        instance.Enable();
+        
+    }
+
+    private void DisableAll()
+    {
+        for (int i = 0; i < stageData.stageManagersClassNames.Length; i++)
         {
-            case 0:
-                bs.enabled = true;
-                us.enabled = false;
-                break;
-            case 1:
-                bs.enabled = false;
-                us.enabled = true;
-                break;
-            case 2:
-                bs.enabled = true;
-                us.enabled = true;
-                break;
-            default:
-                break;
+            components[i].Disable();
         }
     }
 
-    void timeCheck()
+    public void ChangeStage()
     {
-        if (timer > stageStart[stage + 1])
+        stage = (stage + 1) % stageAmount;
+        StageDefinition st = stageData.stages[stage];
+        DisableAll();
+        foreach (int i in st.enabledStages)
         {
-            stage += 1;
+            if (i >= components.Length || components[i] is null) continue;
+            components[i].Enable();
         }
+        if (st.stageDuration < 0) return;
+        GlobalTimer.instance.AddTimer(new TimerRequest(st.stageDuration,ChangeStage));
     }
+
+
 }

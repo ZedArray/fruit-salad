@@ -2,51 +2,40 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TimerRequest
+public sealed class TimerRequest
 {
-    public float triggerTime;
-    public Action callback;
+    public readonly float triggerTime;
+    public readonly Action callback;
 
     public TimerRequest(float delay, Action callback)
     {
-        this.triggerTime = GlobalTimer.instance.Timer + delay;
+        this.triggerTime = Time.time + delay;
         this.callback = callback;
     }
 }
 
 public class GlobalTimer : Singleton<GlobalTimer>
 {
-    private List<TimerRequest> timers;
+    private readonly MinHeap<TimerRequest> timers = new(Comparer<TimerRequest>.Create(
+        (a, b) => a.triggerTime.CompareTo(b.triggerTime)));
 
-    public float Timer { get; private set; }
-
-    new void Awake()
+    public void AddTimer(TimerRequest request)
     {
-        base.Awake();
-        timers = new List<TimerRequest>();
-    }
-
-    public void AddTimer(TimerRequest req)
-    {
-        timers.Add(req);
+        timers.Push(request);
     }
 
     void Update()
     {
-        if (timers.Count == 0)
+        while (timers.Count > 0)
         {
-            return;
-        }
+            
+            TimerRequest t = timers.Peek();
 
-        Timer += Time.deltaTime;
+            if (Time.time < t.triggerTime)
+                break;
 
-        for (int i = timers.Count - 1; i >= 0; i--)
-        {
-            if (Timer >= timers[i].triggerTime)
-            {
-                timers[i].callback?.Invoke();
-                timers.RemoveAt(i);
-            }
+            timers.Pop();
+            t.callback?.Invoke();
         }
     }
 }

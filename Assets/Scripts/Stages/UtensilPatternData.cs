@@ -19,7 +19,7 @@ public struct UtensilWave
 public struct UtensilPattern
 {
     [SerializeField] private string name;
-    public UtensilWave[] utensilWaves;
+    public UtensilWave[] utensilWaves; 
 }
 
 [CreateAssetMenu(fileName = "UtensilPatternData", menuName = "Scriptable Objects/UtensilPatternData")]

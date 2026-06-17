@@ -22,17 +22,17 @@ MonoBehaviour:
   - Name: a_shared
     Value: 0.1
   - Name: b_shared
-    Value: 0.5
+    Value: 0.38000003
   - Name: c_shared
-    Value: 15
+    Value: 13
   - Name: t1_shared
-    Value: 7.5000005
+    Value: 7.3000007
   - Name: t2_shared
-    Value: 23
+    Value: 24
   - Name: t3_shared
     Value: 40
   - Name: d_shared
-    Value: 0.21000004
+    Value: 0.20000003
   segments:
   - segmentId: 3f7a1540228241798abccceef4c494d8
     displayName: slow1

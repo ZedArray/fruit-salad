@@ -12,3 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9bfdefc01d21db0fa8ae8cf6730288f3, type: 3}
   m_Name: StageData
   m_EditorClassIdentifier: Assembly-CSharp::StageData
+  stageManagersClassNames:
+  - StageUtensilSpawner
+  stages: []

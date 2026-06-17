@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class Arrow2D : MonoBehaviour
@@ -5,6 +6,11 @@ public class Arrow2D : MonoBehaviour
     Vector2 direction;
     public float speed = 5f;
     private bool init = false;
+
+    private void Start()
+    {
+        UpdateTarget(Fruit.instance.transform);
+    }
 
     public void UpdateTarget(Transform target)
     {
