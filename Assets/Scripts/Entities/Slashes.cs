@@ -3,17 +3,17 @@ using UnityEngine;
 
 public class Slashes : MonoBehaviour
 {
-    [SerializeField] SpriteRenderer spriteRenderer;
-    [SerializeField] AudioClip sliceSound;
-    [SerializeField] AudioClip warningSound;
-    [SerializeField] AudioSource audioSource;
-    [SerializeField] Collider2D col2d;
+    [SerializeField] public SpriteRenderer spriteRenderer;
+    [SerializeField] public AudioClip sliceSound;
+    [SerializeField] public AudioClip warningSound;
+    [SerializeField] public AudioSource audioSource;
+    [SerializeField] public Collider2D col2d;
     
     public float warningTime = 0.7f;
     public bool nearMissActive = false;
     public bool nearMissHit = false;
 
-    scoreCounter SC;
+    public scoreCounter SC;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()

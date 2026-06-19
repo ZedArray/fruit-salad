@@ -53,6 +53,8 @@ public class NearMiss : MonoBehaviour
             }
             else if (collision.GetComponent<Slashes>())
             {
+                print(collision.gameObject.name);
+                print(collision.GetComponent<Slashes>().canNearMiss());
                 if(collision.GetComponent<Slashes>().canNearMiss())
                 {
                     StartCoroutine(Miss());
