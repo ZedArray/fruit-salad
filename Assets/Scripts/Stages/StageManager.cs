@@ -17,6 +17,7 @@ public class StageManager : MonoBehaviour
         stage = -1;
         stageAmount = stageData.stages.Length;
         populateComponents();
+        ChangeStage();
     }
 
     private void populateComponents()

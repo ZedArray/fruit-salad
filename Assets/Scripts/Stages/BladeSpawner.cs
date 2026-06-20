@@ -38,7 +38,7 @@ public class BladeSpawner : StageComponent<BladeSpawner>
 
     private void Update()
     {
-        if (Fruit.dead)
+        if (Fruit.dead || doStage == false)
         {
             return;
         }
@@ -51,19 +51,6 @@ public class BladeSpawner : StageComponent<BladeSpawner>
             timer = 0f;
         }
     }
-
-    IEnumerator SpawnRoutine()
-    {
-        while (true)
-        {
-            yield return new WaitForSeconds(spawnInterval);
-            if (Fruit.dead) {
-                break;
-            }
-            SpawnBlade();
-        }
-    }
-
     void SpawnBlade()
     {
         Vector3 fruitPos = _fruit.transform.position;

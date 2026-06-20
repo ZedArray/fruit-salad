@@ -9,7 +9,7 @@ public class StageUtensilSpawner : StageComponent<StageUtensilSpawner>
     public UtensilPatternData patterns;
     private float? spawnRad;
 
-    private void Awake()
+    new void Awake()
     {
         base.Awake();
     }

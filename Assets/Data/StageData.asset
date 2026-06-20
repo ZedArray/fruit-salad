@@ -13,6 +13,13 @@ MonoBehaviour:
   m_Name: StageData
   m_EditorClassIdentifier: Assembly-CSharp::StageData
   stageManagersClassNames:
+  - BladeSpawner
   - StageUtensilSpawner
   - StageHotSpawner
-  stages: []
+  stages:
+  - enabledStages: 00000000
+    stageDuration: 5
+  - enabledStages: 01000000
+    stageDuration: 5
+  - enabledStages: 02000000
+    stageDuration: 5

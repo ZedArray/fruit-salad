@@ -41,7 +41,6 @@ public class NearMiss : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        print(collision.gameObject.name);
         if (collision.CompareTag("Slash"))
         {
             if (collision.GetComponent<Arrow2D>())
@@ -53,8 +52,6 @@ public class NearMiss : MonoBehaviour
             }
             else if (collision.GetComponent<Slashes>())
             {
-                print(collision.gameObject.name);
-                print(collision.GetComponent<Slashes>().canNearMiss());
                 if(collision.GetComponent<Slashes>().canNearMiss())
                 {
                     StartCoroutine(Miss());
