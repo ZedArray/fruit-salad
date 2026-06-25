@@ -50,11 +50,9 @@ public class Loading : MonoBehaviour
     {
         AsyncOperation asyncLoad = SceneManager.LoadSceneAsync("MainScene");
         asyncLoad.allowSceneActivation = false;
-        print(asyncLoad.progress);
 
         while (!asyncLoad.isDone)
         {
-            //print(asyncLoad.progress);
             asyncLoad.allowSceneActivation = canLoad;
             progressAmount = asyncLoad.progress;
             yield return null;
