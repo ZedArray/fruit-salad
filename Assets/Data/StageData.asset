@@ -17,9 +17,12 @@ MonoBehaviour:
   - StageUtensilSpawner
   - StageHotSpawner
   stages:
-  - enabledStages: 00000000
-    stageDuration: 5
-  - enabledStages: 01000000
-    stageDuration: 5
-  - enabledStages: 02000000
-    stageDuration: 5
+  - name: BladeStage
+    enabledStages: 00000000
+    stageDuration: 60
+  - name: UtensilStage
+    enabledStages: 01000000
+    stageDuration: 60
+  - name: HotStage
+    enabledStages: 02000000
+    stageDuration: -1

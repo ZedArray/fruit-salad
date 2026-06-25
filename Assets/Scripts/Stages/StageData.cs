@@ -42,6 +42,7 @@ public abstract class StageComponent<T> : StageComponentNG
 [Serializable]
 public struct StageDefinition
 {
+    public string name;
     public int[] enabledStages;
     [Tooltip("Any value below 0 implies an infinitely long stage.")]
     public int stageDuration;

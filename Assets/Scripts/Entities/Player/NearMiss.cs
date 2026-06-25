@@ -41,6 +41,8 @@ public class NearMiss : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        if (combo.abilityActive) return;
+
         if (collision.CompareTag("Slash"))
         {
             if (collision.GetComponent<Arrow2D>())

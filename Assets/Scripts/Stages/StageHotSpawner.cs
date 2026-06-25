@@ -71,8 +71,8 @@ public class StageHotSpawner : StageComponent<StageHotSpawner>
         GameObject blade = Instantiate(bladePrefab, pos, rot);
 
         currentTime = Time.timeSinceLevelLoad;
-        //spawnInterval = balancingCurve.Evaluate(currentTime - startTime);
-        spawnInterval = balancingCurve.Evaluate(Time.timeSinceLevelLoad);
+        spawnInterval = balancingCurve.Evaluate(currentTime - startTime);
+        //spawnInterval = balancingCurve.Evaluate(Time.timeSinceLevelLoad);
         Debug.LogWarning(spawnInterval);
     }
 }

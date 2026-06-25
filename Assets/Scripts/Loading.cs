@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem.Composites;
@@ -8,26 +9,56 @@ public class Loading : MonoBehaviour
 {
     [SerializeField] SpriteRenderer fruit;
     [SerializeField] Button button;
+    [SerializeField] Slider progress;
 
+    private float progressAmount;
     private bool canLoad;
+    
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    async void Start()
+    void Start()
     {
+        progress.value = 0f;
         button.gameObject.SetActive(false);
         canLoad = false;
-       LoadGame();
+        StartCoroutine(LoadGame());
     }
 
     // Update is called once per frame
     void Update()
     {
         fruit.transform.Rotate(0, 0, 50 * Time.deltaTime);
+        progressBar();
+    }
+    
+    void progressBar()
+    {
+        float progVal = progress.value;
+
+        if (progressAmount >= 0.9f)
+        {
+            progressAmount = 1f;
+        }
+        if (progVal == 1f)
+        {
+            button.gameObject.SetActive(true);
+        }
+
+        progress.value = Mathf.Lerp(0, progressAmount, progVal + 1f * Time.deltaTime);
     }
 
-    async void LoadGame()
+    IEnumerator LoadGame()
     {
-        SceneManager.LoadScene("MainScene");
+        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync("MainScene");
+        asyncLoad.allowSceneActivation = false;
+        print(asyncLoad.progress);
 
+        while (!asyncLoad.isDone)
+        {
+            //print(asyncLoad.progress);
+            asyncLoad.allowSceneActivation = canLoad;
+            progressAmount = asyncLoad.progress;
+            yield return null;
+        }
     }
 
     public void loadButton()
