@@ -40,7 +40,8 @@ public class Loading : MonoBehaviour
         }
         if (progVal == 1f)
         {
-            button.gameObject.SetActive(true);
+            //button.gameObject.SetActive(true);
+            canLoad = true;
         }
 
         progress.value = Mathf.Lerp(0, progressAmount, progVal + 1f * Time.deltaTime);
