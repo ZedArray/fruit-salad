@@ -8,8 +8,9 @@ public class Slashes : MonoBehaviour
     [SerializeField] public AudioClip warningSound;
     [SerializeField] public AudioSource audioSource;
     [SerializeField] public Collider2D col2d;
-    
+    [SerializeField] private Animator animator;
     public float warningTime = 0.7f;
+    public float cleanUpTime = 0.5f;
     public bool nearMissActive = false;
     public bool nearMissHit = false;
 
@@ -20,6 +21,7 @@ public class Slashes : MonoBehaviour
     {
         audioSource.PlayOneShot(warningSound);
         StartCoroutine(BladeStrike());
+        animator.speed = 1f/warningTime;
         SC = FindFirstObjectByType<scoreCounter>(); 
     }
 
@@ -31,7 +33,9 @@ public class Slashes : MonoBehaviour
     IEnumerator BladeStrike()
     {
         yield return new WaitForSeconds(warningTime);
-
+        animator.SetTrigger("doSlash");
+        animator.speed = 1f/cleanUpTime;
+        
         // Activate near miss
         nearMissActive = true;
 
@@ -50,6 +54,6 @@ public class Slashes : MonoBehaviour
         nearMissActive = false;
 
         SC.TryAddScore();
-        Destroy(gameObject, 0.5f); // clean up
+        Destroy(gameObject, cleanUpTime); // clean up
     }
 }
