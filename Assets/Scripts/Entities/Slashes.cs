@@ -8,7 +8,7 @@ public class Slashes : MonoBehaviour
     [SerializeField] public AudioClip warningSound;
     [SerializeField] public AudioSource audioSource;
     [SerializeField] public Collider2D col2d;
-    [SerializeField] private Animator animator;
+    [SerializeField] public Animator animator;
     public float warningTime = 0.7f;
     public float cleanUpTime = 0.5f;
     public bool nearMissActive = false;

@@ -42,22 +42,32 @@ public class Loading : MonoBehaviour
         {
             //button.gameObject.SetActive(true);
             canLoad = true;
+            TransitionManager.instance.startTransition(3);
         }
 
+        //progress.value = Mathf.Lerp(0, progressAmount, 1f);
         progress.value = Mathf.Lerp(0, progressAmount, progVal + 1f * Time.deltaTime);
+        //progress.value = progressAmount;
     }
 
     IEnumerator LoadGame()
     {
-        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync("MainScene");
-        asyncLoad.allowSceneActivation = false;
-
-        while (!asyncLoad.isDone)
+        while (true)
         {
-            asyncLoad.allowSceneActivation = canLoad;
-            progressAmount = asyncLoad.progress;
-            yield return null;
+            progressAmount += 0.5f;
+            yield return new WaitForSeconds(0.5f);
         }
+        //progressAmount += 1f;
+        //yield return null;
+        //AsyncOperation asyncLoad = SceneManager.LoadSceneAsync("MainScene");
+        //asyncLoad.allowSceneActivation = false;
+
+        //while (!asyncLoad.isDone)
+        //{
+        //    //asyncLoad.allowSceneActivation = canLoad;
+        //    progressAmount = asyncLoad.progress;
+        //    yield return null;
+        //}
     }
 
     public void loadButton()

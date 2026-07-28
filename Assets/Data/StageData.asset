@@ -19,10 +19,10 @@ MonoBehaviour:
   stages:
   - name: BladeStage
     enabledStages: 00000000
-    stageDuration: 60
+    stageDuration: 25
   - name: UtensilStage
     enabledStages: 01000000
-    stageDuration: 60
+    stageDuration: 25
   - name: HotStage
     enabledStages: 02000000
     stageDuration: -1
