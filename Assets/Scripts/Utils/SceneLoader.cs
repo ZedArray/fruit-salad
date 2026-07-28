@@ -11,11 +11,21 @@ public class SceneLoader : MonoBehaviour
 
     public void playButton()
     {
-        SceneManager.LoadScene(1);
+        TransitionManager.instance.startTransition(2);
     }
-    
+
     public void exitButton()
     {
         Application.Quit();
+    }
+
+    public void menuButton()
+    {
+        TransitionManager.instance.startTransition(0);
+    }
+
+    public void shopButton()
+    {
+        TransitionManager.instance.startTransition(1);
     }
 }
