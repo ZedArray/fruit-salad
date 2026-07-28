@@ -3321,7 +3321,7 @@ PrefabInstance:
       objectReference: {fileID: 102004168}
     - target: {fileID: 8449984710656287671, guid: d73ea85408d1f734a851af31db7d13e8, type: 3}
       propertyPath: godMode
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8449984710656287671, guid: d73ea85408d1f734a851af31db7d13e8, type: 3}
       propertyPath: warning
