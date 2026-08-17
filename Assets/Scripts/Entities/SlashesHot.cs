@@ -15,6 +15,7 @@ public class SlashesHot : Slashes
     //public bool nearMissHit = false;
 
     private Color startColor, endColor;
+    private float startSize, endSize;
 
     //scoreCounter SC;
 
@@ -27,6 +28,9 @@ public class SlashesHot : Slashes
         animator.speed = 1f / warningTime;
         startColor = new Color(255, 150, 0);
         endColor = Color.white;
+        startSize = 75f;
+        endSize = 3f;
+        transform.localScale = new Vector2(transform.localScale.x, startSize);
     }
 
     IEnumerator BladeStrike()
@@ -47,9 +51,6 @@ public class SlashesHot : Slashes
         // Enable collider
         col2d.enabled = true;
 
-        yield return new WaitForSeconds(0.5f);
-        spriteRenderer.enabled = true;
-
         // Play slice sound
         if (sliceSound != null)
             audioSource.PlayOneShot(sliceSound);
@@ -57,6 +58,14 @@ public class SlashesHot : Slashes
         // Deactivate near miss
         yield return new WaitForSeconds(0.1f);
         nearMissActive = false;
+        
+        // Change from slash to hot
+        yield return new WaitForSeconds(0.3f);
+        spriteRenderer.enabled = true;
+        transform.localScale = new Vector2(transform.localScale.x, endSize);
+
+        yield return new WaitForSeconds(0.2f);
+        Destroy(animator.gameObject);
 
         float elapsedTime = 0;
         float duration = 3f;

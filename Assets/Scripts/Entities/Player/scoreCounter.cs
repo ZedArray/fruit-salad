@@ -4,11 +4,16 @@ using UnityEngine.UI;
 
 public class scoreCounter : MonoBehaviour
 {
+    [SerializeField] TextMeshProUGUI billScore;
+    [SerializeField] TextMeshProUGUI billCoin;
+    [SerializeField] GameObject billObject;
+
     public int score;
     public TextMeshProUGUI scoreText;
 
     void Start()
     {
+        billObject.SetActive(false);
         score = 0;
     }
 
@@ -26,5 +31,22 @@ public class scoreCounter : MonoBehaviour
     void Update()
     {
         scoreText.text = "Score: " + score.ToString();
+    }
+
+    public void gameOver()
+    {
+        billObject.SetActive(true);
+        billScore.text = score.ToString();
+        billCoin.text = "+" + Fruit.instance.getCoinCaught().ToString();
+    }
+
+    public void restart()
+    {
+        TransitionManager.instance.startTransition(3);
+    }
+
+    public void menu()
+    {
+        TransitionManager.instance.startTransition(0);
     }
 }

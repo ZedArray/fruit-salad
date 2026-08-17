@@ -14,7 +14,7 @@ public class CoinSpawner : MonoBehaviour
 
     IEnumerator spawnCoin()
     {
-        while (true)
+        while (!Fruit.dead)
         {
             yield return new WaitForSeconds(10f);
             float randX = Random.Range(boundaries[1].position.x, boundaries[0].position.x);

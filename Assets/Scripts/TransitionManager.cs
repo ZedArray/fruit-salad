@@ -25,11 +25,13 @@ public class TransitionManager : Singleton<TransitionManager>
 
     public void startTransition(int n)
     {
-        if (n != SceneManager.GetActiveScene().buildIndex)
-        {
-            toTransition = n;
-            startAnim();
-        }
+        //if (n != SceneManager.GetActiveScene().buildIndex)
+        //{
+        //    toTransition = n;
+        //    startAnim();
+        //}
+        toTransition = n;
+        startAnim();
     }
 
     public void startAnim()

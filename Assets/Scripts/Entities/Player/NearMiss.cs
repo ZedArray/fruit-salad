@@ -25,6 +25,8 @@ public class NearMiss : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (Fruit.dead) return;
+
         transform.position = Fruit.instance.transform.position;
     }
 

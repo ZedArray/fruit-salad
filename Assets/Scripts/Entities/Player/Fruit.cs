@@ -211,13 +211,20 @@ public class Fruit : MonoBehaviour
 
     public void animEnd()
     {
+        sc.gameOver();
         Destroy(shadow.gameObject, 0.09f);
         Destroy(gameObject, 0.1f);
+    }
+
+    public int getCoinCaught()
+    {
+        return coinCaught;
     }
 
     private void OnDestroy()
     {
         //TODO: Switch with correct end scene
-        TransitionManager.instance.startTransition(0);
+        //TransitionManager.instance.startTransition(0);
+        return;
     }
 }
