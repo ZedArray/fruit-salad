@@ -2,8 +2,9 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
-public class NameGenerator : Singleton<NameGenerator>
+public class NameGenerator : MonoBehaviour
 {
+    public static NameGenerator instance;
     public int nounCharLength = 92907;
     public int adjectiveCharLength=3075;
     public int lastAdjLength = 4;
@@ -13,7 +14,8 @@ public class NameGenerator : Singleton<NameGenerator>
 
     private void Awake()
     {
-        InitSingleton();
+        if(instance != null) Destroy(this);
+        instance = this;
     }
 
     [ContextMenu("Generate Name")]
@@ -34,7 +36,7 @@ public class NameGenerator : Singleton<NameGenerator>
         nounEnd = nounsTextAsset.text.IndexOf(',', nounStart + 1);
         string adjective = adjectivesTextAsset.text.Substring(adjectiveStart + 1, adjectiveEnd - adjectiveStart - 1);
         string noun = nounsTextAsset.text.Substring(nounStart + 1, nounEnd - nounStart - 1);
-        print($"{TitleCaseString(adjective)}{TitleCaseString(noun)}");
+        Debug.Log($"{TitleCaseString(adjective)}{TitleCaseString(noun)}");
         return $"{TitleCaseString(adjective)}{TitleCaseString(noun)}";
     }
 

@@ -1,0 +1,230 @@
+using System.Collections;
+using TMPro;
+using UnityEngine;
+using UnityEngine.InputSystem; // new input system
+//using UnityEngine.InputSystem.Android;
+using UnityEngine.SceneManagement;
+
+public class Fruit : MonoBehaviour
+{
+    public float moveSpeed = 10f;
+    private Camera cam;
+
+    //0:topright 1:bottomleft
+    [SerializeField]
+    private Transform[] boundaries;
+
+    [SerializeField]
+    private Transform shadow;
+    private Vector3 shadowOffset;
+
+    [SerializeField]
+    private GameObject warning;
+
+    [SerializeField]
+    private Vector2 padding;
+
+    private Vector3 LastPos = Vector2.zero;
+
+    [SerializeField]
+    private float rotationThresholdMagnitude;
+
+    [SerializeField]
+    private float angularSpeedFactor;
+
+    [SerializeField]
+    private TextMeshProUGUI coinCounter;
+
+    [SerializeField]
+    private scoreCounter sc;
+
+    [SerializeField]
+    private Combo combo;
+
+    [SerializeField]
+    private NearMiss nearMiss;
+
+    private Rigidbody2D rb;
+    private Animator anim;
+    private int coinCaught;
+    public static Fruit instance;
+    public static bool dead = false;
+    public static float idle;
+    public static bool hit = false;
+
+    [SerializeField]
+    private bool godMode = false;
+
+    void Start()
+    {
+        instance = this;
+        cam = Camera.main;
+        rb = GetComponent<Rigidbody2D>();
+        anim = GetComponent<Animator>();
+        shadowOffset = shadow.position - this.transform.position;
+        dead = false;
+        idle = 0f;
+        coinCaught = 0;
+#if !UNITY_EDITOR
+        godMode = false;
+#endif
+    }
+
+    void Update()
+    {
+        if (dead)
+        {
+            return;
+        }
+        // get current mouse position from new Input System
+
+        //Vector2 mousePos = Mouse.current.position.ReadValue();
+
+        //Touch touch = Input.GetTouch(0);
+        Vector3 touchPos = transform.position;
+        //print(touchPos);
+        Vector3 worldPos = touchPos;
+
+        SpriteRenderer sr = GetComponent<SpriteRenderer>();
+        if (Input.touchCount > 0)
+        {
+            Touch touch = Input.GetTouch(0);
+            touchPos = touch.position;
+            worldPos = cam.ScreenToWorldPoint(touchPos);
+            //            print(touchPos);
+            sr.size = new Vector2(1.2f, 1.2f);
+        }
+        else
+        {
+            sr.size = new Vector2(1f, 1f);
+        }
+
+        //Vector3 worldPos = cam.ScreenToWorldPoint(touchPos);
+
+        worldPos.z = 0f;
+
+        //var gamepad = AndroidJoystick.current;
+
+        //print(gamepad.stick.ReadValue());
+
+        //transform.position += moveSpeed * Time.deltaTime * new Vector3(gamepad.stick.ReadValue().x, gamepad.stick.ReadValue().y, 0);
+
+        if (Mathf.Abs(Vector3.Distance(LastPos, worldPos)) >= rotationThresholdMagnitude)
+        {
+            rb.AddTorque(
+                (angularSpeedFactor * Vector3.Magnitude(worldPos - LastPos)),
+                ForceMode2D.Impulse
+            );
+        }
+
+        // smoothly move fruit to cursor
+        transform.position = Vector3.Lerp(transform.position, worldPos, moveSpeed * Time.deltaTime);
+        transform.position = new Vector2(
+            Mathf.Clamp(
+                transform.position.x,
+                boundaries[1].position.x + padding.x,
+                boundaries[0].position.x - padding.x
+            ),
+            Mathf.Clamp(
+                transform.position.y,
+                boundaries[1].position.y + padding.y,
+                boundaries[0].position.y - padding.y
+            )
+        );
+
+        anim.SetFloat(
+            "velocity",
+            (
+                (Mathf.Approximately(Vector3.Distance(LastPos, worldPos), 0))
+                    ? 0f
+                    : ((Vector3.Distance(LastPos, worldPos) < 0) ? -1f : 1f)
+            )
+        );
+
+        if ((Mathf.Approximately(Vector3.Distance(LastPos, worldPos), 0)))
+        {
+            idle += Time.deltaTime;
+        }
+        else
+        {
+            idle = 0f;
+        }
+
+        warning.SetActive((idle >= AntiIdleUtensilSpawner.Instance.maxIdleTime));
+        shadow.position = transform.position + shadowOffset;
+        LastPos = worldPos;
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Slash") && !godMode && !dead)
+        {
+            hit = true;
+            if (combo.abilityActive)
+            {
+                combo.resetCombo();
+            }
+            else
+            {
+                kill();
+            }
+        }
+        if (collision.CompareTag("Coin") && !dead)
+        {
+            Destroy(collision.gameObject);
+            coinCaught += 1;
+            coinCounter.text = coinCaught.ToString();
+            sc.TryAddScore();
+        }
+        if (collision.CompareTag("SafeZone"))
+        {
+            godMode = true;
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Slash"))
+        {
+            hit = false;
+        }
+        if (collision.CompareTag("SafeZone"))
+        {
+            godMode = false;
+        }
+    }
+
+    private void dieAnim()
+    {
+        CameraShake.shake(0.3f);
+        anim.SetTrigger("Die");
+    }
+
+    public void kill()
+    {
+        if (!godMode && !dead)
+        {
+            dead = true;
+            dieAnim();
+        }
+    }
+
+    public void animEnd()
+    {
+        sc.gameOver();
+        Destroy(shadow.gameObject, 0.09f);
+        Destroy(gameObject, 0.1f);
+    }
+
+    public int getCoinCaught()
+    {
+        return coinCaught;
+    }
+
+    private void OnDestroy()
+    {
+        //TODO: Switch with correct end scene
+        //TransitionManager.instance.startTransition(0);
+        return;
+    }
+}

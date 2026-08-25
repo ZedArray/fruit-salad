@@ -2,16 +2,24 @@ using Unity.Services.Authentication;
 using UnityEngine;
 using Unity.Services.Core;
 using System.Threading.Tasks;
-using System;
-public class AuthManager : Singleton<AuthManager>
+using UnityEngine.Events;
+
+[DefaultExecutionOrder(-50)]
+public class AuthManager : MonoBehaviour
 {
+    public static AuthManager instance;
     public static bool userAuthenticated = false;
+    public UnityEvent<RequestFailedException> errorEvent;
+    public UnityEvent onLogIn;
+
     private void Awake()
     {
-        InitSingleton();
+        if (instance != null) Destroy(this);
+        instance = this;
     }
-    private void Start()
+    private async void Start()
     {
+        await SignInCachedUserAsync();
         SetupEvents();
     }
     public void SetupEvents()
@@ -32,6 +40,7 @@ public class AuthManager : Singleton<AuthManager>
         try
         {
             await AuthenticationService.Instance.SignInAnonymouslyAsync();
+            if (onLogIn != null) onLogIn.Invoke();
             Debug.Log("Sign in anonymously succeeded!");
             Debug.Log($"PlayerID: {AuthenticationService.Instance.PlayerId}");
         }
@@ -44,7 +53,8 @@ public class AuthManager : Singleton<AuthManager>
             Debug.LogException(ex);
         }
     }
-    public void OnSignIn() {
+    public void OnSignIn()
+    {
         Debug.Log($"PlayerID: {AuthenticationService.Instance.PlayerId}");
         Debug.Log($"Access Token: {AuthenticationService.Instance.AccessToken}");
         userAuthenticated = true;
@@ -54,18 +64,21 @@ public class AuthManager : Singleton<AuthManager>
         Debug.LogError(err);
         userAuthenticated = false;
     }
-    public void OnSignOut() {
+    public void OnSignOut()
+    {
         Debug.Log("Player signed out.");
         userAuthenticated = false;
     }
-    public void OnSessionExpired() {
+    public void OnSessionExpired()
+    {
         Debug.Log("Player session expired.");
         userAuthenticated = false;
     }
 
     [ContextMenu("Test Sign Up")]
-    private void TestSignUp() {
-        SignUp("admin","Admin@123");
+    private void TestSignUp()
+    {
+        SignUp("admin", "Admin@123");
     }
 
     [ContextMenu("Test Sign In")]
@@ -82,9 +95,8 @@ public class AuthManager : Singleton<AuthManager>
     public async void SignUp(string username, string password)
     {
         await SignUpWithUsernamePasswordAsync(username, password);
-        await UpdatePlayerNameAsync(NameGenerator.instance.GenerateName());
     }
-   
+
 
     public async void SignIn(string username, string password)
     {
@@ -118,6 +130,7 @@ public class AuthManager : Singleton<AuthManager>
         catch (RequestFailedException ex)
         {
             Debug.LogException(ex);
+            errorEvent.Invoke(ex);
         }
     }
     async Task SignUpWithUsernamePasswordAsync(string username, string password)
@@ -134,6 +147,7 @@ public class AuthManager : Singleton<AuthManager>
         catch (RequestFailedException ex)
         {
             Debug.LogException(ex);
+            errorEvent.Invoke(ex);
         }
     }
 
@@ -141,7 +155,7 @@ public class AuthManager : Singleton<AuthManager>
     {
         try
         {
-            await AuthenticationService.Instance.SignInWithUsernamePasswordAsync(username, password);
+            await AuthenticationService.Instance.SignInWithUsernamePasswordAsync(username.Trim(), password.Trim());
             Debug.Log("SignIn is successful.");
         }
         catch (AuthenticationException ex)
@@ -151,6 +165,7 @@ public class AuthManager : Singleton<AuthManager>
         catch (RequestFailedException ex)
         {
             Debug.LogException(ex);
+            errorEvent.Invoke(ex);
         }
     }
     async Task UpdatePasswordAsync(string currentPassword, string newPassword)

@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 6915285801507604058}
   - component: {fileID: 3123367042680216763}
   - component: {fileID: 8449984710656287671}
+  - component: {fileID: -7901827935863327643}
   - component: {fileID: 7275575818934610312}
   - component: {fileID: 3896822193577835917}
   - component: {fileID: 3278990301419447519}
@@ -56,6 +57,8 @@ SpriteRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -77,6 +80,7 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 612180869
   m_SortingLayer: 2
   m_SortingOrder: 1
@@ -112,6 +116,25 @@ MonoBehaviour:
   padding: {x: 0.45, y: 0.45}
   rotationThresholdMagnitude: 1
   angularSpeedFactor: 0.2
+  coinCounter: {fileID: 0}
+  sc: {fileID: 0}
+  godMode: 0
+--- !u!114 &-7901827935863327643
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6640567245137575974}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26504536b9e383440b6a839698d7e969, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  nearMissObj: {fileID: 0}
+  comboSlider: {fileID: 0}
+  comboFill: {fileID: 0}
+  comboCounter: {fileID: 0}
 --- !u!58 &7275575818934610312
 CircleCollider2D:
   m_ObjectHideFlags: 0
