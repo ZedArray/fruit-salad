@@ -1,109 +1,85 @@
 using System;
 using UnityEngine;
+using CompositeCurves;
 using Random = UnityEngine.Random;
 
 public class StageUtensilSpawner : StageComponent<StageUtensilSpawner>
 
 {
-
-    public UtensilPatternData patterns;
-    private float? spawnRad;
+    [SerializeField] private CompositeCurveDefinition BalancingCurve;
+    [SerializeField] private GameObject[] Utensils;
+    public float spawnInterval = 4f;
+    private float timer;
+    private Camera mainCamera;
+    private float startTime, currentTime;
 
     new void Awake()
     {
         base.Awake();
-    }
-    
-
-    void UpdateSpawnRad()
-    {
-        Vector3 corner = Camera.main.ViewportToWorldPoint(
-            new Vector3(1, 1, Camera.main.nearClipPlane)
-        );
-
-        spawnRad = 3f + Vector2.Distance(
-            Camera.main.transform.position,
-            corner
-        );
+        startTime = Time.timeSinceLevelLoad;
     }
 
-
-
-    [ContextMenu("Test Spawn Utensil")]
-    public void SpawnUtensilTest()
+    private void Start()
     {
-        SpawnPatternByIndex(0, 3);
+        timer = 0f;
     }
 
-    public override void Enable()
+    // Update is called once per frame
+    void Update()
     {
-        base.Enable();
-        print("Works Lmao = " + doStage);
-        if (spawnRad == null)
+
+        if (Fruit.dead || !doStage)
         {
-            UpdateSpawnRad();
-        }
-        UtensilSpawnerWorker();
-
-    }
-
-    private float GetPatternTime()
-    {
-        //TODO: Populate this
-        return 3f;
-        
-    }
-
-    private float GetDelayBetweenPatterns()
-    {
-        //TODO: Populate this
-        return 4f;
-    }
-
-    private void UtensilSpawnerWorker()
-    {
-        if (doStage == false) return;
-        
-        float patternTime = GetPatternTime(); 
-        SpawnPatternByIndex(Random.Range(0,patterns.patterns.Length), patternTime);
-        GlobalTimer.instance.AddTimer(new TimerRequest(patternTime+GetDelayBetweenPatterns(), UtensilSpawnerWorker));
-    }
-
-    public void SpawnPatternByIndex(int index, float totalPatternTime)
-    {
-        UtensilPattern pattern = patterns.patterns[index];
-        foreach (var wave in pattern.utensilWaves)
-        {
-            GlobalTimer.instance.AddTimer(new TimerRequest(totalPatternTime*wave.relativeTimeToStart, () => {SpawnWave(wave);}));
+            return;
         }
 
+        timer += Time.deltaTime;
 
+        if (timer > spawnInterval)
+        {
+            SpawnObject();
+            timer = 0;
+        }
     }
 
-    void SpawnWave(UtensilWave wave)
+    void SpawnObject()
     {
-        Vector2Pol point = new Vector2Pol(spawnRad.GetValueOrDefault(0f), (wave.angleRange.x+wave.angleOffset)*Mathf.Deg2Rad);
-        float delta = (wave.angleRange.y - wave.angleRange.x)/(wave.utensilAmount);
-        for(int i = 0; i < wave.utensilAmount; i++)
+        if (mainCamera == null)
+            mainCamera = Camera.main;
+
+        int side = Random.Range(0, 4);
+
+        Vector3 spawnPos = Vector3.zero;
+        float buffer = 3f;
+
+        if (side == 0)
         {
-            int toSpawn = i % wave.utensilTypes.Length;
-            if (wave.randomize)
-            {
-                toSpawn = Random.Range(0, wave.utensilTypes.Length);
-            }
-
-            Arrow2D arr = Instantiate(wave.utensilTypes[toSpawn], (Vector2)point, Quaternion.identity);
-            arr.speed = wave.utensilSpeed;
-            if (wave.targetCenterNotPlayer)
-            {
-                arr.UpdateTarget(Vector3.zero);
-            }
-            else
-            {
-                arr.UpdateTarget(Fruit.instance.transform);
-            }
-
-            point.RotateByDegrees(delta);
+            spawnPos = mainCamera.ViewportToWorldPoint(new Vector3(0, Random.value, 0));
+            spawnPos.x -= buffer;
         }
+        else if (side == 1)
+        {
+            spawnPos = mainCamera.ViewportToWorldPoint(new Vector3(1, Random.value, 0));
+            spawnPos.x += buffer;
+        }
+        else if (side == 2)
+        {
+            spawnPos = mainCamera.ViewportToWorldPoint(new Vector3(Random.value, 1, 0));
+            spawnPos.y += buffer;
+        }
+        else if (side == 3)
+        {
+            spawnPos = mainCamera.ViewportToWorldPoint(new Vector3(Random.value, 0, 0));
+            spawnPos.y -= buffer;
+        }
+
+        spawnPos.z = 0;
+
+        GameObject objectToSpawn = Utensils[Random.Range(0, Utensils.Length)];
+        Instantiate(objectToSpawn, spawnPos, Quaternion.identity).GetComponent<Arrow2D>().UpdateTarget(Fruit.instance.transform);
+
+        currentTime = Time.timeSinceLevelLoad;
+        spawnInterval = BalancingCurve.Evaluate(currentTime - (startTime/2));
+        print(spawnInterval);
     }
 }

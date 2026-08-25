@@ -14,7 +14,7 @@ public class StageHotSpawner : StageComponent<StageHotSpawner>
     private AudioSource audioSource;
     private float maxX, maxY, minX, minY;
     private float timer;
-    public float startTime, currentTime;
+    private float startTime, currentTime;
 
     new void Awake()
     {
@@ -71,7 +71,7 @@ public class StageHotSpawner : StageComponent<StageHotSpawner>
         GameObject blade = Instantiate(bladePrefab, pos, rot);
 
         currentTime = Time.timeSinceLevelLoad;
-        spawnInterval = balancingCurve.Evaluate(currentTime - startTime);
+        spawnInterval = balancingCurve.Evaluate(currentTime - (startTime/2));
         //spawnInterval = balancingCurve.Evaluate(Time.timeSinceLevelLoad);
         Debug.LogWarning(spawnInterval);
     }

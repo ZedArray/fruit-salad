@@ -849,8 +849,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b4ddc803b0863222497112f1e49c62ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::StageUtensilSpawner
-  doStage: 1
-  patterns: {fileID: 11400000, guid: cadc6470a4e8b42f28711b0eee2f47fe, type: 2}
+  doStage: 0
+  BalancingCurve: {fileID: 11400000, guid: 38a337a37b4e3311c9176defa0a04803, type: 2}
+  Utensils:
+  - {fileID: 1591636369042647673, guid: d2882eef6b373854a924bb79a52c60eb, type: 3}
+  - {fileID: 2298950404986346798, guid: a2e1b4710a786cb4fafa028e4d50812c, type: 3}
+  - {fileID: 3177524010428910900, guid: 0431bea2c4e72f84aaea56655e7c9120, type: 3}
+  spawnInterval: 2
 --- !u!114 &230334974
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -868,8 +873,6 @@ MonoBehaviour:
   bladePrefab: {fileID: 1602854415128882156, guid: a6cef5e43fdc8e34c8e07473556861ef, type: 3}
   spawnInterval: 1.5
   sliceSound: {fileID: 8300000, guid: 966e7abb73181104c95e3b78f5dca53c, type: 3}
-  startTime: 0
-  currentTime: 0
   balancingCurve: {fileID: 11400000, guid: 38a337a37b4e3311c9176defa0a04803, type: 2}
 --- !u!1 &236475997
 GameObject:

@@ -15,7 +15,7 @@ public class SlashesHot : Slashes
     //public bool nearMissHit = false;
 
     private Color startColor, endColor;
-    private float startSize, endSize;
+    [SerializeField] GameObject hotzone;
 
     //scoreCounter SC;
 
@@ -28,16 +28,16 @@ public class SlashesHot : Slashes
         animator.speed = 1f / warningTime;
         startColor = new Color(255, 150, 0);
         endColor = Color.white;
-        startSize = 75f;
-        endSize = 3f;
-        transform.localScale = new Vector2(transform.localScale.x, startSize);
+        //startSize = 75f;
+        //endSize = 3f;
+        //transform.localScale = new Vector2(transform.localScale.x, startSize);
     }
 
     IEnumerator BladeStrike()
     {
         yield return new WaitForSeconds(warningTime);
 
-        spriteRenderer.enabled = false;
+        //spriteRenderer.enabled = false;
 
         animator.SetTrigger("doSlash");
         animator.speed = 1f / cleanUpTime;
@@ -61,11 +61,14 @@ public class SlashesHot : Slashes
         
         // Change from slash to hot
         yield return new WaitForSeconds(0.3f);
-        spriteRenderer.enabled = true;
-        transform.localScale = new Vector2(transform.localScale.x, endSize);
+        //spriteRenderer.enabled = true;
+        //transform.localScale = new Vector2(transform.localScale.x, endSize);
+        col2d.enabled = false;
+        hotzone.SetActive(true);
 
         yield return new WaitForSeconds(0.2f);
-        Destroy(animator.gameObject);
+        spriteRenderer.enabled = false;
+        //Destroy(animator.gameObject);
 
         float elapsedTime = 0;
         float duration = 3f;
