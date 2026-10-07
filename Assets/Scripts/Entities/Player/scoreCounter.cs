@@ -38,6 +38,14 @@ public class scoreCounter : MonoBehaviour
         billObject.SetActive(true);
         billScore.text = score.ToString();
         billCoin.text = "+" + Fruit.instance.getCoinCaught().ToString();
+
+        if (score > SaveData.HighScore)
+        {
+            SaveData.HighScore = score;
+            SaveData.HighScorePending = true;
+            // guests and offline players keep it pending until the next login
+            if (LeaderboardManager.instance != null) LeaderboardManager.instance.PushHighScore();
+        }
     }
 
     public void restart()

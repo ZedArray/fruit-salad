@@ -5,22 +5,36 @@ using System.Threading.Tasks;
 using UnityEngine.Events;
 
 [DefaultExecutionOrder(-50)]
-public class AuthManager : MonoBehaviour
+public class AuthManager : Singleton<AuthManager>
 {
-    public static AuthManager instance;
     public static bool userAuthenticated = false;
+    // userAuthenticated includes anonymous guests; only accounts may submit scores
+    public static bool hasAccount = false;
+    public static string username;
     public UnityEvent<RequestFailedException> errorEvent;
     public UnityEvent onLogIn;
+    public UnityEvent onLogOut;
 
-    private void Awake()
-    {
-        if (instance != null) Destroy(this);
-        instance = this;
-    }
     private async void Start()
     {
-        await SignInCachedUserAsync();
+        // AuthenticationService.Instance throws until services finish initializing (ServicesManager starts it)
+        await UnityServices.InitializeAsync();
         SetupEvents();
+        await SignInCachedUserAsync();
+        // guests get an anonymous session so they can still read the leaderboard
+        if (!AuthenticationService.Instance.IsSignedIn) await SignInGuestAsync();
+    }
+
+    async Task SignInGuestAsync()
+    {
+        try
+        {
+            await AuthenticationService.Instance.SignInAnonymouslyAsync();
+        }
+        catch (RequestFailedException ex)
+        {
+            Debug.LogException(ex);
+        }
     }
     public void SetupEvents()
     {
@@ -40,7 +54,10 @@ public class AuthManager : MonoBehaviour
         try
         {
             await AuthenticationService.Instance.SignInAnonymouslyAsync();
-            if (onLogIn != null) onLogIn.Invoke();
+            PlayerInfo info = await AuthenticationService.Instance.GetPlayerInfoAsync();
+            username = info.Username;
+            hasAccount = !string.IsNullOrEmpty(username);
+            if (hasAccount) onLogIn?.Invoke();
             Debug.Log("Sign in anonymously succeeded!");
             Debug.Log($"PlayerID: {AuthenticationService.Instance.PlayerId}");
         }
@@ -68,11 +85,17 @@ public class AuthManager : MonoBehaviour
     {
         Debug.Log("Player signed out.");
         userAuthenticated = false;
+        hasAccount = false;
+        username = null;
+        onLogOut?.Invoke();
     }
     public void OnSessionExpired()
     {
         Debug.Log("Player session expired.");
         userAuthenticated = false;
+        hasAccount = false;
+        username = null;
+        onLogOut?.Invoke();
     }
 
     [ContextMenu("Test Sign Up")]
@@ -103,9 +126,11 @@ public class AuthManager : MonoBehaviour
         await SignInWithUsernamePasswordAsync(username, password);
     }
 
-    public void SignOut()
+    public async void SignOut()
     {
         AuthenticationService.Instance.SignOut(true);
+        // back to a fresh guest session so the leaderboard stays readable
+        await SignInGuestAsync();
     }
 
     public async void UpdatePassword(string currentPassword, string newPassword)
@@ -123,10 +148,6 @@ public class AuthManager : MonoBehaviour
             await AuthenticationService.Instance.UpdatePlayerNameAsync(newName);
             Debug.Log("Player name updated.");
         }
-        catch (AuthenticationException ex)
-        {
-            Debug.LogException(ex);
-        }
         catch (RequestFailedException ex)
         {
             Debug.LogException(ex);
@@ -137,12 +158,15 @@ public class AuthManager : MonoBehaviour
     {
         try
         {
-            await AuthenticationService.Instance.SignUpWithUsernamePasswordAsync(username, password);
+            // a guest links credentials to their anonymous player; UGS rejects sign-up while signed in
+            if (AuthenticationService.Instance.IsSignedIn)
+                await AuthenticationService.Instance.AddUsernamePasswordAsync(username, password);
+            else
+                await AuthenticationService.Instance.SignUpWithUsernamePasswordAsync(username, password);
+            AuthManager.username = username;
+            hasAccount = true;
+            onLogIn?.Invoke();
             Debug.Log("SignUp is successful.");
-        }
-        catch (AuthenticationException ex)
-        {
-            Debug.LogException(ex);
         }
         catch (RequestFailedException ex)
         {
@@ -155,17 +179,19 @@ public class AuthManager : MonoBehaviour
     {
         try
         {
+            // UGS rejects sign-in while the guest session is active
+            if (AuthenticationService.Instance.IsSignedIn) AuthenticationService.Instance.SignOut(true);
             await AuthenticationService.Instance.SignInWithUsernamePasswordAsync(username.Trim(), password.Trim());
+            AuthManager.username = username.Trim();
+            hasAccount = true;
+            onLogIn?.Invoke();
             Debug.Log("SignIn is successful.");
-        }
-        catch (AuthenticationException ex)
-        {
-            Debug.LogException(ex);
         }
         catch (RequestFailedException ex)
         {
             Debug.LogException(ex);
             errorEvent.Invoke(ex);
+            if (!AuthenticationService.Instance.IsSignedIn) await SignInGuestAsync();
         }
     }
     async Task UpdatePasswordAsync(string currentPassword, string newPassword)

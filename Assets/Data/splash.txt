@@ -1,8 +1,7 @@
 Test1
 Test2
 Test3
-Test4
-Test5
-Test6
-Test7
-One of our programmers can't eat any other fruits other than bananas
+Collecting coins increases your score.
+This is not a bullet hell. Maybe.
+This game was released years late because one of the developers is extremely inconsistent.
+One of our programmers can't eat any other fruits other than bananas.

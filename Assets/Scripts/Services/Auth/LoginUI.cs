@@ -11,7 +11,11 @@ using System.Text.RegularExpressions;
 public class LoginUI : MonoBehaviour
 {
     public Button loginButton, signUpButton;
-    public GameObject loginPage, signUpPage;
+    public GameObject openButton; // global sign-in button, hidden once signed in
+    public GameObject signOutButton; // shown only while signed in
+    public GameObject authPanel; // book holding the login/sign-up pages
+    public GameObject loginFirstPopup;
+    public TMP_Text playerInfoText; // best score + account, bottom right
     public TMP_InputField userName_login, password_login;
     public TMP_InputField userName, password, playerName;
     public TMP_Text errorText_Login, errorText_SignUp;
@@ -20,18 +24,34 @@ public class LoginUI : MonoBehaviour
 
     void Start()
     {
-        if (loginButton != null) loginButton.onClick.AddListener(LoginWrapper);
-        if (signUpButton != null) signUpButton.onClick.AddListener(SignUpWrapper);
         if (AuthManager.instance != null)
         {
-            AuthManager.instance.errorEvent.AddListener((x) => { HandleErrors(x); });
+            AuthManager.instance.errorEvent.AddListener(HandleErrors);
             AuthManager.instance.onLogIn.AddListener(LoggedIn);
+            AuthManager.instance.onLogOut.AddListener(LoggedOut);
         }
 
-        if (AuthenticationService.Instance.IsSignedIn)
+        if (AuthManager.hasAccount)
         {
             LoggedIn();
         }
+        RefreshPlayerInfo();
+    }
+
+    void OnDestroy()
+    {
+        if (AuthManager.instance != null)
+        {
+            AuthManager.instance.errorEvent.RemoveListener(HandleErrors);
+            AuthManager.instance.onLogIn.RemoveListener(LoggedIn);
+            AuthManager.instance.onLogOut.RemoveListener(LoggedOut);
+        }
+    }
+
+    void OnEnable()
+    {
+        if (loginButton != null) loginButton.onClick.AddListener(LoginWrapper);
+        if (signUpButton != null) signUpButton.onClick.AddListener(SignUpWrapper);
     }
 
     void OnDisable()
@@ -63,7 +83,7 @@ public class LoginUI : MonoBehaviour
             AuthManager.instance.SignUp(userName.text, password.text);
             yield return new WaitUntil(() =>
             {
-                return AuthManager.userAuthenticated || recievedError;
+                return AuthManager.hasAccount || recievedError;
             });
 
             if (recievedError)
@@ -74,10 +94,9 @@ public class LoginUI : MonoBehaviour
             }
             else
             {
-                AuthManager.instance.UpdatePlayerName(playerName.text);
+                // empty = keep the name UGS auto-generates
+                if (!string.IsNullOrWhiteSpace(playerName.text)) AuthManager.instance.UpdatePlayerName(playerName.text.Trim());
                 Debug.Log("User account connected");
-                loginPage.SetActive(false);
-                signUpPage.SetActive(false);
             }
         }
     }
@@ -85,8 +104,37 @@ public class LoginUI : MonoBehaviour
     void LoggedIn()
     {
         Debug.Log("User logged in");
-        loginPage.SetActive(false);
-        signUpPage.SetActive(false);
+        if (authPanel != null) authPanel.SetActive(false);
+        if (openButton != null) openButton.SetActive(false);
+        if (signOutButton != null) signOutButton.SetActive(true);
+        RefreshPlayerInfo();
+    }
+
+    void LoggedOut()
+    {
+        if (openButton != null) openButton.SetActive(true);
+        if (signOutButton != null) signOutButton.SetActive(false);
+        RefreshPlayerInfo();
+    }
+
+    // button target: the scene's own AuthManager copy is destroyed as a duplicate on menu reloads
+    public void SignOut()
+    {
+        AuthManager.instance.SignOut();
+    }
+
+    void RefreshPlayerInfo()
+    {
+        if (playerInfoText == null) return;
+        string who = AuthManager.hasAccount
+            ? $"{AuthManager.username}\nID: {AuthenticationService.Instance.PlayerId}"
+            : "Guest";
+        playerInfoText.text = $"Best: {SaveData.HighScore}\n{who}";
+    }
+
+    public void ShowLoginFirst()
+    {
+        loginFirstPopup.SetActive(true);
     }
 
     IEnumerator Login()
@@ -95,7 +143,7 @@ public class LoginUI : MonoBehaviour
 
         yield return new WaitUntil(() =>
         {
-            return AuthManager.userAuthenticated || recievedError;
+            return AuthManager.hasAccount || recievedError;
         });
 
         if (recievedError)
@@ -107,8 +155,6 @@ public class LoginUI : MonoBehaviour
         else
         {
             Debug.Log("User account connected");
-            loginPage.SetActive(false);
-            signUpPage.SetActive(false);
         }
     }
 

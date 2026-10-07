@@ -35,3 +35,27 @@ MonoBehaviour:
       relativeTimeToStart: 0.9
       utensilTypes:
       - {fileID: 1611848877731728734, guid: a2e1b4710a786cb4fafa028e4d50812c, type: 3}
+  - name: Pattern1
+    utensilWaves:
+    - name: t1
+      utensilAmount: 10
+      utensilSpeed: 3
+      randomize: 0
+      targetCenterNotPlayer: 1
+      angleRange: {x: 0, y: 360}
+      angleOffset: 15
+      relativeTimeToStart: 0.3
+      utensilTypes:
+      - {fileID: 2457844155225949717, guid: d2882eef6b373854a924bb79a52c60eb, type: 3}
+      - {fileID: 1611848877731728734, guid: a2e1b4710a786cb4fafa028e4d50812c, type: 3}
+    - name: t2
+      utensilAmount: 15
+      utensilSpeed: 3
+      randomize: 0
+      targetCenterNotPlayer: 1
+      angleRange: {x: 0, y: 360}
+      angleOffset: 30
+      relativeTimeToStart: 0.6
+      utensilTypes:
+      - {fileID: 1611848877731728734, guid: a2e1b4710a786cb4fafa028e4d50812c, type: 3}
+      - {fileID: 4951051579811802103, guid: 0431bea2c4e72f84aaea56655e7c9120, type: 3}

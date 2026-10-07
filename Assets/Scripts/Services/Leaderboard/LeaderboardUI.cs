@@ -18,6 +18,18 @@ public class LeaderboardUI : MonoBehaviour
     private Coroutine refreshRoutine;
     private bool isLoading = false;
 
+    // hook leaderboard open buttons here instead of SetActive
+    public void Open()
+    {
+        if (AuthManager.hasAccount)
+        {
+            gameObject.SetActive(true);
+            return;
+        }
+        LoginUI login = FindAnyObjectByType<LoginUI>();
+        if (login != null) login.ShowLoginFirst();
+    }
+
     void OnEnable()
     {
         refreshRoutine = StartCoroutine(AutoRefresh());
@@ -44,7 +56,7 @@ public class LeaderboardUI : MonoBehaviour
 
         while (isActiveAndEnabled)
         {
-            LoadPlayers();
+            if (AuthManager.userAuthenticated) LoadPlayers();
             yield return new WaitForSeconds(3f);
         }
     }
@@ -52,13 +64,14 @@ public class LeaderboardUI : MonoBehaviour
 
     public async void LoadPlayers()
     {
-        // if (isLoading) return;
-        // isLoading = true;
+        if (isLoading) return;
+        isLoading = true;
         LeaderboardScoresPage temp = await LeaderboardManager.instance.LoadPlayers(currentPage);
 
         if (temp == null || temp.Results == null)
         {
             Debug.LogError("Failed to load leaderboard");
+            isLoading = false;
             return;
         }
 
