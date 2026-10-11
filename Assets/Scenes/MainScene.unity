@@ -2624,7 +2624,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1250529558
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2909,7 +2909,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skins:
+  - {fileID: 22100000, guid: c420f3bd2d0651844ae2f48d8bf81f41, type: 2}
   - {fileID: 22100000, guid: b06d9efcd93f4b64f86996fd08776f38, type: 2}
+  - {fileID: 22100000, guid: ec65a28256c044c418a0a398121bb855, type: 2}
   anim: {fileID: 3063442853584806683}
 --- !u!1 &1374263137
 GameObject:
@@ -4121,7 +4123,7 @@ PrefabInstance:
       objectReference: {fileID: 102004168}
     - target: {fileID: 8449984710656287671, guid: d73ea85408d1f734a851af31db7d13e8, type: 3}
       propertyPath: godMode
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8449984710656287671, guid: d73ea85408d1f734a851af31db7d13e8, type: 3}
       propertyPath: warning
