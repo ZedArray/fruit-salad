@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 public class TransitionManager : Singleton<TransitionManager>
 {
     private int toTransition = 0;
+    private bool transitioning; // ignores repeat calls (e.g. Loading calls every frame) until the scene loads
 
     [SerializeField]
     private Animator apple;
@@ -20,6 +21,7 @@ public class TransitionManager : Singleton<TransitionManager>
 
     void OnLoadScene(Scene scene, LoadSceneMode mode)
     {
+        transitioning = false;
         anim();
     }
 
@@ -30,7 +32,10 @@ public class TransitionManager : Singleton<TransitionManager>
         //    toTransition = n;
         //    startAnim();
         //}
+        if (transitioning) return;
+        transitioning = true;
         toTransition = n;
+        if (SFXManager.instance != null) SFXManager.instance.PlaySound("Transition");
         startAnim();
     }
 

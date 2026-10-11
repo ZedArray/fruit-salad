@@ -4144,6 +4144,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 236475999}
     - target: {fileID: 8449984710656287671, guid: d73ea85408d1f734a851af31db7d13e8, type: 3}
+      propertyPath: wooshDistance
+      value: 4.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8449984710656287671, guid: d73ea85408d1f734a851af31db7d13e8, type: 3}
       propertyPath: 'boundaries.Array.data[0]'
       value: 
       objectReference: {fileID: 106087120}

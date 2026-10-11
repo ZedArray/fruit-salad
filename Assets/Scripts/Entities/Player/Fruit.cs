@@ -32,6 +32,10 @@ public class Fruit : MonoBehaviour
     [SerializeField]
     private float angularSpeedFactor;
 
+    // world units between fruit and a new tap before it plays the woosh
+    [SerializeField]
+    private float wooshDistance = 3f;
+
     [SerializeField]
     private TextMeshProUGUI coinCounter;
 
@@ -91,6 +95,8 @@ public class Fruit : MonoBehaviour
             Touch touch = Input.GetTouch(0);
             touchPos = touch.position;
             worldPos = cam.ScreenToWorldPoint(touchPos);
+            if (touch.phase == UnityEngine.TouchPhase.Began && Vector2.Distance(transform.position, worldPos) >= wooshDistance && SFXManager.instance != null)
+                SFXManager.instance.PlaySound("Woosh");
             //            print(touchPos);
             sr.size = new Vector2(1.2f, 1.2f);
         }
@@ -150,7 +156,10 @@ public class Fruit : MonoBehaviour
             idle = 0f;
         }
 
-        warning.SetActive((idle >= AntiIdleUtensilSpawner.Instance.maxIdleTime));
+        bool idleWarning = idle >= AntiIdleUtensilSpawner.Instance.maxIdleTime;
+        // only on the frame the warning appears, not every idle frame
+        if (idleWarning && !warning.activeSelf && SFXManager.instance != null) SFXManager.instance.PlaySound("IdleWarning");
+        warning.SetActive(idleWarning);
         shadow.position = transform.position + shadowOffset;
         LastPos = worldPos;
     }
@@ -172,6 +181,7 @@ public class Fruit : MonoBehaviour
         if (collision.CompareTag("Coin") && !dead)
         {
             Destroy(collision.gameObject);
+            if (SFXManager.instance != null) SFXManager.instance.PlaySound("CoinPickup");
             coinCaught += 1;
             coinCounter.text = coinCaught.ToString();
             sc.TryAddScore();

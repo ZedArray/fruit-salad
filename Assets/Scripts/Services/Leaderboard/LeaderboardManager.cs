@@ -30,12 +30,12 @@ public class LeaderboardManager : Singleton<LeaderboardManager>
     public async void PushHighScore()
     {
         // guests can play, but only signed-in accounts submit
-        if (!SaveData.HighScorePending || !servicesReady || !AuthManager.hasAccount) return;
+        if (!SaveManager.LoadHighScorePending() || !servicesReady || !AuthManager.hasAccount) return;
 
         try
         {
-            await LeaderboardsService.Instance.AddPlayerScoreAsync(leaderboardId, SaveData.HighScore);
-            SaveData.HighScorePending = false;
+            await LeaderboardsService.Instance.AddPlayerScoreAsync(leaderboardId, SaveManager.LoadHighScore());
+            SaveManager.SaveHighScorePending(false);
         }
         catch (Exception e)
         {

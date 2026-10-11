@@ -5,9 +5,6 @@ using UnityEngine;
 public class SlashesHot : Slashes
 {
     //[SerializeField] SpriteRenderer spriteRenderer;
-    //[SerializeField] AudioClip sliceSound;
-    //[SerializeField] AudioClip warningSound;
-    //[SerializeField] AudioSource audioSource;
     //[SerializeField] Collider2D col2d;
 
     //public float warningTime = 0.7f;
@@ -22,7 +19,7 @@ public class SlashesHot : Slashes
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        audioSource.PlayOneShot(warningSound);
+        if (SFXManager.instance != null) SFXManager.instance.PlaySound("BladeWarning");
         StartCoroutine(BladeStrike());
         SC = FindFirstObjectByType<scoreCounter>();
         animator.speed = 1f / warningTime;
@@ -52,8 +49,7 @@ public class SlashesHot : Slashes
         col2d.enabled = true;
 
         // Play slice sound
-        if (sliceSound != null)
-            audioSource.PlayOneShot(sliceSound);
+        if (SFXManager.instance != null) SFXManager.instance.PlaySound("HotKnife");
 
         // Deactivate near miss
         yield return new WaitForSeconds(0.1f);

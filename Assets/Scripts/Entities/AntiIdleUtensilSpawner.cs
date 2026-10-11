@@ -74,5 +74,6 @@ public class AntiIdleUtensilSpawner : MonoBehaviour
 
         GameObject objectToSpawn = Utensils[Random.Range(0, Utensils.Length)];
         Instantiate(objectToSpawn, spawnPos, Quaternion.identity).GetComponent<Arrow2D>().UpdateTarget(Fruit.instance.transform);
+        if (SFXManager.instance != null) SFXManager.instance.PlaySound("UtensilThrow");
     }
 }

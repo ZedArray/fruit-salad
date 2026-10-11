@@ -4,9 +4,6 @@ using UnityEngine;
 public class Slashes : MonoBehaviour
 {
     [SerializeField] public SpriteRenderer spriteRenderer;
-    [SerializeField] public AudioClip sliceSound;
-    [SerializeField] public AudioClip warningSound;
-    [SerializeField] public AudioSource audioSource;
     [SerializeField] public Collider2D col2d;
     [SerializeField] public Animator animator;
     public float warningTime = 0.7f;
@@ -19,7 +16,7 @@ public class Slashes : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        audioSource.PlayOneShot(warningSound);
+        if (SFXManager.instance != null) SFXManager.instance.PlaySound("BladeWarning");
         StartCoroutine(BladeStrike());
         animator.speed = 1f/warningTime;
         SC = FindFirstObjectByType<scoreCounter>(); 
@@ -46,8 +43,7 @@ public class Slashes : MonoBehaviour
         col2d.enabled = true;
 
         // Play slice sound
-        if (sliceSound != null)
-            audioSource.PlayOneShot(sliceSound);
+        if (SFXManager.instance != null) SFXManager.instance.PlaySound("KnifeSlash");
 
         // Deactivate near miss
         yield return new WaitForSeconds(0.1f);

@@ -1,0 +1,71 @@
+{
+  "categories": [
+    {
+      "title": "Game Design",
+      "people": [
+        {
+          "name": "Nicolas Beeler",
+          "alias": "DarkMoves",
+          "links": [
+            "https://nicolasbeeler.tumblr.com",
+            "https://darkmoves.itch.io"
+          ],
+          "additional": []
+        },
+        {
+          "name": "Peter Vano",
+          "alias": "Alpha",
+          "links": [
+            "https://alpha97.itch.io/",
+            "https://tinder.com/@peter97",
+            "https://www.linkedin.com/in/peter-vano-7994a5217/"
+          ],
+          "additional": []
+        }
+      ]
+    },
+    {
+      "title": "Music",
+      "people": [
+        {
+          "name": "Andrew Alford",
+          "alias": "ThatOneGuyFromLuckyCharms",
+          "links": ["https://andrewalfordmusic.com"],
+          "additional": ["Shout out to Frosted Flakes"]
+        }
+      ]
+    },
+    {
+      "title": "Programming",
+      "people": [
+        {
+          "name": "",
+          "alias": "ZedArray",
+          "links": ["https://zedarray.itch.io/"],
+          "additional": []
+        },
+        {
+          "name": "Rayan Madan",
+          "alias": "graphicmismatch",
+          "links": [
+            "https://graphicmismatch.itch.io",
+            "https://graphicmismatch.github.io",
+            "https://www.linkedin.com/in/rayan-madan"
+          ],
+          "additional": []
+        }
+      ]
+    },
+    {
+      "title": "Art",
+      "people": [
+        {
+          "name": "",
+          "alias": "DianaTap",
+          "links": ["https://dianatap.itch.io/"],
+          "additional": []
+        }
+      ]
+    }
+  ]
+}

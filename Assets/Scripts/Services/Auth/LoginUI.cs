@@ -129,7 +129,7 @@ public class LoginUI : MonoBehaviour
         string who = AuthManager.hasAccount
             ? $"{AuthManager.username}\nID: {AuthenticationService.Instance.PlayerId}"
             : "Guest";
-        playerInfoText.text = $"Best: {SaveData.HighScore}\n{who}";
+        playerInfoText.text = $"Best: {SaveManager.LoadHighScore()}\n{who}";
     }
 
     public void ShowLoginFirst()
