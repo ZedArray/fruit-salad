@@ -9,7 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 600575f8b63630de48939ac7af3ae791, type: 3}
+  m_Script: {fileID: 11500000, guid: 24f39f3c21c18dd819e38d102fe8b15f, type: 3}
   m_Name: CompositeCurve
   m_EditorClassIdentifier: Assembly-CSharp::CompositeCurves.CompositeCurveDefinition
   curveId: c4e52f5a3a7e4a82b6728e3d8e505910
@@ -54,8 +54,7 @@ MonoBehaviour:
     endInclusion: 0
     mode: 1
     preset: 1
-    customExpression: (max_shared - pow(t1_shared,a_shared)) + log(t1_shared, c_shared)
-      - log(x,c_shared)
+    customExpression: slow1(t1_shared) + log(t1_shared, c_shared) - log(x,c_shared)
     variables: []
   - segmentId: 4fa12ec7197844a7a442bc5e85c122ad
     displayName: slow2
@@ -66,8 +65,7 @@ MonoBehaviour:
     endInclusion: 0
     mode: 1
     preset: 1
-    customExpression: ((max_shared - pow(t1_shared,a_shared)) + log(t1_shared, c_shared)
-      - log(t2_shared,c_shared))+pow(t2_shared,b_shared)-pow(x,b_shared)
+    customExpression: fast1(t2_shared) + pow(t2_shared,b_shared) - pow(x,b_shared)
     variables: []
   - segmentId: 1ee36ad054c9468b8c369c7084d93877
     displayName: fast2
@@ -78,7 +76,5 @@ MonoBehaviour:
     endInclusion: 0
     mode: 1
     preset: 1
-    customExpression: max(min_shared, (((max_shared - pow(t1_shared,a_shared)) +
-      log(t1_shared, c_shared) - log(t2_shared,c_shared))+pow(t2_shared,b_shared)-pow(t3_shared,b_shared))
-      + pow(t3_shared, d_shared)-pow(x,d_shared))
+    customExpression: max(min_shared, slow2(t3_shared) + pow(t3_shared, d_shared) - pow(x,d_shared))
     variables: []

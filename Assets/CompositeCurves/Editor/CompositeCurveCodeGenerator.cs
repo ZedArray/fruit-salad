@@ -23,6 +23,20 @@ namespace CompositeCurves.Editor
             "try", "typeof", "uint", "ulong", "unchecked", "unsafe", "ushort", "using", "virtual",
             "void", "volatile", "while"
         };
+        private static readonly string[,] FunctionAliases =
+        {
+            { "sin", "Mathf.Sin" }, { "cos", "Mathf.Cos" }, { "tan", "Mathf.Tan" },
+            { "asin", "Mathf.Asin" }, { "acos", "Mathf.Acos" }, { "atan", "Mathf.Atan" },
+            { "atan2", "Mathf.Atan2" }, { "sqrt", "Mathf.Sqrt" }, { "pow", "Mathf.Pow" },
+            { "abs", "Mathf.Abs" }, { "min", "Mathf.Min" }, { "max", "Mathf.Max" },
+            { "clamp", "Mathf.Clamp" }, { "clamp01", "Mathf.Clamp01" }, { "random", "CompositeCurveRandom.NextFloat" },
+            { "exp", "Mathf.Exp" }, { "log", "Mathf.Log" }, { "log10", "Mathf.Log10" },
+            { "floor", "Mathf.Floor" }, { "ceil", "Mathf.Ceil" }, { "round", "Mathf.Round" },
+            { "sign", "Mathf.Sign" }
+        };
+        private static readonly string[] ConstantAliases = { "pi", "deg2rad", "rad2deg" };
+        private static readonly Regex IdentifierPattern = new Regex(@"^[A-Za-z_][A-Za-z0-9_]*$");
+        private static readonly Regex FunctionCallPattern = new Regex(@"(?<![\w.])([A-Za-z_][A-Za-z0-9_]*)\s*\(");
         private static bool s_isGenerating;
 
         [MenuItem("Tools/Composite Curves/Regenerate Generated Curves")]
@@ -71,6 +85,9 @@ namespace CompositeCurves.Editor
                     continue;
                 }
 
+                var segmentsByName = BuildSegmentNameMap(segments);
+                var curveResults = new List<CustomSegmentInfo>();
+
                 for (var segmentIndex = 0; segmentIndex < segments.Count; segmentIndex++)
                 {
                     var segment = segments[segmentIndex];
@@ -89,20 +106,27 @@ namespace CompositeCurves.Editor
                         normalizedExpression = "0f";
                     }
 
+                    var references = new List<string>();
+                    normalizedExpression = ResolveSegmentReferences(normalizedExpression, curve, segment, segmentsByName, references);
+
                     var variableBindings = BuildVariableBindings(curve, segment, ref normalizedExpression);
 
-                    results.Add(new CustomSegmentInfo
+                    curveResults.Add(new CustomSegmentInfo
                     {
                         CurveId = curve.CurveId,
                         CurveName = curve.name,
                         SegmentId = segment.SegmentId,
                         SegmentName = segment.DisplayName,
                         Expression = normalizedExpression,
-                        Variables = variableBindings
+                        Variables = variableBindings,
+                        References = references
                     });
 
                     dirty |= beforeSegmentId != segment.SegmentId;
                 }
+
+                RejectReferenceCycles(curveResults);
+                results.AddRange(curveResults);
 
                 curve.RebuildRuntimeCache();
 
@@ -113,6 +137,143 @@ namespace CompositeCurves.Editor
             }
 
             return results;
+        }
+
+        // Returns null when the name can be referenced from custom expressions, otherwise the reason it can't.
+        internal static string GetSegmentNameProblem(string name)
+        {
+            if (string.IsNullOrEmpty(name) || !IdentifierPattern.IsMatch(name))
+            {
+                return "it must start with a letter or underscore and contain only letters, digits, and underscores";
+            }
+
+            for (var i = 0; i < FunctionAliases.GetLength(0); i++)
+            {
+                if (string.Equals(name, FunctionAliases[i, 0], StringComparison.OrdinalIgnoreCase))
+                {
+                    return $"'{FunctionAliases[i, 0]}' is a built-in function";
+                }
+            }
+
+            for (var i = 0; i < ConstantAliases.Length; i++)
+            {
+                if (string.Equals(name, ConstantAliases[i], StringComparison.OrdinalIgnoreCase))
+                {
+                    return $"'{ConstantAliases[i]}' is a built-in constant";
+                }
+            }
+
+            return null;
+        }
+
+        // Maps referenceable names to segments. Duplicated names map to null so references to them can be rejected.
+        private static Dictionary<string, CompositeCurveSegment> BuildSegmentNameMap(List<CompositeCurveSegment> segments)
+        {
+            var map = new Dictionary<string, CompositeCurveSegment>(StringComparer.Ordinal);
+            for (var i = 0; i < segments.Count; i++)
+            {
+                var segment = segments[i];
+                if (segment == null || GetSegmentNameProblem(segment.DisplayName) != null)
+                {
+                    continue;
+                }
+
+                map[segment.DisplayName] = map.ContainsKey(segment.DisplayName) ? null : segment;
+            }
+
+            return map;
+        }
+
+        // Rewrites Name(arg) calls to other segments into registry calls by segment id.
+        private static string ResolveSegmentReferences(
+            string expression,
+            CompositeCurveDefinition curve,
+            CompositeCurveSegment segment,
+            Dictionary<string, CompositeCurveSegment> segmentsByName,
+            List<string> references)
+        {
+            string error = null;
+            var resolved = FunctionCallPattern.Replace(expression, match =>
+            {
+                var name = match.Groups[1].Value;
+                // Built-in aliases are already rewritten to dotted calls, so any bare call left must be a segment.
+                if (!segmentsByName.TryGetValue(name, out var target))
+                {
+                    error = error ?? $"calls unknown function or segment '{name}'";
+                }
+                else if (target == null)
+                {
+                    error = error ?? $"references '{name}', but more than one segment has that name";
+                }
+                else if (!target.Enabled)
+                {
+                    error = error ?? $"references disabled segment '{name}'";
+                }
+                else if (ReferenceEquals(target, segment))
+                {
+                    error = error ?? "references itself";
+                }
+                else
+                {
+                    references.Add(target.SegmentId);
+                    return $"CompositeCurveGeneratedRegistry.EvaluateSegment(\"{EscapeForString(target.SegmentId)}\", ";
+                }
+
+                return match.Value;
+            });
+
+            if (error == null)
+            {
+                return resolved;
+            }
+
+            Debug.LogError($"CompositeCurves: custom segment '{segment.DisplayName}' on '{curve.name}' {error}. It will evaluate to 0.");
+            references.Clear();
+            return "0f";
+        }
+
+        private static void RejectReferenceCycles(List<CustomSegmentInfo> curveSegments)
+        {
+            var byId = new Dictionary<string, CustomSegmentInfo>(StringComparer.Ordinal);
+            for (var i = 0; i < curveSegments.Count; i++)
+            {
+                byId[curveSegments[i].SegmentId] = curveSegments[i];
+            }
+
+            // ponytail: one DFS per segment (O(n^2)), fine for hand-authored curves.
+            var inCycle = new List<CustomSegmentInfo>();
+            for (var i = 0; i < curveSegments.Count; i++)
+            {
+                if (CanReach(curveSegments[i], curveSegments[i].SegmentId, byId, new HashSet<string>(StringComparer.Ordinal)))
+                {
+                    inCycle.Add(curveSegments[i]);
+                }
+            }
+
+            for (var i = 0; i < inCycle.Count; i++)
+            {
+                Debug.LogError($"CompositeCurves: custom segment '{inCycle[i].SegmentName}' on '{inCycle[i].CurveName}' is part of a segment reference cycle. It will evaluate to 0.");
+                inCycle[i].Expression = "0f";
+            }
+        }
+
+        private static bool CanReach(CustomSegmentInfo from, string targetId, Dictionary<string, CustomSegmentInfo> byId, HashSet<string> visited)
+        {
+            for (var i = 0; i < from.References.Count; i++)
+            {
+                var next = from.References[i];
+                if (string.Equals(next, targetId, StringComparison.Ordinal))
+                {
+                    return true;
+                }
+
+                if (visited.Add(next) && byId.TryGetValue(next, out var nextInfo) && CanReach(nextInfo, targetId, byId, visited))
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         private static List<VariableBinding> BuildVariableBindings(
@@ -314,28 +475,11 @@ namespace CompositeCurves.Editor
                 return "0f";
             }
 
-            normalized = ReplaceFunctionCall(normalized, "sin", "Mathf.Sin");
-            normalized = ReplaceFunctionCall(normalized, "cos", "Mathf.Cos");
-            normalized = ReplaceFunctionCall(normalized, "tan", "Mathf.Tan");
-            normalized = ReplaceFunctionCall(normalized, "asin", "Mathf.Asin");
-            normalized = ReplaceFunctionCall(normalized, "acos", "Mathf.Acos");
-            normalized = ReplaceFunctionCall(normalized, "atan", "Mathf.Atan");
-            normalized = ReplaceFunctionCall(normalized, "atan2", "Mathf.Atan2");
-            normalized = ReplaceFunctionCall(normalized, "sqrt", "Mathf.Sqrt");
-            normalized = ReplaceFunctionCall(normalized, "pow", "Mathf.Pow");
-            normalized = ReplaceFunctionCall(normalized, "abs", "Mathf.Abs");
-            normalized = ReplaceFunctionCall(normalized, "min", "Mathf.Min");
-            normalized = ReplaceFunctionCall(normalized, "max", "Mathf.Max");
-            normalized = ReplaceFunctionCall(normalized, "clamp", "Mathf.Clamp");
-            normalized = ReplaceFunctionCall(normalized, "clamp01", "Mathf.Clamp01");
-            normalized = ReplaceFunctionCall(normalized, "random", "CompositeCurveRandom.NextFloat");
-            normalized = ReplaceFunctionCall(normalized, "exp", "Mathf.Exp");
-            normalized = ReplaceFunctionCall(normalized, "log", "Mathf.Log");
-            normalized = ReplaceFunctionCall(normalized, "log10", "Mathf.Log10");
-            normalized = ReplaceFunctionCall(normalized, "floor", "Mathf.Floor");
-            normalized = ReplaceFunctionCall(normalized, "ceil", "Mathf.Ceil");
-            normalized = ReplaceFunctionCall(normalized, "round", "Mathf.Round");
-            normalized = ReplaceFunctionCall(normalized, "sign", "Mathf.Sign");
+            for (var i = 0; i < FunctionAliases.GetLength(0); i++)
+            {
+                normalized = ReplaceFunctionCall(normalized, FunctionAliases[i, 0], FunctionAliases[i, 1]);
+            }
+
             normalized = Regex.Replace(normalized, @"(?<![\w.])pi(?![\w.])", "Mathf.PI", RegexOptions.IgnoreCase);
             normalized = Regex.Replace(normalized, @"(?<![\w.])deg2rad(?![\w.])", "Mathf.Deg2Rad", RegexOptions.IgnoreCase);
             normalized = Regex.Replace(normalized, @"(?<![\w.])rad2deg(?![\w.])", "Mathf.Rad2Deg", RegexOptions.IgnoreCase);
@@ -435,6 +579,7 @@ namespace CompositeCurves.Editor
             public string SegmentName;
             public string Expression;
             public List<VariableBinding> Variables;
+            public List<string> References;
         }
 
         private sealed class VariableBinding

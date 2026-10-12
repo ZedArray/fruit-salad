@@ -15,6 +15,11 @@ namespace CompositeCurves
 
         private static GeneratedCurveEvaluator s_evaluator = FallbackEvaluator;
 
+        [ThreadStatic] private static CompositeCurveDefinition s_currentCurve;
+        [ThreadStatic] private static int s_depth;
+
+        internal static CompositeCurveDefinition CurrentCurve { get => s_currentCurve; set => s_currentCurve = value; }
+
         public static void Register(GeneratedCurveEvaluator evaluator)
         {
             s_evaluator = evaluator ?? FallbackEvaluator;
@@ -39,8 +44,27 @@ namespace CompositeCurves
             int fixedSeed,
             out float value)
         {
-            InitializeRandom(variables, useFixedSeed, fixedSeed);
-            return s_evaluator(curveId, segmentId, x, variables, out value);
+            // Nested segment references share the outer segment's random stream.
+            if (s_depth == 0)
+            {
+                InitializeRandom(variables, useFixedSeed, fixedSeed);
+            }
+
+            s_depth++;
+            try
+            {
+                return s_evaluator(curveId, segmentId, x, variables, out value);
+            }
+            finally
+            {
+                s_depth--;
+            }
+        }
+
+        // Called from generated code when a custom expression references another segment of the same curve.
+        public static float EvaluateSegment(string segmentId, float x)
+        {
+            return s_currentCurve != null ? s_currentCurve.EvaluateSegmentById(segmentId, x) : 0f;
         }
 
         private static void InitializeRandom(CompositeCurveVariable[] variables, bool useFixedSeed, int fixedSeed)

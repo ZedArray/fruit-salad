@@ -208,6 +208,20 @@ namespace CompositeCurves
 
         private bool TryGetPreviewValue(float x, out float value)
         {
+            var previousCurve = CompositeCurveGeneratedRegistry.CurrentCurve;
+            CompositeCurveGeneratedRegistry.CurrentCurve = this;
+            try
+            {
+                return TryGetPreviewValueCore(x, out value);
+            }
+            finally
+            {
+                CompositeCurveGeneratedRegistry.CurrentCurve = previousCurve;
+            }
+        }
+
+        private bool TryGetPreviewValueCore(float x, out float value)
+        {
             if (sortedSegments == null || sortedSegments.Length == 0)
             {
                 value = 0f;
@@ -227,6 +241,41 @@ namespace CompositeCurves
         }
 
         public bool TryGetValue(float x, bool useFixedSeed, int fixedSeed, out float value)
+        {
+            var previousCurve = CompositeCurveGeneratedRegistry.CurrentCurve;
+            CompositeCurveGeneratedRegistry.CurrentCurve = this;
+            try
+            {
+                return TryGetValueCore(x, useFixedSeed, fixedSeed, out value);
+            }
+            finally
+            {
+                CompositeCurveGeneratedRegistry.CurrentCurve = previousCurve;
+            }
+        }
+
+        // Evaluates a segment's formula at x regardless of its domain, using its own merged variables.
+        internal float EvaluateSegmentById(string segmentId, float x)
+        {
+            if (segments == null)
+            {
+                return 0f;
+            }
+
+            // ponytail: linear scan per reference, add an id lookup if curves grow large.
+            for (var i = 0; i < segments.Count; i++)
+            {
+                var segment = segments[i];
+                if (segment != null && string.Equals(segment.SegmentId, segmentId, StringComparison.Ordinal))
+                {
+                    return segment.EvaluateWithVariables(curveId, x, GetMergedVariables(segment.Variables));
+                }
+            }
+
+            return 0f;
+        }
+
+        private bool TryGetValueCore(float x, bool useFixedSeed, int fixedSeed, out float value)
         {
             if (sortedSegments == null || sortedSegments.Length == 0)
             {

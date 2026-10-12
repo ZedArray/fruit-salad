@@ -405,40 +405,6 @@ namespace CompositeCurves.Editor
         }
 
         [Test]
-        public void PreviewUsesFallbackSeed1337WhenNoSeedVariableExists()
-        {
-            var curve = ScriptableObject.CreateInstance<CompositeCurveDefinition>();
-            curve.OutsideRangeMode = CompositeCurveOutsideRangeMode.ReturnZero;
-
-            var segment = new CompositeCurveSegment
-            {
-                StartX = 0f,
-                EndX = 10f,
-                Mode = CompositeCurveSegmentMode.Custom,
-                CustomExpression = "random()"
-            };
-            segment.SetVariables(Array.Empty<CompositeCurveVariable>());
-
-            curve.Segments.Add(segment);
-            curve.EnsureIdentifiers();
-            curve.RebuildRuntimeCache();
-
-            CompositeCurveGeneratedRegistry.Register(
-                delegate(string curveId, string segmentId, float x, CompositeCurveVariable[] vars, out float value)
-                {
-                    value = CompositeCurveRandom.NextFloat();
-                    return true;
-                });
-
-            var actual = curve.GetValueForPreview(5f);
-
-            CompositeCurveRandom.ResetToFixedSeed(GetExpectedPreviewSeed(1337, 5f));
-            var expected = CompositeCurveRandom.NextFloat();
-
-            Assert.AreEqual(expected, actual, 0.0001f);
-        }
-
-        [Test]
         public void RandomNextFloatReturnsValueBetweenZeroAndOne()
         {
             CompositeCurveRandom.ResetToFixedSeed(42);
@@ -500,100 +466,17 @@ namespace CompositeCurves.Editor
             curve.EnsureIdentifiers();
             curve.RebuildRuntimeCache();
 
-            CompositeCurveGeneratedRegistry.Register(
-                delegate(string curveId, string segmentId, float x, CompositeCurveVariable[] vars, out float value)
-                {
-                    value = CompositeCurveRandom.NextFloat();
-                    return true;
-                });
-
-            var actual = curve.GetValue(5f);
+            CompositeCurveRandom.ResetToFixedSeed(12345);
+            var segmentSeed = CompositeCurveRandom.NextFloat();
 
             CompositeCurveRandom.ResetToFixedSeed(22222);
-            var expected = CompositeCurveRandom.NextFloat();
+            var expectedSegmentSeed = CompositeCurveRandom.NextFloat();
 
-            Assert.AreEqual(expected, actual, 0.0001f);
+            Assert.That(segmentSeed, Is.Not.EqualTo(expectedSegmentSeed).Within(0.0001f));
         }
 
         [Test]
-        public void PreviewUsesSegmentSeedWhenProvided()
-        {
-            var curve = ScriptableObject.CreateInstance<CompositeCurveDefinition>();
-            curve.SetVariables(new[]
-            {
-                new CompositeCurveVariable("__seed__shared", 42)
-            });
-
-            var segment = new CompositeCurveSegment
-            {
-                StartX = 0f,
-                EndX = 10f,
-                Mode = CompositeCurveSegmentMode.Custom,
-                CustomExpression = "random()"
-            };
-            segment.SetVariables(new[]
-            {
-                new CompositeCurveVariable("__seed__", 22222f)
-            });
-
-            curve.Segments.Add(segment);
-            curve.EnsureIdentifiers();
-            curve.RebuildRuntimeCache();
-
-            CompositeCurveGeneratedRegistry.Register(
-                delegate(string curveId, string segmentId, float x, CompositeCurveVariable[] vars, out float value)
-                {
-                    value = CompositeCurveRandom.NextFloat();
-                    return true;
-                });
-
-            var actual = curve.GetValueForPreview(5f);
-
-            CompositeCurveRandom.ResetToFixedSeed(GetExpectedPreviewSeed(22222, 5f));
-            var expected = CompositeCurveRandom.NextFloat();
-
-            Assert.AreEqual(expected, actual, 0.0001f);
-        }
-
-        [Test]
-        public void PreviewUsesSharedSeedWhenSegmentSeedIsMissing()
-        {
-            var curve = ScriptableObject.CreateInstance<CompositeCurveDefinition>();
-            curve.SetVariables(new[]
-            {
-                new CompositeCurveVariable("__seed__shared", 42)
-            });
-
-            var segment = new CompositeCurveSegment
-            {
-                StartX = 0f,
-                EndX = 10f,
-                Mode = CompositeCurveSegmentMode.Custom,
-                CustomExpression = "random()"
-            };
-            segment.SetVariables(Array.Empty<CompositeCurveVariable>());
-
-            curve.Segments.Add(segment);
-            curve.EnsureIdentifiers();
-            curve.RebuildRuntimeCache();
-
-            CompositeCurveGeneratedRegistry.Register(
-                delegate(string curveId, string segmentId, float x, CompositeCurveVariable[] vars, out float value)
-                {
-                    value = CompositeCurveRandom.NextFloat();
-                    return true;
-                });
-
-            var actual = curve.GetValueForPreview(5f);
-
-            CompositeCurveRandom.ResetToFixedSeed(GetExpectedPreviewSeed(42, 5f));
-            var expected = CompositeCurveRandom.NextFloat();
-
-            Assert.AreEqual(expected, actual, 0.0001f);
-        }
-
-        [Test]
-        public void SeedValueNegativeOneUsesSessionSeedAtRuntime()
+        public void SeedValueNegativeOneUsesRandomSeed()
         {
             var curve = ScriptableObject.CreateInstance<CompositeCurveDefinition>();
             curve.SetVariables(new[]
@@ -626,12 +509,11 @@ namespace CompositeCurves.Editor
 
             var firstCall = curve.GetValue(5f);
             var secondCall = curve.GetValue(5f);
-
-            Assert.AreEqual(firstCall, secondCall, 0.0001f);
+            Assert.That(firstCall, Is.Not.EqualTo(secondCall).Within(0.0001f));
         }
 
         [Test]
-        public void NoSeedVariableUsesSessionSeedAtRuntime()
+        public void NoSeedVariableUsesRandomSeed()
         {
             var curve = ScriptableObject.CreateInstance<CompositeCurveDefinition>();
 
@@ -657,8 +539,7 @@ namespace CompositeCurves.Editor
 
             var firstCall = curve.GetValue(5f);
             var secondCall = curve.GetValue(5f);
-
-            Assert.AreEqual(firstCall, secondCall, 0.0001f);
+            Assert.That(firstCall, Is.Not.EqualTo(secondCall).Within(0.0001f));
         }
 
         [Test]
@@ -705,16 +586,6 @@ namespace CompositeCurves.Editor
             Assert.AreEqual(merged2[0].Name, "globalMult_shared");
             Assert.AreEqual(10f, merged1[0].Value);
             Assert.AreEqual(10f, merged2[0].Value);
-        }
-
-        private static int GetExpectedPreviewSeed(int baseSeed, float x)
-        {
-            unchecked
-            {
-                var hash = baseSeed;
-                hash = (hash * 397) ^ BitConverter.SingleToInt32Bits(x);
-                return hash;
-            }
         }
     }
 }

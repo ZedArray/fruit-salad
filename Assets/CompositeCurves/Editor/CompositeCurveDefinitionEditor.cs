@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
@@ -256,7 +257,7 @@ namespace CompositeCurves.Editor
             {
                 EditorGUILayout.LabelField("Custom Expression", EditorStyles.miniBoldLabel);
                 customExpression = EditorGUILayout.TextArea(segment.CustomExpression, GUILayout.MinHeight(44f));
-                EditorGUILayout.HelpBox("Use x plus any variables you define below. Common aliases like sin(), cos(), pow(), and pi are translated to Mathf.* in generated code.", MessageType.None);
+                EditorGUILayout.HelpBox("Use x plus any variables you define below. Common aliases like sin(), cos(), pow(), and pi are translated to Mathf.* in generated code. Call another segment of this curve by name, e.g. Ramp(x * 2).", MessageType.None);
             }
 
             if (EditorGUI.EndChangeCheck())
@@ -296,6 +297,7 @@ namespace CompositeCurves.Editor
                 {
                     Undo.RegisterCompleteObjectUndo(curve, "Duplicate Composite Curve Segment");
                     var clone = segment.Clone();
+                    clone.DisplayName = MakeUniqueSegmentName(curve, segment.DisplayName);
                     clone.EnsureIdentifier(CreateId);
                     curve.Segments.Insert(index + 1, clone);
                     MarkCurveChanged(curve, segment.Mode == CompositeCurveSegmentMode.Custom);
@@ -415,12 +417,23 @@ namespace CompositeCurves.Editor
                 return;
             }
 
+            var seenNames = new HashSet<string>(StringComparer.Ordinal);
             for (var i = 0; i < segments.Count; i++)
             {
                 var segment = segments[i];
                 if (segment == null)
                 {
                     continue;
+                }
+
+                var nameProblem = CompositeCurveCodeGenerator.GetSegmentNameProblem(segment.DisplayName);
+                if (nameProblem != null)
+                {
+                    EditorGUILayout.HelpBox($"Segment name '{segment.DisplayName}' can't be referenced from custom expressions: {nameProblem}.", MessageType.Warning);
+                }
+                else if (!seenNames.Add(segment.DisplayName))
+                {
+                    EditorGUILayout.HelpBox($"More than one segment is named '{segment.DisplayName}'. Rename them so custom expressions can reference them.", MessageType.Warning);
                 }
 
                 if (segment.EndX < segment.StartX)
@@ -875,17 +888,29 @@ namespace CompositeCurves.Editor
             if (custom)
             {
                 segment.Mode = CompositeCurveSegmentMode.Custom;
-                segment.DisplayName = "Custom Segment";
+                segment.DisplayName = MakeUniqueSegmentName(curve, "CustomSegment");
                 segment.CustomExpression = "x";
                 segment.SetVariables(Array.Empty<CompositeCurveVariable>());
             }
             else
             {
+                segment.DisplayName = MakeUniqueSegmentName(curve, segment.DisplayName);
                 segment.ResetVariablesToDefaults();
             }
 
             segment.EnsureIdentifier(CreateId);
             return segment;
+        }
+
+        private static string MakeUniqueSegmentName(CompositeCurveDefinition curve, string baseName)
+        {
+            var name = baseName;
+            for (var suffix = 2; curve.Segments.Exists(s => s != null && s.DisplayName == name); suffix++)
+            {
+                name = baseName + suffix;
+            }
+
+            return name;
         }
 
         private static float GetCreationStartX(CompositeCurveDefinition curve)

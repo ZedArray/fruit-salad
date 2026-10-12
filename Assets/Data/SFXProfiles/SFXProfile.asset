@@ -66,5 +66,5 @@ MonoBehaviour:
   - name: BladeWarning
     clips:
       AudioClips:
-      - {fileID: 8300000, guid: ea23200d44652d7418ae7685d8501754, type: 3}
+      - {fileID: 8300000, guid: cdcb3aedd0baffae584e55da9d936848, type: 3}
       Category: 0

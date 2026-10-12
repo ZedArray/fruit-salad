@@ -132,6 +132,21 @@ Common aliases are translated to `Mathf` calls in generated code, including:
 - `rad2deg`
 - `random`
 
+### Referencing other segments
+
+A custom expression can call any other segment in the same curve by its name. The segment can be a preset or a custom segment:
+
+```csharp
+Ramp(x) + 1
+Ramp(x * 2) * Wobble(x)
+```
+
+- The referenced segment evaluates its own formula, using its own variables plus the curve's shared variables, at the argument you pass. Its domain is ignored, so `Ramp(5)` works even if `Ramp` only covers `0..1`.
+- Names must be valid identifiers (letters, digits and `_`, and not starting with a digit). They must also be unique within the curve and must not match a built-in alias such as `sin` or `pi` (case-insensitive). The inspector warns about names that can't be referenced.
+- References are resolved to segment IDs when code is generated. Reordering segments is safe. If you rename a referenced segment, update the expressions and regenerate.
+- When you regenerate, references to an unknown name, a disabled segment, a duplicated name, the segment itself, or a cycle (`A` calls `B`, which calls `A`) log an error, and the affected segment evaluates to `0`.
+- A referenced segment that uses `random()` draws from the calling segment's random stream. Its own `__seed__` is ignored when it is called from another segment.
+
 ### Important rule
 
 Custom expressions are not interpreted at runtime.
@@ -260,6 +275,17 @@ The preview shows:
 - the detected data range
 
 For custom expressions that use `random()`, preview values are deterministic for each sampled `x`. Panning changes which `x` values are visible, but the same world-space `x` keeps the same preview result.
+
+## Comparing Two Curves
+
+Open `Tools/Composite Curves/Compare Curves` to check whether two curve assets produce the same values.
+
+- Pick `Curve A` and `Curve B`. The X range fits to both curves' enabled segments. Edit `Min X` and `Max X` to narrow it, and use `Fit` to reset.
+- Both curves are drawn on one graph: A in blue, B in orange.
+- The window reports `Same` if every sampled point differs by no more than `Tolerance`. Otherwise it reports `Different`, gives the largest difference and where it happens, and marks that x with a red line.
+- Sampling covers `Samples` evenly spaced points plus every segment boundary in the range, so steps and inclusive/exclusive boundary differences are caught. Differences narrower than the sample spacing between boundaries can still be missed, so increase `Samples` if you need a tighter check.
+- Curves are evaluated the same way as the preview, so curves that use `random()` compare deterministically. Two curves only match if their seeds match.
+- Custom segments use the generated code, so regenerate before comparing.
 
 ## Outside Range Behavior
 
