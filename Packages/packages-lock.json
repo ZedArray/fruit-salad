@@ -9,6 +9,13 @@
       },
       "hash": "46bf30ea95250b6814d273203e91bfd113465b48"
     },
+    "com.graphicmismatch.layoutmanager": {
+      "version": "https://github.com/graphicmismatch/UnityLayoutManager.git",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "e0ec127a25b489c4e829855015a574cec10e757f"
+    },
     "com.unity.2d.animation": {
       "version": "13.0.2",
       "depth": 0,
