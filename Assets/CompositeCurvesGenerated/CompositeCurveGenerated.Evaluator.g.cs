@@ -30,14 +30,16 @@ namespace CompositeCurves
                     var b_shared = variables != null && variables.Length > 3 ? variables[3].Value : 0.380000025f;
                     var c_shared = variables != null && variables.Length > 4 ? variables[4].Value : 13f;
                     var t1_shared = variables != null && variables.Length > 5 ? variables[5].Value : 7.30000067f;
-                    var t2_shared = variables != null && variables.Length > 6 ? variables[6].Value : 24f;
+                    var t2_shared = variables != null && variables.Length > 6 ? variables[6].Value : 20f;
                     var t3_shared = variables != null && variables.Length > 7 ? variables[7].Value : 40f;
-                    var d_shared = variables != null && variables.Length > 8 ? variables[8].Value : 0.200000033f;
+                    var d_shared = variables != null && variables.Length > 8 ? variables[8].Value : 0.210000038f;
                     switch (segmentId)
                     {
                         case "3f7a1540228241798abccceef4c494d8":
                         {
-                            value = max_shared - Mathf.Pow(x,a_shared);
+                            var maxValue = variables != null && variables.Length > 9 ? variables[9].Value : 4.1f;
+                            var steepness = variables != null && variables.Length > 10 ? variables[10].Value : 0.2f;
+                            value = maxValue - Mathf.Pow(x,steepness);
                             return true;
                         }
                         case "3278a0051fc14dad90ed391ec3969ae7":
@@ -60,7 +62,7 @@ namespace CompositeCurves
                     }
                     break;
                 }
-                case "fc5fb634391d4c53b93dfdeae52d9cb4":
+                case "e6a2c40d45ee4f2fbd48e4b52a2f2552":
                 {
                     var max_shared = variables != null && variables.Length > 0 ? variables[0].Value : 4f;
                     var min_shared = variables != null && variables.Length > 1 ? variables[1].Value : 0.4f;
@@ -68,29 +70,31 @@ namespace CompositeCurves
                     var b_shared = variables != null && variables.Length > 3 ? variables[3].Value : 0.380000025f;
                     var c_shared = variables != null && variables.Length > 4 ? variables[4].Value : 13f;
                     var t1_shared = variables != null && variables.Length > 5 ? variables[5].Value : 7.30000067f;
-                    var t2_shared = variables != null && variables.Length > 6 ? variables[6].Value : 24f;
+                    var t2_shared = variables != null && variables.Length > 6 ? variables[6].Value : 20f;
                     var t3_shared = variables != null && variables.Length > 7 ? variables[7].Value : 40f;
                     var d_shared = variables != null && variables.Length > 8 ? variables[8].Value : 0.200000033f;
                     switch (segmentId)
                     {
-                        case "8664e0e0312c41f0891cff84a1175d7e":
+                        case "3f7a1540228241798abccceef4c494d8":
                         {
-                            value = max_shared - Mathf.Pow(x,a_shared);
+                            var maxValue = variables != null && variables.Length > 9 ? variables[9].Value : 4f;
+                            var steepness = variables != null && variables.Length > 10 ? variables[10].Value : 0.1f;
+                            value = maxValue - Mathf.Pow(x,steepness);
                             return true;
                         }
-                        case "a2360303a98e44269c22500a066866ce":
+                        case "3278a0051fc14dad90ed391ec3969ae7":
                         {
-                            value = (max_shared - Mathf.Pow(t1_shared,a_shared)) + Mathf.Log(t1_shared, c_shared) - Mathf.Log(x,c_shared);
+                            value = CompositeCurveGeneratedRegistry.EvaluateSegment("3f7a1540228241798abccceef4c494d8", t1_shared) + Mathf.Log(t1_shared, c_shared) - Mathf.Log(x,c_shared);
                             return true;
                         }
-                        case "73d7445493fe4e1a825c59c73c40f100":
+                        case "4fa12ec7197844a7a442bc5e85c122ad":
                         {
-                            value = ((max_shared - Mathf.Pow(t1_shared,a_shared)) + Mathf.Log(t1_shared, c_shared) - Mathf.Log(t2_shared,c_shared))+Mathf.Pow(t2_shared,b_shared)-Mathf.Pow(x,b_shared);
+                            value = CompositeCurveGeneratedRegistry.EvaluateSegment("3278a0051fc14dad90ed391ec3969ae7", t2_shared) + Mathf.Pow(t2_shared,b_shared) - Mathf.Pow(x,b_shared);
                             return true;
                         }
-                        case "2a7c641d6af94a72b96324a3a952dacc":
+                        case "1ee36ad054c9468b8c369c7084d93877":
                         {
-                            value = Mathf.Max(min_shared, (((max_shared - Mathf.Pow(t1_shared,a_shared)) + Mathf.Log(t1_shared, c_shared) - Mathf.Log(t2_shared,c_shared))+Mathf.Pow(t2_shared,b_shared)-Mathf.Pow(t3_shared,b_shared)) + Mathf.Pow(t3_shared, d_shared)-Mathf.Pow(x,d_shared));
+                            value = Mathf.Max(min_shared, CompositeCurveGeneratedRegistry.EvaluateSegment("4fa12ec7197844a7a442bc5e85c122ad", t3_shared) + Mathf.Pow(t3_shared, d_shared) - Mathf.Pow(x,d_shared));
                             return true;
                         }
                         default:

@@ -1,7 +1,8 @@
 {
   "dependencies": {
-    "com.graphicmismatch.layoutmanager": "https://github.com/graphicmismatch/UnityLayoutManager.git",
     "com.annulusgames.enhanced-on-screen-stick": "https://github.com/AnnulusGames/EnhancedOnScreenStick.git?path=Assets/EnhancedOnScreenStick",
+    "com.graphicmismatch.compositecurves": "https://github.com/graphicmismatch/CompositeCurves.git",
+    "com.graphicmismatch.layoutmanager": "https://github.com/graphicmismatch/UnityLayoutManager.git",
     "com.unity.2d.animation": "13.0.2",
     "com.unity.2d.aseprite": "3.0.1",
     "com.unity.2d.psdimporter": "12.0.1",

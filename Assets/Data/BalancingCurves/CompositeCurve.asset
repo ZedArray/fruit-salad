@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24f39f3c21c18dd819e38d102fe8b15f, type: 3}
   m_Name: CompositeCurve
   m_EditorClassIdentifier: Assembly-CSharp::CompositeCurves.CompositeCurveDefinition
-  curveId: c4e52f5a3a7e4a82b6728e3d8e505910
+  curveId: e6a2c40d45ee4f2fbd48e4b52a2f2552
   outsideRangeMode: 2
   variables:
   - Name: max_shared
@@ -28,7 +28,7 @@ MonoBehaviour:
   - Name: t1_shared
     Value: 7.3000007
   - Name: t2_shared
-    Value: 24
+    Value: 20
   - Name: t3_shared
     Value: 40
   - Name: d_shared
@@ -43,8 +43,12 @@ MonoBehaviour:
     endInclusion: 0
     mode: 1
     preset: 1
-    customExpression: max_shared - pow(x,a_shared)
-    variables: []
+    customExpression: maxValue - pow(x,steepness)
+    variables:
+    - Name: maxValue
+      Value: 4
+    - Name: steepness
+      Value: 0.1
   - segmentId: 3278a0051fc14dad90ed391ec3969ae7
     displayName: fast1
     enabled: 1
@@ -76,5 +80,6 @@ MonoBehaviour:
     endInclusion: 0
     mode: 1
     preset: 1
-    customExpression: max(min_shared, slow2(t3_shared) + pow(t3_shared, d_shared) - pow(x,d_shared))
+    customExpression: max(min_shared, slow2(t3_shared) + pow(t3_shared, d_shared)
+      - pow(x,d_shared))
     variables: []
