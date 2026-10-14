@@ -92,12 +92,12 @@ public class Fruit : MonoBehaviour
         Vector3 worldPos = touchPos;
 
         
-        if (Input.touchCount > 0)
+        var touch = Touchscreen.current?.primaryTouch;
+        if (touch != null && touch.press.isPressed)
         {
-            Touch touch = Input.GetTouch(0);
-            touchPos = touch.position;
+            touchPos = touch.position.ReadValue();
             worldPos = cam.ScreenToWorldPoint(touchPos);
-            if (touch.phase == UnityEngine.TouchPhase.Began && Vector2.Distance(transform.position, worldPos) >= wooshDistance && SFXManager.instance != null)
+            if (touch.press.wasPressedThisFrame && Vector2.Distance(transform.position, worldPos) >= wooshDistance && SFXManager.instance != null)
                 SFXManager.instance.PlaySound("Woosh");
             //            print(touchPos);
             sr.size = new Vector2(1.2f, 1.2f);

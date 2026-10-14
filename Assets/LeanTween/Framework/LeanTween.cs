@@ -4100,10 +4100,13 @@ public class LTGUI {
     }
 
     public static Vector2 firstTouch(){
-        if(Input.touchCount>0){
-            return Input.touches[0].position;
-        }else if(Input.GetMouseButton(0)){
-            return Input.mousePosition;
+        var touch = UnityEngine.InputSystem.Touchscreen.current?.primaryTouch;
+        if(touch != null && touch.press.isPressed){
+            return touch.position.ReadValue();
+        }
+        var mouse = UnityEngine.InputSystem.Mouse.current;
+        if(mouse != null && mouse.leftButton.isPressed){
+            return mouse.position.ReadValue();
         }
 
         return new Vector2(Mathf.NegativeInfinity,Mathf.NegativeInfinity);
