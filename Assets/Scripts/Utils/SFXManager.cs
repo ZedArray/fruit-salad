@@ -24,12 +24,12 @@ public class SFXManager : Singleton<SFXManager>
 
     private static float VolumeFor(AudioCategory category)
     {
-        Settings settings = SaveManager.LoadSettings();
+        
         return category switch
         {
-            AudioCategory.UIFX => settings.UIFXVolume,
-            AudioCategory.BGM => settings.BGMVolume,
-            _ => settings.GameFXVolume,
+            AudioCategory.UIFX => UserManager.instance.settings.UIFXVolume,
+            AudioCategory.BGM => UserManager.instance.settings.BGMVolume,
+            _ => UserManager.instance.settings.GameFXVolume,
         };
     }
 }

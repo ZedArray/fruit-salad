@@ -14,25 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CompositeCurves.CompositeCurveDefinition
   curveId: e6a2c40d45ee4f2fbd48e4b52a2f2552
   outsideRangeMode: 2
-  variables:
-  - Name: max_shared
-    Value: 4
-  - Name: min_shared
-    Value: 0.4
-  - Name: a_shared
-    Value: 0.1
-  - Name: b_shared
-    Value: 0.38000003
-  - Name: c_shared
-    Value: 13
-  - Name: t1_shared
-    Value: 7.3000007
-  - Name: t2_shared
-    Value: 20
-  - Name: t3_shared
-    Value: 40
-  - Name: d_shared
-    Value: 0.20000003
+  variables: []
   segments:
   - segmentId: 3f7a1540228241798abccceef4c494d8
     displayName: slow1
@@ -48,7 +30,7 @@ MonoBehaviour:
     - Name: maxValue
       Value: 4
     - Name: steepness
-      Value: 0.1
+      Value: 0.2
   - segmentId: 3278a0051fc14dad90ed391ec3969ae7
     displayName: fast1
     enabled: 1
@@ -58,8 +40,12 @@ MonoBehaviour:
     endInclusion: 0
     mode: 1
     preset: 1
-    customExpression: slow1(t1_shared) + log(t1_shared, c_shared) - log(x,c_shared)
-    variables: []
+    customExpression: slow1(start) + log(start, steepness) - log(x,steepness)
+    variables:
+    - Name: start
+      Value: 7.8
+    - Name: steepness
+      Value: 13
   - segmentId: 4fa12ec7197844a7a442bc5e85c122ad
     displayName: slow2
     enabled: 1
@@ -69,8 +55,12 @@ MonoBehaviour:
     endInclusion: 0
     mode: 1
     preset: 1
-    customExpression: fast1(t2_shared) + pow(t2_shared,b_shared) - pow(x,b_shared)
-    variables: []
+    customExpression: fast1(start) + pow(start,steepness) - pow(x,steepness)
+    variables:
+    - Name: start
+      Value: 23
+    - Name: steepness
+      Value: 0.38
   - segmentId: 1ee36ad054c9468b8c369c7084d93877
     displayName: fast2
     enabled: 1
@@ -80,6 +70,11 @@ MonoBehaviour:
     endInclusion: 0
     mode: 1
     preset: 1
-    customExpression: max(min_shared, slow2(t3_shared) + pow(t3_shared, d_shared)
-      - pow(x,d_shared))
-    variables: []
+    customExpression: max(minimum, slow2(start) + pow(start, steepness) - pow(x,steepness))
+    variables:
+    - Name: start
+      Value: 40
+    - Name: steepness
+      Value: 0.23000002
+    - Name: minimum
+      Value: 0.4

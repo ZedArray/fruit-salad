@@ -50,6 +50,7 @@ public class Fruit : MonoBehaviour
 
     private Rigidbody2D rb;
     private Animator anim;
+    private SpriteRenderer sr;
     private int coinCaught;
     public static Fruit instance;
     public static bool dead = false;
@@ -69,6 +70,7 @@ public class Fruit : MonoBehaviour
         dead = false;
         idle = 0f;
         coinCaught = 0;
+        sr = GetComponent<SpriteRenderer>();
 #if !UNITY_EDITOR
         godMode = false;
 #endif
@@ -89,7 +91,7 @@ public class Fruit : MonoBehaviour
         //print(touchPos);
         Vector3 worldPos = touchPos;
 
-        SpriteRenderer sr = GetComponent<SpriteRenderer>();
+        
         if (Input.touchCount > 0)
         {
             Touch touch = Input.GetTouch(0);
@@ -207,6 +209,7 @@ public class Fruit : MonoBehaviour
     private void dieAnim()
     {
         CameraShake.shake(0.3f);
+        SFXManager.instance.PlaySound("Death");
         anim.SetTrigger("Die");
     }
 

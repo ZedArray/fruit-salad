@@ -6,10 +6,14 @@ public class Arrow2D : MonoBehaviour
     Vector2 direction;
     public float speed = 5f;
     private bool init = false;
-
+    private static scoreCounter SC;
     private void Start()
     {
         UpdateTarget(Fruit.instance.transform);
+        if (SC == null)
+        {
+            SC = FindFirstObjectByType<scoreCounter>(); 
+        }
     }
 
     public void UpdateTarget(Transform target)
@@ -44,6 +48,7 @@ public class Arrow2D : MonoBehaviour
 
         if ((init))
         {
+            SC.TryAddScore();
             Destroy(gameObject);
         }
         

@@ -22,79 +22,37 @@ namespace CompositeCurves
         {
             switch (curveId)
             {
-                case "c4e52f5a3a7e4a82b6728e3d8e505910":
-                {
-                    var max_shared = variables != null && variables.Length > 0 ? variables[0].Value : 4f;
-                    var min_shared = variables != null && variables.Length > 1 ? variables[1].Value : 0.4f;
-                    var a_shared = variables != null && variables.Length > 2 ? variables[2].Value : 0.1f;
-                    var b_shared = variables != null && variables.Length > 3 ? variables[3].Value : 0.380000025f;
-                    var c_shared = variables != null && variables.Length > 4 ? variables[4].Value : 13f;
-                    var t1_shared = variables != null && variables.Length > 5 ? variables[5].Value : 7.30000067f;
-                    var t2_shared = variables != null && variables.Length > 6 ? variables[6].Value : 20f;
-                    var t3_shared = variables != null && variables.Length > 7 ? variables[7].Value : 40f;
-                    var d_shared = variables != null && variables.Length > 8 ? variables[8].Value : 0.210000038f;
-                    switch (segmentId)
-                    {
-                        case "3f7a1540228241798abccceef4c494d8":
-                        {
-                            var maxValue = variables != null && variables.Length > 9 ? variables[9].Value : 4.1f;
-                            var steepness = variables != null && variables.Length > 10 ? variables[10].Value : 0.2f;
-                            value = maxValue - Mathf.Pow(x,steepness);
-                            return true;
-                        }
-                        case "3278a0051fc14dad90ed391ec3969ae7":
-                        {
-                            value = CompositeCurveGeneratedRegistry.EvaluateSegment("3f7a1540228241798abccceef4c494d8", t1_shared) + Mathf.Log(t1_shared, c_shared) - Mathf.Log(x,c_shared);
-                            return true;
-                        }
-                        case "4fa12ec7197844a7a442bc5e85c122ad":
-                        {
-                            value = CompositeCurveGeneratedRegistry.EvaluateSegment("3278a0051fc14dad90ed391ec3969ae7", t2_shared) + Mathf.Pow(t2_shared,b_shared) - Mathf.Pow(x,b_shared);
-                            return true;
-                        }
-                        case "1ee36ad054c9468b8c369c7084d93877":
-                        {
-                            value = Mathf.Max(min_shared, CompositeCurveGeneratedRegistry.EvaluateSegment("4fa12ec7197844a7a442bc5e85c122ad", t3_shared) + Mathf.Pow(t3_shared, d_shared) - Mathf.Pow(x,d_shared));
-                            return true;
-                        }
-                        default:
-                            break;
-                    }
-                    break;
-                }
                 case "e6a2c40d45ee4f2fbd48e4b52a2f2552":
                 {
-                    var max_shared = variables != null && variables.Length > 0 ? variables[0].Value : 4f;
-                    var min_shared = variables != null && variables.Length > 1 ? variables[1].Value : 0.4f;
-                    var a_shared = variables != null && variables.Length > 2 ? variables[2].Value : 0.1f;
-                    var b_shared = variables != null && variables.Length > 3 ? variables[3].Value : 0.380000025f;
-                    var c_shared = variables != null && variables.Length > 4 ? variables[4].Value : 13f;
-                    var t1_shared = variables != null && variables.Length > 5 ? variables[5].Value : 7.30000067f;
-                    var t2_shared = variables != null && variables.Length > 6 ? variables[6].Value : 20f;
-                    var t3_shared = variables != null && variables.Length > 7 ? variables[7].Value : 40f;
-                    var d_shared = variables != null && variables.Length > 8 ? variables[8].Value : 0.200000033f;
                     switch (segmentId)
                     {
                         case "3f7a1540228241798abccceef4c494d8":
                         {
-                            var maxValue = variables != null && variables.Length > 9 ? variables[9].Value : 4f;
-                            var steepness = variables != null && variables.Length > 10 ? variables[10].Value : 0.1f;
+                            var maxValue = variables != null && variables.Length > 0 ? variables[0].Value : 4f;
+                            var steepness = variables != null && variables.Length > 1 ? variables[1].Value : 0.2f;
                             value = maxValue - Mathf.Pow(x,steepness);
                             return true;
                         }
                         case "3278a0051fc14dad90ed391ec3969ae7":
                         {
-                            value = CompositeCurveGeneratedRegistry.EvaluateSegment("3f7a1540228241798abccceef4c494d8", t1_shared) + Mathf.Log(t1_shared, c_shared) - Mathf.Log(x,c_shared);
+                            var start = variables != null && variables.Length > 0 ? variables[0].Value : 7.8f;
+                            var steepness = variables != null && variables.Length > 1 ? variables[1].Value : 13f;
+                            value = CompositeCurveGeneratedRegistry.EvaluateSegment("3f7a1540228241798abccceef4c494d8", start) + Mathf.Log(start, steepness) - Mathf.Log(x,steepness);
                             return true;
                         }
                         case "4fa12ec7197844a7a442bc5e85c122ad":
                         {
-                            value = CompositeCurveGeneratedRegistry.EvaluateSegment("3278a0051fc14dad90ed391ec3969ae7", t2_shared) + Mathf.Pow(t2_shared,b_shared) - Mathf.Pow(x,b_shared);
+                            var start = variables != null && variables.Length > 0 ? variables[0].Value : 23f;
+                            var steepness = variables != null && variables.Length > 1 ? variables[1].Value : 0.38f;
+                            value = CompositeCurveGeneratedRegistry.EvaluateSegment("3278a0051fc14dad90ed391ec3969ae7", start) + Mathf.Pow(start,steepness) - Mathf.Pow(x,steepness);
                             return true;
                         }
                         case "1ee36ad054c9468b8c369c7084d93877":
                         {
-                            value = Mathf.Max(min_shared, CompositeCurveGeneratedRegistry.EvaluateSegment("4fa12ec7197844a7a442bc5e85c122ad", t3_shared) + Mathf.Pow(t3_shared, d_shared) - Mathf.Pow(x,d_shared));
+                            var start = variables != null && variables.Length > 0 ? variables[0].Value : 40f;
+                            var steepness = variables != null && variables.Length > 1 ? variables[1].Value : 0.230000019f;
+                            var minimum = variables != null && variables.Length > 2 ? variables[2].Value : 0.4f;
+                            value = Mathf.Max(minimum, CompositeCurveGeneratedRegistry.EvaluateSegment("4fa12ec7197844a7a442bc5e85c122ad", start) + Mathf.Pow(start, steepness) - Mathf.Pow(x,steepness));
                             return true;
                         }
                         default:
