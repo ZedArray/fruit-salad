@@ -60,24 +60,23 @@ public class SlashesHot : Slashes
         //spriteRenderer.enabled = true;
         //transform.localScale = new Vector2(transform.localScale.x, endSize);
         col2d.enabled = false;
+        hotzone.transform.localScale = new Vector3(hotzone.transform.localScale.x,
+            Random.Range(StageHotSpawner.instance.HotZoneLengthRange.x, StageHotSpawner.instance.HotZoneLengthRange.y),
+            hotzone.transform.localScale.z);
         hotzone.SetActive(true);
-
+        
         yield return new WaitForSeconds(0.2f);
         spriteRenderer.enabled = false;
-        //Destroy(animator.gameObject);
-
-        float elapsedTime = 0;
-        float duration = 3f;
-
-        while (elapsedTime < duration)
-        {
-            elapsedTime += Time.deltaTime;
-            float t = elapsedTime / duration;
-            spriteRenderer.color = Color.Lerp(startColor, endColor, t);
-            yield return null;
-        }
-
         SC.TryAddScore();
-        Destroy(gameObject); // clean up
+        yield return new WaitForSeconds(2f);
+        LeanTween.alpha(hotzone, 0, 1.1f).setEase(LeanTweenType.easeOutQuint).setOnComplete(() => {
+            Destroy(gameObject);});
+        
+        //Destroy(animator.gameObject);
+        
+
+        
+
+         // clean up
     }
 }

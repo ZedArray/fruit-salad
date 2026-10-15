@@ -18,7 +18,7 @@ MonoBehaviour:
   - StageHotSpawner
   - AntiIdleUtensilSpawner
   stages:
-  - name: No
+  - name: None
     enabledStages: 
     skipOnRepeat: 1
     stageDuration: 3

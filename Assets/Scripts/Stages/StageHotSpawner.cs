@@ -15,7 +15,7 @@ public class StageHotSpawner : StageComponent<StageHotSpawner>
     private float maxX, maxY, minX, minY;
     private float timer;
     private float startTime, currentTime;
-
+    public Vector2 HotZoneLengthRange;
     new void Awake()
     {
         base.Awake();

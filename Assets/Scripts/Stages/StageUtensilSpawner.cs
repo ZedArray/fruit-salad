@@ -38,7 +38,7 @@ public class StageUtensilSpawner : StageComponent<StageUtensilSpawner>
 
         if (timer > spawnInterval)
         {
-            int i = Random.Range(1, maxPerSpawn);
+            int i = Random.Range(0, maxPerSpawn);
             for (; i >= 0; i--)
             {
                 SpawnObject();
