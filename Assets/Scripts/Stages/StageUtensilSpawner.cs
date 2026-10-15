@@ -8,11 +8,12 @@ public class StageUtensilSpawner : StageComponent<StageUtensilSpawner>
 {
     [SerializeField] private CompositeCurveDefinition BalancingCurve;
     [SerializeField] private GameObject[] Utensils;
+    [SerializeField] private int maxPerSpawn;
     public float spawnInterval = 4f;
     private float timer;
     private Camera mainCamera;
     private float startTime, currentTime;
-
+    
     new void Awake()
     {
         base.Awake();
@@ -37,7 +38,12 @@ public class StageUtensilSpawner : StageComponent<StageUtensilSpawner>
 
         if (timer > spawnInterval)
         {
-            SpawnObject();
+            int i = Random.Range(1, maxPerSpawn);
+            for (; i >= 0; i--)
+            {
+                SpawnObject();
+            }
+
             timer = 0;
         }
     }
@@ -76,11 +82,9 @@ public class StageUtensilSpawner : StageComponent<StageUtensilSpawner>
         spawnPos.z = 0;
 
         GameObject objectToSpawn = Utensils[Random.Range(0, Utensils.Length)];
-        Instantiate(objectToSpawn, spawnPos, Quaternion.identity).GetComponent<Arrow2D>().UpdateTarget(Fruit.instance.transform);
+        Instantiate(objectToSpawn, spawnPos, Quaternion.identity).GetComponent<Arrow2D>().UpdateTarget(Fruit.instance.transform,true);
         if (SFXManager.instance != null) SFXManager.instance.PlaySound("UtensilThrow");
-
         currentTime = Time.timeSinceLevelLoad;
         spawnInterval = BalancingCurve.Evaluate(currentTime - (startTime/2));
-        print(spawnInterval);
     }
 }

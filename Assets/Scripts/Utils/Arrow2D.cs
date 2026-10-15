@@ -7,6 +7,7 @@ public class Arrow2D : MonoBehaviour
     public float speed = 5f;
     private bool init = false;
     private static scoreCounter SC;
+    private bool GiveScore = false;
     private void Start()
     {
         UpdateTarget(Fruit.instance.transform);
@@ -16,14 +17,16 @@ public class Arrow2D : MonoBehaviour
         }
     }
 
-    public void UpdateTarget(Transform target)
+    public void UpdateTarget(Transform target, bool GiveScore = false)
     {
         direction = (target.position - transform.position).normalized;
+        this.GiveScore = GiveScore;
     }
     
-    public void UpdateTarget(Vector3 target)
+    public void UpdateTarget(Vector3 target, bool GiveScore = false)
     {
         direction = (target - transform.position).normalized;
+        this.GiveScore = GiveScore;
     }
 
     void Update()
@@ -48,7 +51,10 @@ public class Arrow2D : MonoBehaviour
 
         if ((init))
         {
-            SC.TryAddScore();
+            if(GiveScore)
+            {
+                SC.TryAddScore();
+            }
             Destroy(gameObject);
         }
         

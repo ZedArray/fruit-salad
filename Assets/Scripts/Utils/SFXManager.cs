@@ -22,7 +22,7 @@ public class SFXManager : Singleton<SFXManager>
         AudioSource.PlayClipAtPoint(sfx.getClip(_rng.Next()), position, VolumeFor(sfx.Category));
     }
 
-    private static float VolumeFor(AudioCategory category)
+    public static float VolumeFor(AudioCategory category)
     {
         
         return category switch

@@ -5,7 +5,6 @@ using UnityEngine.SceneManagement;
 public class BGMManager : Singleton<BGMManager>
 {
     private int _currScene = 0;
-    private int _prevScene = 0;
     [SerializeField] private AudioClip[] clips;
     private int nclips;
     private AudioSource _source;
@@ -45,7 +44,6 @@ public class BGMManager : Singleton<BGMManager>
     void OnLoadScene(Scene scene, LoadSceneMode mode)
     {
         print("Attempting Music Change");
-        _prevScene = _currScene;
         _currScene = scene.buildIndex;
         changeBGM();
     }

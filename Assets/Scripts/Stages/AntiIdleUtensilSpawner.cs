@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class AntiIdleUtensilSpawner : MonoBehaviour
+public class AntiIdleUtensilSpawner : StageComponent<AntiIdleUtensilSpawner>
 {
 
     [SerializeField] private GameObject[] Utensils;
@@ -8,17 +8,16 @@ public class AntiIdleUtensilSpawner : MonoBehaviour
     private float timer;
     private Camera mainCamera;
     public float maxIdleTime;
-    public static AntiIdleUtensilSpawner Instance;
 
-    private void Awake()
-    {
-        Instance = this;
-    }
+    // experimental, session-only (never saved): set from the settings menu
+    public static bool disabled;
+    public static float cooldownOverride = -1; // below 0 = use the inspector cooldown
+
     // Update is called once per frame
     void Update()
     {
 
-        if (Fruit.dead)
+        if (Fruit.dead || !doStage || disabled)
         {
             return;
         }
@@ -27,7 +26,7 @@ public class AntiIdleUtensilSpawner : MonoBehaviour
             if (timer <= 0)
             {
                 SpawnObject();
-                timer = cooldown;
+                timer = cooldownOverride >= 0 ? cooldownOverride : cooldown;
             }
             else
             {

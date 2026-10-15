@@ -671,6 +671,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b6a271c935bc65b44b8cc7986886c1bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  doStage: 0
   Utensils:
   - {fileID: 1591636369042647673, guid: d2882eef6b373854a924bb79a52c60eb, type: 3}
   - {fileID: 2298950404986346798, guid: a2e1b4710a786cb4fafa028e4d50812c, type: 3}
@@ -741,6 +742,7 @@ MonoBehaviour:
   - {fileID: 1591636369042647673, guid: d2882eef6b373854a924bb79a52c60eb, type: 3}
   - {fileID: 2298950404986346798, guid: a2e1b4710a786cb4fafa028e4d50812c, type: 3}
   - {fileID: 3177524010428910900, guid: 0431bea2c4e72f84aaea56655e7c9120, type: 3}
+  maxPerSpawn: 2
   spawnInterval: 2
 --- !u!114 &230334974
 MonoBehaviour:

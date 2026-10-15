@@ -22,14 +22,15 @@ public class Settings
         return JsonUtility.ToJson(this, true);
     }
 
-    public void UpdateSetting(string setting, object value)
+    // save: false applies live without touching disk (e.g. mid-drag); call SaveManager.SaveSettings when done
+    public void UpdateSetting(string setting, object value, bool save = true)
     {
-        FieldInfo field = this.GetType().GetField(setting, BindingFlags.Public);
+        FieldInfo field = this.GetType().GetField(setting, BindingFlags.Instance | BindingFlags.Public);
         if (field != null)
         {
             field.SetValue(this,value);
             settingsChanged?.Invoke();
-            SaveManager.SaveSettings(this);
+            if (save) SaveManager.SaveSettings(this);
         }
     }
 }

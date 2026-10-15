@@ -16,16 +16,21 @@ MonoBehaviour:
   - BladeSpawner
   - StageUtensilSpawner
   - StageHotSpawner
+  - AntiIdleUtensilSpawner
   stages:
   - name: No
     enabledStages: 
+    skipOnRepeat: 1
     stageDuration: 3
   - name: BladeStage
-    enabledStages: 00000000
+    enabledStages: 0000000003000000
+    skipOnRepeat: 0
     stageDuration: 25
   - name: UtensilStage
-    enabledStages: 01000000
+    enabledStages: 0100000003000000
+    skipOnRepeat: 0
     stageDuration: 25
   - name: HotStage
-    enabledStages: 02000000
-    stageDuration: -1
+    enabledStages: 0200000003000000
+    skipOnRepeat: 0
+    stageDuration: 20

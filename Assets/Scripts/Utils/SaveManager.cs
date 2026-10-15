@@ -12,13 +12,12 @@ public static class SaveManager
     {
         public int highScore;
         public long setAt; // unix ms when the high score was set
-        public string hash; // HMAC of highScore + setAt, catches hand-edited saves
+        public string hash; 
         public bool pending; // best not yet accepted by the leaderboard
     }
 
     const string HighScoreFile = "highscore.json";
     const string SettingsFile = "settings.json";
-    // ponytail: key ships in the binary, so this stops casual edits, not a determined decompiler
     static readonly byte[] HashKey = Encoding.UTF8.GetBytes("fruit-salad/highscore/v1");
 
     static HighScoreData highScore;

@@ -158,7 +158,7 @@ public class Fruit : MonoBehaviour
             idle = 0f;
         }
 
-        bool idleWarning = idle >= AntiIdleUtensilSpawner.Instance.maxIdleTime;
+        bool idleWarning = AntiIdleUtensilSpawner.instance.doStage && !AntiIdleUtensilSpawner.disabled && idle >= AntiIdleUtensilSpawner.instance.maxIdleTime;
         // only on the frame the warning appears, not every idle frame
         if (idleWarning && !warning.activeSelf && SFXManager.instance != null) SFXManager.instance.PlaySound("IdleWarning");
         warning.SetActive(idleWarning);

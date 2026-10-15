@@ -44,6 +44,7 @@ public struct StageDefinition
 {
     public string name;
     public int[] enabledStages;
+    public bool skipOnRepeat;
     [Tooltip("Any value below 0 implies an infinitely long stage.")]
     public int stageDuration;
 }

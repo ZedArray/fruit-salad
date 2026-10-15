@@ -43,7 +43,7 @@ public class Slashes : MonoBehaviour
         col2d.enabled = true;
 
         // Play slice sound
-        if (SFXManager.instance != null) SFXManager.instance.PlaySound("KnifeSlash");
+        if (SFXManager.instance) SFXManager.instance.PlaySound("KnifeSlash");
 
         // Deactivate near miss
         yield return new WaitForSeconds(0.1f);

@@ -1,7 +1,5 @@
 using System;
-using System.Reflection;
 using UnityEngine;
-using Microsoft.CSharp;
 public class StageManager : MonoBehaviour
 {
     [SerializeField] private StageData stageData;
@@ -11,6 +9,7 @@ public class StageManager : MonoBehaviour
     private int stage;
     private int stageAmount;
 
+    private bool repeating;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -51,7 +50,18 @@ public class StageManager : MonoBehaviour
 
     public void ChangeStage()
     {
+        if (stage == stageAmount - 1)
+        {
+            repeating = true;
+        }
+
         stage = (stage + 1) % stageAmount;
+        while (repeating && stageData.stages[stage].skipOnRepeat)
+        {
+            print("Skipping stage " + stageData.stages[stage].name );
+            stage = (stage + 1) % stageAmount;
+        }
+
         StageDefinition st = stageData.stages[stage];
         DisableAll();
         foreach (int i in st.enabledStages)

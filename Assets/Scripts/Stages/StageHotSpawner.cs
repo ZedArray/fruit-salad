@@ -73,6 +73,5 @@ public class StageHotSpawner : StageComponent<StageHotSpawner>
         currentTime = Time.timeSinceLevelLoad;
         spawnInterval = balancingCurve.Evaluate(currentTime - (startTime/2));
         //spawnInterval = balancingCurve.Evaluate(Time.timeSinceLevelLoad);
-        Debug.LogWarning(spawnInterval);
     }
 }
