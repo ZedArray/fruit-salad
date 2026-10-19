@@ -162,8 +162,6 @@ MonoBehaviour:
   nearMissActive: 0
   nearMissHit: 0
   SC: {fileID: 0}
-  startColor: {r: 1, g: 0.4745098, b: 0, a: 0.50980395}
-  endColor: {r: 0, g: 0, b: 0, a: 0}
   hotzone: {fileID: 6784526331554830288}
 --- !u!82 &1518451613648831506
 AudioSource:
@@ -301,7 +299,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &7271970928658204176
 Transform:
   m_ObjectHideFlags: 0
