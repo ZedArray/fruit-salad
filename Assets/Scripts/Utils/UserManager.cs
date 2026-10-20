@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class UserManager : Singleton<UserManager>
 {
+    [SerializeField] private bool[] skinUnlock;
+
     private int coinAmount;
     private int skinID;
 
@@ -30,6 +32,21 @@ public class UserManager : Singleton<UserManager>
     public int getSkinID()
     {
         return skinID;
+    }
+
+    public bool[] getSkinUnlock()
+    {
+        return skinUnlock;
+    }
+
+    public bool getSkinUnlockID(int n)
+    {
+        return skinUnlock[n];
+    }
+
+    public void unlockSkinID(int n)
+    {
+        skinUnlock[n] = true;
     }
 
     public void setCoinAmount(int n)

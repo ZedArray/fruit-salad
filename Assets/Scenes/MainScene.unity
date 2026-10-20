@@ -2830,6 +2830,7 @@ MonoBehaviour:
   - {fileID: 22100000, guid: c420f3bd2d0651844ae2f48d8bf81f41, type: 2}
   - {fileID: 22100000, guid: b06d9efcd93f4b64f86996fd08776f38, type: 2}
   - {fileID: 22100000, guid: ec65a28256c044c418a0a398121bb855, type: 2}
+  - {fileID: 22100000, guid: 0a24b7290e973214da94dbde94489c63, type: 2}
   anim: {fileID: 3063442853584806683}
 --- !u!1 &1374263137
 GameObject:
@@ -3228,7 +3229,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 2
-  m_BackGroundColor: {r: 0.6784314, g: 0.54901963, b: 0.4156863, a: 0}
+  m_BackGroundColor: {r: 0.6862745, g: 0.5529412, b: 0.42352945, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -3796,6 +3797,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 692128485}
     - target: {fileID: -7901827935863327643, guid: d73ea85408d1f734a851af31db7d13e8, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -7901827935863327643, guid: d73ea85408d1f734a851af31db7d13e8, type: 3}
       propertyPath: comboSlider
       value: 
       objectReference: {fileID: 629722727}
@@ -3860,6 +3865,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 102004168}
     - target: {fileID: 8449984710656287671, guid: d73ea85408d1f734a851af31db7d13e8, type: 3}
+      propertyPath: godMode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8449984710656287671, guid: d73ea85408d1f734a851af31db7d13e8, type: 3}
       propertyPath: warning
       value: 
       objectReference: {fileID: 1496034836}
@@ -3895,7 +3904,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 3063442853584806682}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1748818777}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 26504536b9e383440b6a839698d7e969, type: 3}
   m_Name: 
