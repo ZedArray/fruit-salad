@@ -8,13 +8,16 @@ public class Settings
     public float UIFXVolume;
     public float GameFXVolume;
     public float BGMVolume;
+    public bool JoystickMovement; // false = tap to move
+    public float JoystickSensitivity;
     public event NotifySettingsChanged settingsChanged;
-    
+
     public Settings()
     {
         UIFXVolume = 1;
         GameFXVolume = 1;
         BGMVolume = 1;
+        JoystickSensitivity = 1;
     }
 
     public override string ToString()

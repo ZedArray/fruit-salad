@@ -1,14 +1,12 @@
 using System.Collections;
 using TMPro;
 using UnityEngine;
-using UnityEngine.InputSystem; // new input system
-//using UnityEngine.InputSystem.Android;
 using UnityEngine.SceneManagement;
 
 public class Fruit : MonoBehaviour
 {
     public float moveSpeed = 10f;
-    private Camera cam;
+    private FruitInput input;
 
     //0:topright 1:bottomleft
     [SerializeField]
@@ -63,7 +61,7 @@ public class Fruit : MonoBehaviour
     void Start()
     {
         instance = this;
-        cam = Camera.main;
+        input = GetComponent<FruitInput>();
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
         shadowOffset = shadow.position - this.transform.position;
@@ -82,40 +80,11 @@ public class Fruit : MonoBehaviour
         {
             return;
         }
-        // get current mouse position from new Input System
-
-        //Vector2 mousePos = Mouse.current.position.ReadValue();
-
-        //Touch touch = Input.GetTouch(0);
-        Vector3 touchPos = transform.position;
-        //print(touchPos);
-        Vector3 worldPos = touchPos;
-
-        
-        var touch = Touchscreen.current?.primaryTouch;
-        if (touch != null && touch.press.isPressed)
-        {
-            touchPos = touch.position.ReadValue();
-            worldPos = cam.ScreenToWorldPoint(touchPos);
-            if (touch.press.wasPressedThisFrame && Vector2.Distance(transform.position, worldPos) >= wooshDistance && SFXManager.instance != null)
-                SFXManager.instance.PlaySound("Woosh");
-            //            print(touchPos);
-            sr.size = new Vector2(1.2f, 1.2f);
-        }
-        else
-        {
-            sr.size = new Vector2(1f, 1f);
-        }
-
-        //Vector3 worldPos = cam.ScreenToWorldPoint(touchPos);
-
-        worldPos.z = 0f;
-
-        //var gamepad = AndroidJoystick.current;
-
-        //print(gamepad.stick.ReadValue());
-
-        //transform.position += moveSpeed * Time.deltaTime * new Vector3(gamepad.stick.ReadValue().x, gamepad.stick.ReadValue().y, 0);
+        input.Read();
+        Vector3 worldPos = input.Target;
+        if (input.PressedThisFrame && Vector2.Distance(transform.position, worldPos) >= wooshDistance && SFXManager.instance != null)
+            SFXManager.instance.PlaySound("Woosh");
+        sr.size = input.Held ? new Vector2(1.2f, 1.2f) : new Vector2(1f, 1f);
 
         if (Mathf.Abs(Vector3.Distance(LastPos, worldPos)) >= rotationThresholdMagnitude)
         {
