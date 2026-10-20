@@ -1,0 +1,494 @@
+fileFormatVersion: 2
+guid: 670d932cc35379c4f8769bbaeae73765
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -131862878388522993
+    second: ScreenSlash-Sheet_0
+  - first:
+      213: -7507983098428593597
+    second: ScreenSlash-Sheet_1
+  - first:
+      213: 3949444054816425489
+    second: ScreenSlash-Sheet_2
+  - first:
+      213: 4139113814411537869
+    second: ScreenSlash-Sheet_3
+  - first:
+      213: -3043535357729949987
+    second: ScreenSlash-Sheet_4
+  - first:
+      213: -3550293653647786927
+    second: ScreenSlash-Sheet_5
+  - first:
+      213: -4603738253115868304
+    second: ScreenSlash-Sheet_6
+  - first:
+      213: -5537901042787567651
+    second: ScreenSlash-Sheet_7
+  - first:
+      213: -6347659499819907399
+    second: ScreenSlash-Sheet_8
+  - first:
+      213: -5618599214187819261
+    second: ScreenSlash-Sheet_9
+  - first:
+      213: 4064159633200593203
+    second: ScreenSlash-Sheet_10
+  - first:
+      213: 9127852465033435375
+    second: ScreenSlash-Sheet_11
+  - first:
+      213: 2641724077855364285
+    second: ScreenSlash-Sheet_12
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WindowsStoreApps
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: ScreenSlash-Sheet_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1
+        width: 1234
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f00779629678b2ef0800000000000000
+      internalID: -131862878388522993
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ScreenSlash-Sheet_1
+      rect:
+        serializedVersion: 2
+        x: 1234
+        y: 3
+        width: 799
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 34ae686a6294ec790800000000000000
+      internalID: -7507983098428593597
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ScreenSlash-Sheet_2
+      rect:
+        serializedVersion: 2
+        x: 2034
+        y: 3
+        width: 22
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1168c9b517e3fc630800000000000000
+      internalID: 3949444054816425489
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ScreenSlash-Sheet_3
+      rect:
+        serializedVersion: 2
+        x: 2057
+        y: 3
+        width: 46
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: dcd69e09516117930800000000000000
+      internalID: 4139113814411537869
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ScreenSlash-Sheet_4
+      rect:
+        serializedVersion: 2
+        x: 2105
+        y: 3
+        width: 32
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: dd63a2da7b033c5d0800000000000000
+      internalID: -3043535357729949987
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ScreenSlash-Sheet_5
+      rect:
+        serializedVersion: 2
+        x: 2138
+        y: 3
+        width: 19
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 15cfff57bb2dabec0800000000000000
+      internalID: -3550293653647786927
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ScreenSlash-Sheet_6
+      rect:
+        serializedVersion: 2
+        x: 2162
+        y: 3
+        width: 39
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 07bb620537c3c10c0800000000000000
+      internalID: -4603738253115868304
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ScreenSlash-Sheet_7
+      rect:
+        serializedVersion: 2
+        x: 2202
+        y: 3
+        width: 18
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: dd7b167b75c6523b0800000000000000
+      internalID: -5537901042787567651
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ScreenSlash-Sheet_8
+      rect:
+        serializedVersion: 2
+        x: 2227
+        y: 3
+        width: 40
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9b6c916f05598e7a0800000000000000
+      internalID: -6347659499819907399
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ScreenSlash-Sheet_9
+      rect:
+        serializedVersion: 2
+        x: 2271
+        y: 3
+        width: 35
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 30fcb0788c9b602b0800000000000000
+      internalID: -5618599214187819261
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ScreenSlash-Sheet_10
+      rect:
+        serializedVersion: 2
+        x: 2310
+        y: 3
+        width: 34
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 339376f47abc66830800000000000000
+      internalID: 4064159633200593203
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ScreenSlash-Sheet_11
+      rect:
+        serializedVersion: 2
+        x: 2349
+        y: 3
+        width: 30
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fe8dd7c9475acae70800000000000000
+      internalID: 9127852465033435375
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ScreenSlash-Sheet_12
+      rect:
+        serializedVersion: 2
+        x: 2385
+        y: 0
+        width: 3216
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: db45a276d0a49a420800000000000000
+      internalID: 2641724077855364285
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      ScreenSlash-Sheet_0: -131862878388522993
+      ScreenSlash-Sheet_1: -7507983098428593597
+      ScreenSlash-Sheet_10: 4064159633200593203
+      ScreenSlash-Sheet_11: 9127852465033435375
+      ScreenSlash-Sheet_12: 2641724077855364285
+      ScreenSlash-Sheet_2: 3949444054816425489
+      ScreenSlash-Sheet_3: 4139113814411537869
+      ScreenSlash-Sheet_4: -3043535357729949987
+      ScreenSlash-Sheet_5: -3550293653647786927
+      ScreenSlash-Sheet_6: -4603738253115868304
+      ScreenSlash-Sheet_7: -5537901042787567651
+      ScreenSlash-Sheet_8: -6347659499819907399
+      ScreenSlash-Sheet_9: -5618599214187819261
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

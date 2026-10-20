@@ -82,6 +82,6 @@ public class SlashesHot : Slashes
         }
 
         SC.TryAddScore();
-        Destroy(gameObject); // clean up
+        Destroy(gameObject, cleanUpTime); // clean up
     }
 }
