@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Security.Cryptography;
 using System.Text;
@@ -16,8 +17,35 @@ public static class SaveManager
         public bool pending; // best not yet accepted by the leaderboard
     }
 
+    [Serializable]
+    public class WalletData
+    {
+        public int coins;
+        public List<string> owned = new List<string>(); // ShopCatalog item ids, unique across all catalogs
+        public string skin = ""; // equipped item id, "" = default
+        public string table = ""; // equipped tablecloth id, "" = default
+        public string hash;
+
+        public bool Owns(string id) => owned.Contains(id);
+
+        // buys and equips (into the table slot if table); owned (or free) items just get equipped
+        public bool TryBuy(string id, int price, bool table = false)
+        {
+            if (!Owns(id))
+            {
+                if (coins < price) return false;
+                coins -= price;
+                owned.Add(id);
+            }
+            if (table) this.table = id;
+            else skin = id;
+            return true;
+        }
+    }
+
     const string HighScoreFile = "highscore.json";
     const string SettingsFile = "settings.json";
+    const string WalletFile = "wallet.json";
     static readonly byte[] HashKey = Encoding.UTF8.GetBytes("fruit-salad/highscore/v1");
 
     static HighScoreData highScore;
@@ -56,10 +84,33 @@ public static class SaveManager
         return new HighScoreData();
     }
 
-    static string Hash(int score, long setAt)
+    static string Hash(int score, long setAt) => Hash($"{score}:{setAt}");
+
+    static string Hash(string payload)
     {
         using var hmac = new HMACSHA256(HashKey);
-        return Convert.ToBase64String(hmac.ComputeHash(Encoding.UTF8.GetBytes($"{score}:{setAt}")));
+        return Convert.ToBase64String(hmac.ComputeHash(Encoding.UTF8.GetBytes(payload)));
+    }
+
+    // ---- wallet (coins + skins) ----
+
+    static string WalletHash(WalletData w) => Hash($"wallet:{w.coins}:{w.skin}:{w.table}:{string.Join(",", w.owned)}");
+
+    public static WalletData LoadWallet()
+    {
+        var data = Read<WalletData>(WalletFile);
+        if (data == null) return new WalletData();
+        if (data.hash == WalletHash(data)) return data;
+
+        Debug.LogWarning("Wallet save failed verification, resetting");
+        Delete(WalletFile);
+        return new WalletData();
+    }
+
+    public static void SaveWallet(WalletData wallet)
+    {
+        wallet.hash = WalletHash(wallet);
+        Write(WalletFile, JsonUtility.ToJson(wallet));
     }
 
     // ---- settings ----

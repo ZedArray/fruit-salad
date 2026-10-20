@@ -2,25 +2,24 @@ using UnityEngine;
 
 public class SkinChanger : MonoBehaviour
 {
-    public AnimatorOverrideController[] skins;
+    public ShopCatalog catalog;
+    public ShopCatalog tablecloths;
+    public SpriteRenderer table;
     private int currentSkin = 0;
     public Animator anim;
 
     private void Awake()
     {
-        currentSkin = UserManager.instance.getSkinID();
-        changeToID();
+        var item = catalog.Find(UserManager.instance.getSkinID());
+        currentSkin = System.Array.IndexOf(catalog.items, item);
+        anim.runtimeAnimatorController = item.skin;
+        table.sprite = tablecloths.Find(UserManager.instance.getTableID()).icon;
     }
 
-    private void changeToID()
-    {
-        anim.runtimeAnimatorController = skins[currentSkin];
-    }
-
+    // debug: cycles through every skin, owned or not, without saving
     public void ChangeSkin()
     {
-        currentSkin = (currentSkin + 1) % skins.Length;
-        anim.runtimeAnimatorController = skins[currentSkin];
+        currentSkin = (currentSkin + 1) % catalog.items.Length;
+        anim.runtimeAnimatorController = catalog.items[currentSkin].skin;
     }
-
 }

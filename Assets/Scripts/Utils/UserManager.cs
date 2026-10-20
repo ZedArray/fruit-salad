@@ -2,65 +2,61 @@ using UnityEngine;
 
 public class UserManager : Singleton<UserManager>
 {
-    [SerializeField] private bool[] skinUnlock;
-
-    private int coinAmount;
-    private int skinID;
+    // ponytail: local save only, move to Cloud Save if accounts should carry coins across devices
+    private SaveManager.WalletData wallet;
 
     public Settings settings;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        // change these two to grab from the cloud save or smth
-        coinAmount = 0;
-        skinID = 0;
-        
-
-    }
 
     protected override void Awake()
     {
         base.Awake();
         settings = SaveManager.LoadSettings();
+        wallet = SaveManager.LoadWallet();
     }
 
     public int getCoinAmount()
     {
-        return coinAmount;
+        return wallet.coins;
     }
 
-    public int getSkinID()
+    // ShopCatalog item id, "" = default skin
+    public string getSkinID()
     {
-        return skinID;
+        return wallet.skin;
     }
 
-    public bool[] getSkinUnlock()
+    // ShopCatalog item id, "" = default tablecloth
+    public string getTableID()
     {
-        return skinUnlock;
+        return wallet.table;
     }
 
-    public bool getSkinUnlockID(int n)
+    public string getEquippedID(ShopCatalog catalog)
     {
-        return skinUnlock[n];
+        return catalog.table ? wallet.table : wallet.skin;
     }
 
-    public void unlockSkinID(int n)
+    public bool owns(string id)
     {
-        skinUnlock[n] = true;
-    }
-
-    public void setCoinAmount(int n)
-    {
-        coinAmount = n;
+        return wallet.Owns(id);
     }
 
     public void addCoinAmount(int n)
     {
-        coinAmount += n;
+        wallet.coins += n;
+        SaveManager.SaveWallet(wallet);
     }
 
-    public void setSkinID(int n)
+    public bool tryBuy(ShopCatalog catalog, ShopCatalog.Item item)
     {
-        skinID = n;
+        if (!wallet.TryBuy(item.id, item.price, catalog.table)) return false;
+        SaveManager.SaveWallet(wallet);
+        return true;
+    }
+
+    [ContextMenu("Add 100 Coins")]
+    private void addTestCoins()
+    {
+        addCoinAmount(100);
     }
 }

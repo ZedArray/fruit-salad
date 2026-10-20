@@ -38,6 +38,7 @@ public class scoreCounter : MonoBehaviour
         billObject.SetActive(true);
         billScore.text = score.ToString();
         billCoin.text = "+" + Fruit.instance.getCoinCaught().ToString();
+        UserManager.instance.addCoinAmount(Fruit.instance.getCoinCaught());
 
         if (score > SaveManager.LoadHighScore())
         {

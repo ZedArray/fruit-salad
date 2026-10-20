@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a9436fcf8fdb896698bf59bc3023a94, type: 3}
+  m_Name: ShopCatalog
+  m_EditorClassIdentifier: Assembly-CSharp::ShopCatalog
+  table: 0
+  items:
+  - id: apple
+    name: Classic
+    icon: {fileID: 7628402944398329049, guid: a5703b80f2f42e3f2bcc982035828199, type: 3}
+    skin: {fileID: 22100000, guid: c420f3bd2d0651844ae2f48d8bf81f41, type: 2}
+    price: 0
+  - id: red
+    name: Red
+    icon: {fileID: -2888580333203901444, guid: a5703b80f2f42e3f2bcc982035828199, type: 3}
+    skin: {fileID: 22100000, guid: ec65a28256c044c418a0a398121bb855, type: 2}
+    price: 50
+  - id: green
+    name: Green
+    icon: {fileID: -5543600150941882300, guid: a5703b80f2f42e3f2bcc982035828199, type: 3}
+    skin: {fileID: 22100000, guid: 0a24b7290e973214da94dbde94489c63, type: 2}
+    price: 50
+  - id: ghost
+    name: Ghost
+    icon: {fileID: -4527426912804003132, guid: 7541da37cdbd7fb46a6f36388f821e77, type: 3}
+    skin: {fileID: 22100000, guid: b06d9efcd93f4b64f86996fd08776f38, type: 2}
+    price: 50
