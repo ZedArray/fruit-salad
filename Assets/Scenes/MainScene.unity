@@ -2414,6 +2414,7 @@ MonoBehaviour:
   - {fileID: 106087120}
   - {fileID: 4273000}
   coin: {fileID: 9011893795887156499, guid: c2cc7c4c6ac110947a44c2d1752b9952, type: 3}
+  interval: {fileID: 11400000, guid: e296b0f953b1ed35087183e881ce22a8, type: 2}
 --- !u!1 &1145027394
 GameObject:
   m_ObjectHideFlags: 0

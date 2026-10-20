@@ -22,6 +22,29 @@ namespace CompositeCurves
         {
             switch (curveId)
             {
+                case "c20c2250e6484a7aaf9a1a8520a5ec30":
+                {
+                    var jitter_shared = variables != null && variables.Length > 0 ? variables[0].Value : 0.1f;
+                    var end_shared = variables != null && variables.Length > 1 ? variables[1].Value : 4f;
+                    switch (segmentId)
+                    {
+                        case "a4e85c0c1e6843c2a8b6eefb47d60630":
+                        {
+                            var start = variables != null && variables.Length > 2 ? variables[2].Value : 13f;
+                            var length = variables != null && variables.Length > 3 ? variables[3].Value : 165f;
+                            value = (start - (start - end_shared) * x / length) * (1 - jitter_shared  + 2 * jitter_shared * CompositeCurveRandom.NextFloat());
+                            return true;
+                        }
+                        case "701401c18b3f4632827d6cac2e0031e6":
+                        {
+                            value = end_shared * (1 - jitter_shared  + 2 * jitter_shared * CompositeCurveRandom.NextFloat());
+                            return true;
+                        }
+                        default:
+                            break;
+                    }
+                    break;
+                }
                 case "e6a2c40d45ee4f2fbd48e4b52a2f2552":
                 {
                     switch (segmentId)
