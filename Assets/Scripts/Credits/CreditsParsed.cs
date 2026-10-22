@@ -1,20 +1,25 @@
+using System;
 using System.Collections.Generic;
 
+// shape of Assets/Data/credits.json, read with JsonUtility (needs fields, not properties)
+[Serializable]
 public class Category
 {
-    public string title { get; set; }
-    public List<Person> people { get; set; }
+    public string title;
+    public List<Person> people;
 }
 
+[Serializable]
 public class Person
 {
-    public string name { get; set; }
-    public string alias { get; set; }
-    public List<string> links { get; set; }
-    public List<string> additional { get; set; }
+    public string name;
+    public string alias;
+    public List<string> links;
+    public List<string> additional;
 }
 
+[Serializable]
 public class CreditsParsed
 {
-    public List<Category> categories { get; set; }
+    public List<Category> categories;
 }

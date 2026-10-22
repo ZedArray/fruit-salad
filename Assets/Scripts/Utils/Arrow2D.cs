@@ -10,7 +10,6 @@ public class Arrow2D : MonoBehaviour
     private bool GiveScore = false;
     private void Start()
     {
-        UpdateTarget(Fruit.instance.transform);
         if (SC == null)
         {
             SC = FindFirstObjectByType<scoreCounter>(); 
@@ -35,6 +34,11 @@ public class Arrow2D : MonoBehaviour
         transform.position = new Vector3(transform.position.x, transform.position.y, 0);
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
         transform.rotation = Quaternion.Euler(0, 0, angle + 90);
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.TryGetComponent(out IDamageable target)) target.TakeDamage(5);
     }
 
     public bool canNearMiss()

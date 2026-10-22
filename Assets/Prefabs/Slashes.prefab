@@ -154,15 +154,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteRenderer: {fileID: 835052352656284197}
-  sliceSound: {fileID: 8300000, guid: 966e7abb73181104c95e3b78f5dca53c, type: 3}
-  warningSound: {fileID: 8300000, guid: ea23200d44652d7418ae7685d8501754, type: 3}
-  audioSource: {fileID: 1518451613648831506}
   col2d: {fileID: 7436775301486364555}
   animator: {fileID: 2839806851992904407}
   warningTime: 0.7
   cleanUpTime: 0.5
   nearMissActive: 0
   nearMissHit: 0
+  damage: 10
   SC: {fileID: 0}
 --- !u!82 &1518451613648831506
 AudioSource:

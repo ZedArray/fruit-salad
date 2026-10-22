@@ -161,6 +161,7 @@ MonoBehaviour:
   cleanUpTime: 0.5
   nearMissActive: 0
   nearMissHit: 0
+  damage: 10
   SC: {fileID: 0}
   hotzone: {fileID: 6784526331554830288}
 --- !u!82 &1518451613648831506

@@ -1,9 +1,10 @@
 using System.Collections;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class Fruit : MonoBehaviour
+public class Fruit : MonoBehaviour, IDamageable
 {
     public float moveSpeed = 10f;
     private FruitInput input;
@@ -45,6 +46,12 @@ public class Fruit : MonoBehaviour
 
     [SerializeField]
     private NearMiss nearMiss;
+
+    // slightly bigger trigger than the fruit; solid (non-trigger) colliders can't get inside it
+    [SerializeField]
+    private Collider2D blocker;
+    private readonly List<Collider2D> blocking = new List<Collider2D>();
+    private ContactFilter2D solidOnly = new ContactFilter2D { useTriggers = false };
 
     private Rigidbody2D rb;
     private Animator anim;
@@ -109,6 +116,16 @@ public class Fruit : MonoBehaviour
             )
         );
 
+        // fake collisions: push the fruit back out of any solid collider its blocker trigger overlaps
+        Physics2D.SyncTransforms();
+        blocker.Overlap(solidOnly, blocking);
+        foreach (Collider2D other in blocking)
+        {
+            if (other.attachedRigidbody == rb) continue;
+            ColliderDistance2D d = blocker.Distance(other);
+            if (d.isOverlapped) transform.position += (Vector3)(d.pointB - d.pointA);
+        }
+
         anim.SetFloat(
             "velocity",
             (
@@ -137,18 +154,6 @@ public class Fruit : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("Slash") && !godMode && !dead)
-        {
-            hit = true;
-            if (combo.abilityActive)
-            {
-                combo.resetCombo();
-            }
-            else
-            {
-                kill();
-            }
-        }
         if (collision.CompareTag("Coin") && !dead)
         {
             Destroy(collision.gameObject);
@@ -160,6 +165,20 @@ public class Fruit : MonoBehaviour
         if (collision.CompareTag("SafeZone"))
         {
             godMode = true;
+        }
+    }
+
+    public void TakeDamage(int damage)
+    {
+        if (godMode || dead) return;
+        hit = true;
+        if (combo.abilityActive)
+        {
+            combo.resetCombo();
+        }
+        else
+        {
+            kill();
         }
     }
 

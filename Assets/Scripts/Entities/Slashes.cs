@@ -10,7 +10,7 @@ public class Slashes : MonoBehaviour
     public float cleanUpTime = 0.5f;
     public bool nearMissActive = false;
     public bool nearMissHit = false;
-
+    public int damage;
     public scoreCounter SC;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -20,6 +20,11 @@ public class Slashes : MonoBehaviour
         StartCoroutine(BladeStrike());
         animator.speed = 1f/warningTime;
         SC = FindFirstObjectByType<scoreCounter>(); 
+    }
+
+    protected void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.TryGetComponent(out IDamageable target)) target.TakeDamage(damage);
     }
 
     public bool canNearMiss()

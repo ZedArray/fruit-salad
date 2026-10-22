@@ -63,13 +63,14 @@ public class SlashesHot : Slashes
         hotzone.transform.localScale = new Vector3(hotzone.transform.localScale.x,
             Random.Range(StageHotSpawner.instance.HotZoneLengthRange.x, StageHotSpawner.instance.HotZoneLengthRange.y),
             hotzone.transform.localScale.z);
+        hotzone.AddComponent<Hazard>().damage = damage;
         hotzone.SetActive(true);
         
         yield return new WaitForSeconds(0.2f);
         spriteRenderer.enabled = false;
         SC.TryAddScore();
         yield return new WaitForSeconds(2f);
-        LeanTween.alpha(hotzone, 0, 1.1f).setEase(LeanTweenType.easeOutQuint).setOnComplete(() => {
+        LeanTween.alpha(hotzone, 0.1f, 1f).setEase(LeanTweenType.easeOutQuint).setOnComplete(() => {
             Destroy(gameObject);});
         
         //Destroy(animator.gameObject);

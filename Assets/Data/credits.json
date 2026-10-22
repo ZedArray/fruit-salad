@@ -30,8 +30,12 @@
         {
           "name": "Andrew Alford",
           "alias": "ThatOneGuyFromLuckyCharms",
-          "links": ["https://andrewalfordmusic.com"],
-          "additional": ["Shout out to Frosted Flakes"]
+          "links": [
+            "https://andrewalfordmusic.com"
+          ],
+          "additional": [
+            "Shout out to Frosted Flakes"
+          ]
         }
       ]
     },
@@ -41,7 +45,9 @@
         {
           "name": "",
           "alias": "ZedArray",
-          "links": ["https://zedarray.itch.io/"],
+          "links": [
+            "https://zedarray.itch.io/"
+          ],
           "additional": []
         },
         {
@@ -62,8 +68,65 @@
         {
           "name": "",
           "alias": "DianaTap",
-          "links": ["https://dianatap.itch.io/"],
+          "links": [
+            "https://dianatap.itch.io/"
+          ],
           "additional": []
+        }
+      ]
+    },
+    {
+      "title": "Libraries",
+      "people": [
+        {
+          "name": "LeanTween",
+          "alias": "Dented Pixel",
+          "links": [
+            "https://github.com/dentedpixel/LeanTween"
+          ],
+          "additional": [
+            "MIT License"
+          ]
+        },
+        {
+          "name": "Min/Max Range Attribute",
+          "alias": "Lazy Squirrel Labs",
+          "links": [
+            "https://github.com/lazysquirrellabs/min_max_range_attribute"
+          ],
+          "additional": [
+            "MIT License"
+          ]
+        },
+        {
+          "name": "Enhanced On-Screen Stick",
+          "alias": "Annulus Games",
+          "links": [
+            "https://github.com/AnnulusGames/EnhancedOnScreenStick"
+          ],
+          "additional": [
+            "MIT License"
+          ]
+        },
+        {
+          "name": "Composite Curves",
+          "alias": "graphicmismatch",
+          "links": [
+            "https://github.com/graphicmismatch/CompositeCurves"
+          ],
+          "additional": [
+            "WTFPL"
+          ]
+        },
+        {
+          "name": "Layout Manager",
+          "alias": "graphicmismatch",
+          "links": [
+            "https://github.com/graphicmismatch/UnityLayoutManager"
+          ],
+          "additional": [
+            "GPL-3.0"
+          ]
         }
       ]
     }
