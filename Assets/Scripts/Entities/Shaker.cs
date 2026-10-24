@@ -12,7 +12,10 @@ public class Shaker : MonoBehaviour, IDamageable
     private int health;
     private int maxHealth;
     private bool landed;
+    private float invincibleUntil;
     [SerializeField] private Animator anim;
+    [Tooltip("Seconds of invincibility after landing and after each hit.")]
+    [SerializeField] private float invincibleTime = 0.2f;
 
     [Header("Health bar")]
     [SerializeField] private bool showHealthBar = true;
@@ -50,6 +53,7 @@ public class Shaker : MonoBehaviour, IDamageable
         transform.position = Vector2.MoveTowards(transform.position, target, spawner.fallSpeed * Time.deltaTime);
         if ((Vector2)transform.position != target) return;
         landed = true;
+        invincibleUntil = Time.time + invincibleTime;
         col2d.enabled = true;
         anim.SetTrigger("Land");
         CameraShake.shake(spawner.landShake);
@@ -76,9 +80,9 @@ public class Shaker : MonoBehaviour, IDamageable
 
     public void TakeDamage(int damage)
     {
-        if (!landed) return;
-        if (health <= 0) return; // already dying, don't drop coins twice
+        if (health <= 0||!landed||damage<=0||Time.time < invincibleUntil) return; // already dying, don't drop coins twice
         health -= damage;
+        invincibleUntil = Time.time + invincibleTime;
         anim.SetTrigger("Hurt");
         if (damageNumber != null)
             Instantiate(damageNumber, (Vector2)transform.position + Random.insideUnitCircle * damageNumberScatter, Quaternion.identity).init(damage);

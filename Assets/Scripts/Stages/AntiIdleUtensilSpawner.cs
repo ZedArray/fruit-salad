@@ -4,6 +4,7 @@ public class AntiIdleUtensilSpawner : StageComponent<AntiIdleUtensilSpawner>
 {
 
     [SerializeField] private GameObject[] Utensils;
+    [SerializeField] private int damage;
     public float cooldown;
     private float timer;
     private Camera mainCamera;
@@ -72,7 +73,7 @@ public class AntiIdleUtensilSpawner : StageComponent<AntiIdleUtensilSpawner>
         spawnPos.z = 0;
 
         GameObject objectToSpawn = Utensils[Random.Range(0, Utensils.Length)];
-        Instantiate(objectToSpawn, spawnPos, Quaternion.identity).GetComponent<Arrow2D>().UpdateTarget(Fruit.instance.transform);
+        Instantiate(objectToSpawn, spawnPos, Quaternion.identity).GetComponent<Arrow2D>().UpdateTarget(Fruit.instance.transform,damage);
         if (SFXManager.instance != null) SFXManager.instance.PlaySound("UtensilThrow");
     }
 }

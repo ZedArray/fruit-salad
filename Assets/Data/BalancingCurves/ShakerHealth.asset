@@ -30,11 +30,11 @@ MonoBehaviour:
     - Name: a
       Value: 0.075
     - Name: b
-      Value: 0
+      Value: -0.049999997
     - Name: c
       Value: 20
   - segmentId: 17544cde81f4435b908fa67212a768e8
-    displayName: constant+more
+    displayName: slowRamp
     enabled: 1
     startX: 20
     endX: 21

@@ -14,6 +14,7 @@ public class SlashesHot : Slashes
     private Color startColor, endColor;
     [SerializeField] GameObject hotzone;
 
+    [SerializeField] private int hotZoneDamage;
     //scoreCounter SC;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -63,7 +64,7 @@ public class SlashesHot : Slashes
         hotzone.transform.localScale = new Vector3(hotzone.transform.localScale.x,
             Random.Range(StageHotSpawner.instance.HotZoneLengthRange.x, StageHotSpawner.instance.HotZoneLengthRange.y),
             hotzone.transform.localScale.z);
-        hotzone.AddComponent<Hazard>().damage = damage;
+        hotzone.AddComponent<Hazard>().damage = hotZoneDamage;
         hotzone.SetActive(true);
         
         yield return new WaitForSeconds(0.2f);

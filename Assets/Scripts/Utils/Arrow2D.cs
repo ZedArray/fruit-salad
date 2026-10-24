@@ -8,6 +8,7 @@ public class Arrow2D : MonoBehaviour
     private bool init = false;
     private static scoreCounter SC;
     private bool GiveScore = false;
+    private int damage;
     private void Start()
     {
         if (SC == null)
@@ -16,16 +17,18 @@ public class Arrow2D : MonoBehaviour
         }
     }
 
-    public void UpdateTarget(Transform target, bool GiveScore = false)
+    public void UpdateTarget(Transform target, int damage, bool GiveScore = false)
     {
         direction = (target.position - transform.position).normalized;
         this.GiveScore = GiveScore;
+        this.damage = damage;
     }
     
-    public void UpdateTarget(Vector3 target, bool GiveScore = false)
+    public void UpdateTarget(Vector3 target, int damage, bool GiveScore = false)
     {
         direction = (target - transform.position).normalized;
         this.GiveScore = GiveScore;
+        this.damage = damage;
     }
 
     void Update()
@@ -38,7 +41,7 @@ public class Arrow2D : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.TryGetComponent(out IDamageable target)) target.TakeDamage(5);
+        if (collision.TryGetComponent(out IDamageable target)) target.TakeDamage(damage);
     }
 
     public bool canNearMiss()
