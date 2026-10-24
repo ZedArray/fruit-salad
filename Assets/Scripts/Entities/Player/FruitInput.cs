@@ -11,7 +11,7 @@ public class FruitInput : MonoBehaviour
 
     private Camera cam;
     private EnhancedOnScreenStick stick;
-    private bool joystick;
+    public bool joystick { get; private set; }
     private float reach;
 
     public Vector3 Target { get; private set; }

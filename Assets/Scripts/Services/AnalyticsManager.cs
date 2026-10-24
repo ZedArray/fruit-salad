@@ -1,5 +1,6 @@
 using Unity.Services.Analytics;
 using Unity.Services.Authentication;
+using Unity.Services.Core;
 using UnityEngine;
 using UnityEngine.UnityConsent;
 
@@ -43,6 +44,8 @@ public class AnalyticsManager : Singleton<AnalyticsManager>
 
     static void Apply()
     {
+        // account, not device, is the analytics user; guests fall back to the installation ID
+        UnityServices.ExternalUserId = AuthManager.hasAccount ? AuthenticationService.Instance.PlayerId : null;
         collecting = optedIn;
         ConsentState state = EndUserConsent.GetConsentState();
         state.AnalyticsIntent = collecting ? ConsentStatus.Granted : ConsentStatus.Denied;

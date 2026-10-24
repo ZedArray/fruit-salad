@@ -48,6 +48,7 @@ public class scoreCounter : MonoBehaviour
             { "coinsCollected", Fruit.instance.getCoinCaught() },
             { "runSeconds", Time.timeSinceLevelLoad },
             { "stageReached", stages != null ? stages.currentStage : "" },
+            { "usedJoystick", Fruit.instance.GetComponent<FruitInput>().joystick },
         });
 
         if (score > SaveManager.LoadHighScore())

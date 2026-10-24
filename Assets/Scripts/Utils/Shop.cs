@@ -91,7 +91,6 @@ public class Shop : MonoBehaviour
         {
             { "itemId", row.item.id },
             { "price", row.item.price },
-            { "isTablecloth", row.catalog.table },
         });
         Refresh();
     }
