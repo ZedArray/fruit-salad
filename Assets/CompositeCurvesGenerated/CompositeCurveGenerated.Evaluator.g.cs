@@ -83,6 +83,21 @@ namespace CompositeCurves
                     }
                     break;
                 }
+                case "98a318e7b8e744fc8fae439959c32737":
+                {
+                    switch (segmentId)
+                    {
+                        case "17544cde81f4435b908fa67212a768e8":
+                        {
+                            var m = variables != null && variables.Length > 0 ? variables[0].Value : 0.5f;
+                            value = m*x + CompositeCurveGeneratedRegistry.EvaluateSegment("6dc0dc3238b840f4ab351efa940dc53f", 19.9f);
+                            return true;
+                        }
+                        default:
+                            break;
+                    }
+                    break;
+                }
                 default:
                     break;
             }

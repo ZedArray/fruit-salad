@@ -1,4 +1,5 @@
 using TMPro;
+using Unity.Services.Analytics;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -39,6 +40,15 @@ public class scoreCounter : MonoBehaviour
         billScore.text = score.ToString();
         billCoin.text = "+" + Fruit.instance.getCoinCaught().ToString();
         UserManager.instance.addCoinAmount(Fruit.instance.getCoinCaught());
+
+        StageManager stages = FindAnyObjectByType<StageManager>();
+        AnalyticsManager.Record(new CustomEvent("runEnded")
+        {
+            { "score", score },
+            { "coinsCollected", Fruit.instance.getCoinCaught() },
+            { "runSeconds", Time.timeSinceLevelLoad },
+            { "stageReached", stages != null ? stages.currentStage : "" },
+        });
 
         if (score > SaveManager.LoadHighScore())
         {

@@ -10,6 +10,7 @@ public class StageManager : MonoBehaviour
     private int stageAmount;
 
     private bool repeating;
+    public string currentStage => stage >= 0 ? stageData.stages[stage].name : "";
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {

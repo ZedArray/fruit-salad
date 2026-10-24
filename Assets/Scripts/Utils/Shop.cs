@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.Services.Analytics;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -86,6 +87,12 @@ public class Shop : MonoBehaviour
             return;
         }
         if (SFXManager.instance != null) SFXManager.instance.PlaySound("CoinPickup");
+        AnalyticsManager.Record(new CustomEvent("itemPurchased")
+        {
+            { "itemId", row.item.id },
+            { "price", row.item.price },
+            { "isTablecloth", row.catalog.table },
+        });
         Refresh();
     }
 

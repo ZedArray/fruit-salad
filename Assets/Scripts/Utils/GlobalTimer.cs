@@ -52,13 +52,10 @@ public class GlobalTimer : Singleton<GlobalTimer>
         List<TimerRequest> req =  new List<TimerRequest>();
         while (timers.Count > 0)
         {
-            if (timers.Peek().retainAcrossScenes)
+            TimerRequest t = timers.Pop();
+            if (t.retainAcrossScenes)
             {
-                req.Add(timers.Peek());
-            }
-            else
-            {
-                timers.Pop();
+                req.Add(t);
             }
         }
 

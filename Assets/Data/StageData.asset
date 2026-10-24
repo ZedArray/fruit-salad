@@ -17,20 +17,21 @@ MonoBehaviour:
   - StageUtensilSpawner
   - StageHotSpawner
   - AntiIdleUtensilSpawner
+  - ShakerSpawner
   stages:
   - name: None
     enabledStages: 
     skipOnRepeat: 1
     stageDuration: 3
   - name: BladeStage
-    enabledStages: 0000000003000000
+    enabledStages: 000000000300000004000000i
     skipOnRepeat: 0
     stageDuration: 25
   - name: UtensilStage
-    enabledStages: 0100000003000000
+    enabledStages: 010000000300000004000000i
     skipOnRepeat: 0
     stageDuration: 25
   - name: HotStage
-    enabledStages: 0200000003000000
+    enabledStages: 020000000300000004000000i
     skipOnRepeat: 0
     stageDuration: 20
