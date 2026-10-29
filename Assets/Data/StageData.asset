@@ -26,11 +26,11 @@ MonoBehaviour:
   - name: BladeStage
     enabledStages: 000000000300000004000000i
     skipOnRepeat: 0
-    stageDuration: 0
+    stageDuration: 25
   - name: UtensilStage
     enabledStages: 010000000300000004000000i
     skipOnRepeat: 0
-    stageDuration: 0
+    stageDuration: 25
   - name: HotStage
     enabledStages: 020000000300000004000000i
     skipOnRepeat: 0
