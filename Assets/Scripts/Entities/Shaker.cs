@@ -40,6 +40,8 @@ public class Shaker : MonoBehaviour, IDamageable
         ShowHealth();
         dropTime = Time.time + spawner.warningTime;
         warning = Instantiate(spawner.warningZone, new Vector2(transform.position.x, yLevel), Quaternion.identity);
+        // the prefab is sized for a scale-1 shaker
+        warning.transform.localScale = Vector3.Scale(warning.transform.localScale, transform.localScale);
         col2d = GetComponent<Collider2D>();
         col2d.enabled = false;
         // hazards (Slashes etc.) have no rigidbody, so a static body would never get their triggers

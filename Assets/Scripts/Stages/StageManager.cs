@@ -1,8 +1,11 @@
 using System;
+using TMPro;
 using UnityEngine;
 public class StageManager : MonoBehaviour
 {
     [SerializeField] private StageData stageData;
+    [SerializeField] private TMP_Text stageNameText;
+    [SerializeField] private float stageNameDuration = 2f;
 
 
     private StageComponentNG[] components;
@@ -49,6 +52,8 @@ public class StageManager : MonoBehaviour
         }
     }
 
+    private void HideStageName() => stageNameText.gameObject.SetActive(false);
+
     public void ChangeStage()
     {
         if (stage == stageAmount - 1)
@@ -64,6 +69,13 @@ public class StageManager : MonoBehaviour
         }
 
         StageDefinition st = stageData.stages[stage];
+        if (stageNameText != null)
+        {
+            stageNameText.text = st.name;
+            stageNameText.gameObject.SetActive(true);
+            CancelInvoke(nameof(HideStageName));
+            Invoke(nameof(HideStageName), stageNameDuration);
+        }
         DisableAll();
         foreach (int i in st.enabledStages)
         {

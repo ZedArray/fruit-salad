@@ -24,7 +24,7 @@ public class SlashesHot : Slashes
         StartCoroutine(BladeStrike());
         SC = FindFirstObjectByType<scoreCounter>();
         animator.speed = 1f / warningTime;
-        startColor = new Color(255, 150, 0);
+        startColor = Color.white;
         endColor = Color.white;
         //startSize = 75f;
         //endSize = 3f;

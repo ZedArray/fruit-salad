@@ -738,7 +738,7 @@ MonoBehaviour:
   - {fileID: 1591636369042647673, guid: d2882eef6b373854a924bb79a52c60eb, type: 3}
   - {fileID: 2298950404986346798, guid: a2e1b4710a786cb4fafa028e4d50812c, type: 3}
   - {fileID: 3177524010428910900, guid: 0431bea2c4e72f84aaea56655e7c9120, type: 3}
-  damage: 10
+  damage: 5
   cooldown: 1
   maxIdleTime: 1
 --- !u!61 &230334972
@@ -1120,6 +1120,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::StageManager
   stageData: {fileID: 11400000, guid: d3d8aebc97c30509e836af33134e704e, type: 2}
+  stageNameText: {fileID: 0}
+  stageNameDuration: 2
 --- !u!1 &437073668
 GameObject:
   m_ObjectHideFlags: 0

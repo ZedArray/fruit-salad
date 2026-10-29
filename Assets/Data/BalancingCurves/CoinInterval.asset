@@ -18,7 +18,7 @@ MonoBehaviour:
   - Name: jitter_shared
     Value: 0.1
   - Name: end_shared
-    Value: 4
+    Value: 8
   segments:
   - segmentId: a4e85c0c1e6843c2a8b6eefb47d60630
     displayName: Ramp
@@ -29,13 +29,12 @@ MonoBehaviour:
     endInclusion: 0
     mode: 1
     preset: 1
-    customExpression: (start - (start - end_shared) * x / length) * (1 - jitter_shared 
-      + 2 * jitter_shared * random())
+    customExpression: (start - (start - end_shared) * x / length) * (1 - jitter_shared  + 2 * jitter_shared * random())
     variables:
     - Name: start
-      Value: 13
+      Value: 30
     - Name: length
-      Value: 165
+      Value: 180
   - segmentId: 701401c18b3f4632827d6cac2e0031e6
     displayName: Constant
     enabled: 1
