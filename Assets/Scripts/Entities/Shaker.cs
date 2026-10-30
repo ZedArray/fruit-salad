@@ -17,14 +17,10 @@ public class Shaker : MonoBehaviour, IDamageable
     [Tooltip("Seconds of invincibility after landing and after each hit.")]
     [SerializeField] private float invincibleTime = 0.2f;
 
-    [Header("Health bar")]
-    [SerializeField] private bool showHealthBar = true;
-    [SerializeField] private GameObject healthBar;
-    [Tooltip("Scaled on x by the health fraction, so pivot it at the bar's left edge.")]
-    [SerializeField] private Transform healthFill;
-    [SerializeField] private SpriteRenderer healthFillSprite;
-    [Tooltip("Fill colour by health fraction (left = empty, right = full).")]
-    [SerializeField] private Gradient healthColor;
+    [Header("Damage sprites")]
+    [SerializeField] private SpriteRenderer sr;
+    [Tooltip("Full health first, most damaged last; picked by remaining health fraction.")]
+    [SerializeField] private Sprite[] damageSprites;
 
     [Header("Damage numbers")]
     [Tooltip("Leave empty to disable damage numbers.")]
@@ -36,7 +32,6 @@ public class Shaker : MonoBehaviour, IDamageable
         this.spawner = spawner;
         this.yLevel = yLevel;
         this.health = maxHealth = health;
-        healthBar.SetActive(showHealthBar);
         ShowHealth();
         dropTime = Time.time + spawner.warningTime;
         warning = Instantiate(spawner.warningZone, new Vector2(transform.position.x, yLevel), Quaternion.identity);
@@ -75,9 +70,9 @@ public class Shaker : MonoBehaviour, IDamageable
 
     void ShowHealth()
     {
+        if (damageSprites.Length == 0) return;
         float t = Mathf.Clamp01((float)health / maxHealth);
-        healthFill.localScale = new Vector3(t, 1f, 1f);
-        healthFillSprite.color = healthColor.Evaluate(t);
+        sr.sprite = damageSprites[Mathf.Min((int)((1f - t) * damageSprites.Length), damageSprites.Length - 1)];
     }
 
     public void TakeDamage(int damage)
@@ -90,7 +85,6 @@ public class Shaker : MonoBehaviour, IDamageable
             Instantiate(damageNumber, (Vector2)transform.position + Random.insideUnitCircle * damageNumberScatter, Quaternion.identity).init(damage);
         ShowHealth();
         if (health > 0) return;
-        healthBar.SetActive(false);
         anim.SetBool("Dead",true);
         for (int i = 0; i < spawner.coinsDropped; i++)
         {

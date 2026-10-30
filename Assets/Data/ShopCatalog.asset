@@ -34,3 +34,8 @@ MonoBehaviour:
     icon: {fileID: -4527426912804003132, guid: 7541da37cdbd7fb46a6f36388f821e77, type: 3}
     skin: {fileID: 22100000, guid: b06d9efcd93f4b64f86996fd08776f38, type: 2}
     price: 50
+  - id: pear
+    name: Pear
+    icon: {fileID: 2968593375297011252, guid: 616feb7783f140a9bd554f11721b3af4, type: 3}
+    skin: {fileID: 22100000, guid: 621a474d619340f09dfa63703a9ee764, type: 2}
+    price: 50
