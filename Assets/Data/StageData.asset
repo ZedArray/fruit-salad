@@ -20,21 +20,53 @@ MonoBehaviour:
   - ShakerSpawner
   stages:
   - name: Starting Chillout
+    lines: []
     enabledStages: 
     skipOnRepeat: 1
     hideName: 1
     stageDuration: 3
   - name: Blade Stage
+    lines:
+    - "Let\u2019s do this. "
+    - "As if i couldn\u2019t slice an apple "
+    - "I\u2019ll show them how easy this is! "
+    - 'This is beneath me! '
+    - "I can\u2019t believe they gave me this! "
+    - "Alright, let\u2019s get you sliced! "
+    - "I\u2019m so tired today. "
     enabledStages: 000000000300000004000000i
     skipOnRepeat: 0
     hideName: 0
     stageDuration: 25
   - name: Utensil Stage
+    lines:
+    - 'What kind of apple are you? '
+    - "Something isn\u2019t right. "
+    - "What\u2019s wrong with me? "
+    - 'Am I going crazy? '
+    - 'Were those coins I saw? '
+    - "I have to\u2026 catch my breath\u2026 "
+    - "Man\u2026 it\u2019s harder than it looks. "
+    - "It\u2019s as if it knows where I\u2019ll slice next! "
+    - 'Is it me or the apple? '
+    - 'This is not happening! '
+    - "This can\u2019t be real! "
     enabledStages: 010000000300000004000000i
     skipOnRepeat: 0
     hideName: 0
     stageDuration: 25
   - name: Hot Slashes Stage
+    lines:
+    - 'I look like an amateur! '
+    - 'I got you now! '
+    - 'Stop, you little piece of fruit! '
+    - "I\u2019m not gonna lose my job because of you! "
+    - "This is the last time I\u2019m cutting an apple! "
+    - "I\u2019ve had enough! "
+    - 'Come back here! '
+    - 'Try dodging this! '
+    - "I\u2019m talking to an apple. What\u2019s wrong with me? "
+    - "I don\u2019t even like apples. "
     enabledStages: 020000000300000004000000i
     skipOnRepeat: 0
     hideName: 0

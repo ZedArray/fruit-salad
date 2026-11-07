@@ -2,13 +2,15 @@ using System;
 using System.Collections;
 using TMPro;
 using UnityEngine;
+using Random = UnityEngine.Random;
 public class StageManager : MonoBehaviour
 {
     [SerializeField] private StageData stageData;
     [SerializeField] private TMP_Text stageNameText;
     [SerializeField] private float stageNameDuration = 2f;
-    [SerializeField] private float stageNameFlyTime = 0.35f;
-    private Vector2 stageNameRest;
+    [SerializeField] private float typeDelay = 0.04f;
+    [SerializeField] private float eraseDelay = 0.015f;
+    [SerializeField] private Babble babble;
     private Coroutine stageNameRoutine;
 
 
@@ -23,11 +25,7 @@ public class StageManager : MonoBehaviour
     {
         stage = -1;
         stageAmount = stageData.stages.Length;
-        if (stageNameText != null)
-        {
-            stageNameRest = stageNameText.rectTransform.anchoredPosition;
-            stageNameText.gameObject.SetActive(false);
-        }
+        if (stageNameText != null) stageNameText.gameObject.SetActive(false);
         populateComponents();
         ChangeStage();
     }
@@ -61,27 +59,30 @@ public class StageManager : MonoBehaviour
         }
     }
 
-    // flies in from the right, holds, flies out to the left
-    private IEnumerator ShowStageName(string stageName)
+    // types the line out with babble, holds, then backspaces it away
+    private IEnumerator ShowStageName(string line)
     {
-        RectTransform rt = stageNameText.rectTransform;
-        Vector2 off = Vector2.right * ((RectTransform)rt.parent).rect.width;
-        stageNameText.text = stageName;
+        stageNameText.text = line;
+        stageNameText.maxVisibleCharacters = 0;
         stageNameText.gameObject.SetActive(true);
-        yield return Fly(rt, stageNameRest + off, stageNameRest);
-        yield return new WaitForSeconds(stageNameDuration);
-        yield return Fly(rt, stageNameRest, stageNameRest - off);
-        stageNameText.gameObject.SetActive(false);
-    }
+        stageNameText.ForceMeshUpdate();
+        int count = stageNameText.textInfo.characterCount;
+        char[] chars = new char[count]; // copied: textInfo is rebuilt as visibility changes
+        for (int i = 0; i < count; i++) chars[i] = stageNameText.textInfo.characterInfo[i].character;
 
-    private IEnumerator Fly(RectTransform rt, Vector2 from, Vector2 to)
-    {
-        for (float t = 0; t < stageNameFlyTime; t += Time.deltaTime)
+        for (int i = 0; i < count; i++)
         {
-            rt.anchoredPosition = Vector2.Lerp(from, to, Mathf.SmoothStep(0, 1, t / stageNameFlyTime));
-            yield return null;
+            stageNameText.maxVisibleCharacters = i + 1;
+            if (babble != null) babble.Say(chars[i]);
+            yield return new WaitForSeconds(".,!?\u2026".IndexOf(chars[i]) >= 0 ? typeDelay * 6 : typeDelay);
         }
-        rt.anchoredPosition = to;
+        yield return new WaitForSeconds(stageNameDuration);
+        for (int i = count - 1; i >= 0; i--)
+        {
+            stageNameText.maxVisibleCharacters = i;
+            yield return new WaitForSeconds(eraseDelay);
+        }
+        stageNameText.gameObject.SetActive(false);
     }
 
     public void ChangeStage()
@@ -102,7 +103,8 @@ public class StageManager : MonoBehaviour
         if (stageNameText != null && !st.hideName)
         {
             if (stageNameRoutine != null) StopCoroutine(stageNameRoutine);
-            stageNameRoutine = StartCoroutine(ShowStageName(st.name));
+            string line = st.lines is { Length: > 0 } ? st.lines[Random.Range(0, st.lines.Length)] : st.name;
+            stageNameRoutine = StartCoroutine(ShowStageName(line));
         }
         DisableAll();
         foreach (int i in st.enabledStages)

@@ -1,7 +1,31 @@
-Test1
-Test2
-Test3
-Collecting coins increases your score.
-This is not a bullet hell. Maybe.
-This game was released years late because one of the developers is extremely inconsistent.
-One of our programmers can't eat any other fruits other than bananas.
+﻿Use flying cutlery to damage the shakers.
+The more you play, the harder it gets.
+Watch out for the red lines!
+The score goes up with each cut.
+While dragging the apple, tap the screen for quick movement towards your finger.
+Use coins to buy new skins!
+Keep your distance from a falling shaker!
+Check your high score on the leaderboard.
+Collect coins for awesome rewards!
+Dodge everything!
+If it feels hard, play better!
+Remember, cuts will cut you!
+Try not to die, ok?
+Let’s see how fast you’ll die this time!
+You can do it! Maybe.
+Try to enjoy the music!
+Relax, it will be over soon.
+You’ll see this screen a lot. Get used to it.
+Stop reading and play!
+Maybe try to survive?
+Have you tried dodging yet?
+Man, this music is really good!
+Is anyone even reading this?
+Remember, go big or go home!
+I bet you can beat it!
+Those shakers look salty… get it?
+All of that cutlery, such a waste.
+Do your best!
+Do it just like last time, but better!
+I’m getting tired of this loading bar.
+Wake me up when the game starts.

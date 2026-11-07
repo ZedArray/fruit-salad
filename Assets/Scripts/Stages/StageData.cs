@@ -43,9 +43,10 @@ public abstract class StageComponent<T> : StageComponentNG
 public struct StageDefinition
 {
     public string name;
+    public string[] lines;
     public int[] enabledStages;
     public bool skipOnRepeat;
-    [Tooltip("Don't fly in the stage name when this stage starts.")]
+    [Tooltip("Don't type out a line when this stage starts.")]
     public bool hideName;
     [Tooltip("Any value below 0 implies an infinitely long stage.")]
     public int stageDuration;
