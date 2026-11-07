@@ -8,6 +8,7 @@ public class scoreCounter : MonoBehaviour
     [SerializeField] TextMeshProUGUI billScore;
     [SerializeField] TextMeshProUGUI billCoin;
     [SerializeField] GameObject billObject;
+    [SerializeField] GameObject pauseButton;
 
     public int score;
     public TextMeshProUGUI scoreText;
@@ -37,6 +38,7 @@ public class scoreCounter : MonoBehaviour
     public void gameOver()
     {
         billObject.SetActive(true);
+        pauseButton.SetActive(false); // its canvas draws over the bill
         billScore.text = score.ToString();
         billCoin.text = "+" + Fruit.instance.getCoinCaught().ToString();
         UserManager.instance.addCoinAmount(Fruit.instance.getCoinCaught());

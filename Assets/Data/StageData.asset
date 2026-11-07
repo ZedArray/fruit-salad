@@ -19,19 +19,23 @@ MonoBehaviour:
   - AntiIdleUtensilSpawner
   - ShakerSpawner
   stages:
-  - name: None
+  - name: Starting Chillout
     enabledStages: 
     skipOnRepeat: 1
+    hideName: 1
     stageDuration: 3
-  - name: BladeStage
+  - name: Blade Stage
     enabledStages: 000000000300000004000000i
     skipOnRepeat: 0
+    hideName: 0
     stageDuration: 25
-  - name: UtensilStage
+  - name: Utensil Stage
     enabledStages: 010000000300000004000000i
     skipOnRepeat: 0
+    hideName: 0
     stageDuration: 25
-  - name: HotStage
+  - name: Hot Slashes Stage
     enabledStages: 020000000300000004000000i
     skipOnRepeat: 0
+    hideName: 0
     stageDuration: 20

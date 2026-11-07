@@ -33,7 +33,8 @@ public class FruitInput : MonoBehaviour
     public void Read()
     {
         var touch = Touchscreen.current?.primaryTouch;
-        Held = touch != null && touch.press.isPressed;
+        // a finger on the pause button isn't steering, or the fruit would chase it into the corner
+        Held = touch != null && touch.press.isPressed && !PauseButton.Covers(touch.position.ReadValue());
         PressedThisFrame = Held && touch.press.wasPressedThisFrame;
 
         Vector3 target = transform.position;

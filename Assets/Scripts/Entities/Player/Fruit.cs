@@ -83,7 +83,7 @@ public class Fruit : MonoBehaviour, IDamageable
 
     void Update()
     {
-        if (dead)
+        if (dead || Time.timeScale == 0f)
         {
             return;
         }
